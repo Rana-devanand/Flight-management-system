@@ -2,9 +2,9 @@
 
 #
 
-### Sequelize Package Setup -> [ORM] `object relational mapping`
+## Sequelize Package Setup -> [ORM] `object relational mapping`
 
-Step 1
+### Step 1
 
 - Sequelize is a promise-based Node.js ORM tool
 - `npm sequelize init`
@@ -34,5 +34,17 @@ Step 1
           },
 
         }
+
+```
+
+#
+
+### step 2 :
+
+- Create the database
+- `npx sequelize db:create`
+
+```
+This command creates the database with the given name.
 
 ```
