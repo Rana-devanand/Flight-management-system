@@ -13,5 +13,16 @@ class CityService {
       console.log("Something went wrong in service", error);
     }
   }
+
+  async getAllCity(filter) {
+    try {
+      const AllCity = await this.CityRepository.getAllCity({
+        name: filter.name,
+      });
+      return AllCity;
+    } catch (error) {
+      console.log("Something went wrong in service", error);
+    }
+  }
 }
 module.exports = CityService;
