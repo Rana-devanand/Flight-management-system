@@ -1,0 +1,34 @@
+.input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+}
+
+.input-container input {
+        /* padding-right: 30px; */
+        /* Adjust as needed */
+}
+
+.input-container svg {
+        position: absolute;
+        padding-inline: 6px;
+        left: 354px;
+        top: 47px;
+        font-size: 42px;
+        border: 1px solid #ffffff;
+        border-radius: 50%;
+        background-color: white;
+        color: #7FBFF0;
+        /* Adjust as needed */
+}
+
+.explore svg{
+        margin-top: 480px;
+        margin-left: 375px;
+        font-size: 40px;
+        font-weight: bold;
+        color: #fff;
+        background-color: transparent;
+        border: 0px;
+
+}

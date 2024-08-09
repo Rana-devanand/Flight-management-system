@@ -1,0 +1,205 @@
+import React, { useState } from "react";
+import flight from "../assets/images/flight-3.jpg";
+import destination from "../assets/images/destination.png";
+
+import "../assets/css/HomeStyle.css";
+import { FaLocationDot } from "react-icons/fa6";
+import { IoSearchSharp } from "react-icons/io5";
+import { MdCompareArrows } from "react-icons/md";
+import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+
+function Home() {
+  const data = [
+    {
+      id: 1,
+      name: "Delhi",
+      country: "India",
+      image:
+        "https://www.holidify.com/images/cmsuploads/compressed/5621259188_e74d63cb05_b_20180302140149.jpg",
+      airports: 1000,
+    },
+    {
+      id: 2,
+      name: "Mumbai",
+      country: "India",
+      image:
+        "https://www.godigit.com/content/dam/godigit/directportal/en/contenthm/gateway-of-india.jpg",
+      airports: 2000,
+    },
+    {
+      id: 3,
+      name: "Bangalore",
+      country: "India",
+      image:
+        "https://www.holidify.com/images/cmsuploads/compressed/shutterstock_154851008_20200123162547_20200123162603.png",
+      airports: 3000,
+    },
+    {
+      id: 4,
+      name: "Kolkata",
+      country: "India",
+      image:
+        "https://www.theindianpanorama.news/wp-content/uploads/2022/02/Travel-678x381.jpg",
+      airports: 4000,
+    },
+    {
+      id: 5,
+      name: "Chennai",
+      country: "India",
+      image:
+        "https://www.shutterstock.com/image-photo/beautiful-view-valluvar-kottamauditorium-monument-600nw-1763868740.jpg",
+      airports: 5000,
+    },
+    {
+      id: 6,
+      name: "Hyderabad",
+      country: "India",
+      image:
+        "https://images.herzindagi.info/image/2022/Oct/places-to-visit.jpg",
+      airports: 6000,
+    },
+    {
+      id: 7,
+      name: "Pune",
+      country: "India",
+      image:
+        "https://www.tourmyindia.com/blog//wp-content/uploads/2015/08/chaturshringi-temple.jpg",
+      airports: 7000,
+    },
+    {
+      id: 4,
+      name: "Kolkata",
+      country: "India",
+      image:
+        "https://www.theindianpanorama.news/wp-content/uploads/2022/02/Travel-678x381.jpg",
+      airports: 4000,
+    },
+    {
+      id: 5,
+      name: "Chennai",
+      country: "India",
+      image:
+        "https://www.shutterstock.com/image-photo/beautiful-view-valluvar-kottamauditorium-monument-600nw-1763868740.jpg",
+      airports: 5000,
+    },
+    {
+      id: 6,
+      name: "Hyderabad",
+      country: "India",
+      image:
+        "https://images.herzindagi.info/image/2022/Oct/places-to-visit.jpg",
+      airports: 6000,
+    },
+    {
+      id: 7,
+      name: "Pune",
+      country: "India",
+      image:
+        "https://www.tourmyindia.com/blog//wp-content/uploads/2015/08/chaturshringi-temple.jpg",
+      airports: 7000,
+    },
+  ];
+
+  console.log(data);
+
+  return (
+    <>
+      <div className="input-container relative w-full h-screen bg-gray-500 flex justify-center items-center ">
+        <img
+          className="flex flex-col justify-center items-center"
+          src={flight}
+          alt=""
+        />
+
+        <form
+          action=""
+          className="absolute top-0 w-3/4 h-36 bg-[#7FBFF0] border rounded-md mt-10 "
+        >
+          <input
+            className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-2/6 outline-none"
+            type="text"
+            placeholder="Where From"
+          />
+
+          <MdCompareArrows />
+
+          <input
+            className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-2/6 outline-none"
+            type="text"
+            placeholder="Where to"
+          />
+
+          <input
+            className="p-3 py-3 mt-10 ml-3 rounded-md mr-5 w-1/5"
+            type="date"
+          />
+
+          <div className="search flex justify-center items-center mt-6">
+            <button
+              className="bg-[#7FBFF0] px-8 py-2 text-xl rounded-full font-semibold border text-[#0d6aa0] hover:bg-[#43aae6] hover:text-white"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        <h1 className="absolute text-6xl font-black pb-32 text-[#0d6aa0]">
+          Welcome to India
+        </h1>
+      </div>
+
+      {/* 86C1ED */}
+
+      <div className="explore input-container relative w-full h-screen bg-blue-200 flex justify-center items-center flex-col ">
+        <img
+          className="flex w-[60%]  flex-col justify-center items-center"
+          src={destination}
+          alt=""
+        />
+        <h1 className="absolute text-6xl pb-32 text-black top-10 font-medium">
+          Popular destinations :
+        </h1>
+
+        <button className="px-9 py-3 rounded-full text-xl font-semibold bg-red-600 mt-28 text-white">
+          Explore more
+          <MdKeyboardDoubleArrowRight />
+        </button>
+      </div>
+      {/* 86C1ED */}
+      <div className="bg-[#86C1ED]  w-full h-auto flex justify-center pb-10">
+        <div className="w-[80%] flex flex-wrap gap-10  py-6 ">
+          <div className="absolute">
+            <h1 className=" font-normal text-2xl">
+              Popular destination in India
+            </h1>
+          </div>
+          {data.map((product) => (
+            <div className="w-36 h-24 mt-10 ">
+              <img
+                className="w-full h-full rounded-md"
+                src={product.image}
+                alt=""
+              />
+              <div className="flex justify-center ">
+                <h1 className="">{product.name}</h1>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="bg-[#86C1ED] w-full flex justify-center items-center py-10">
+        <p className="text-sm font-medium w-[3/4]">
+          <h1>
+            current language and currency options applied: English (United
+            Kingdom) - India - INR Displayed currencies may differ from the
+            currencies used to purchase flights. Learn more{" "}
+          </h1>
+          <br />© 2023 Travel Agency. All rights reserved.
+        </p>
+      </div>
+    </>
+  );
+}
+
+export default Home;
