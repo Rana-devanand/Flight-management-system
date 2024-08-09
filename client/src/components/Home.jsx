@@ -7,7 +7,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdCompareArrows } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-
+import axios from "axios";
 function Home() {
   const data = [
     {
@@ -100,13 +100,72 @@ function Home() {
     },
   ];
 
-  console.log(data);
+  // To get the City details from the database
+  const [query, setQuery] = useState("");    // for Where from
+  const [cities, setCities] = useState([]);  // for Where from
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+    fetchCities(e.target.value);
+  };
+
+  const fetchCities = async (query) => {
+    if (query.length > 0) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/allCity?name=${query}`
+        );
+        const data = await response.data.data;
+        setCities(data);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    } else {
+      setCities([]);
+    }
+  };
+
+  const [selectedItem, setSelectedItem] = useState(null);
+  const handleSelect = (item) => {
+    setSelectedItem(item);
+  };
+
+  // For Where to 
+
+  const [whereToQuery, setWhereToQuery] = useState("");
+  const [whereToCities, setWhereToCities] = useState([]);
+
+  const handleWhereToInputChange = (e) => {
+    setWhereToQuery(e.target.value);
+    getWhereToCities(e.target.value);
+  };
+
+  const getWhereToCities = async (whereToQuery) => {
+    if (whereToQuery.length > 0) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/allCity?name=${whereToQuery}`
+        );
+        const data = await response.data.data;
+        setWhereToCities(data);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    } else {
+      setWhereToCities([]);
+    }
+  }
+  const [selectedWhereToItem, setSelectedWhereToItem] = useState(null);
+  const handleWhereToSelect = (item) => {
+    setSelectedWhereToItem(item);
+  };
+
 
   return (
     <>
       <div className="input-container relative w-full h-screen bg-gray-500 flex justify-center items-center ">
         <img
-          className="flex flex-col justify-center items-center"
+          className="flex flex-col justify-center items-center shadow-lg shadow-black"
           src={flight}
           alt=""
         />
@@ -118,16 +177,45 @@ function Home() {
           <input
             className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-2/6 outline-none"
             type="text"
+            value={selectedItem}
+            onChange={handleInputChange}
             placeholder="Where From"
           />
+          <ul className={`cityList absolute border ml-8 w-80 mt-1 left-0 outline-none overflow-y-scroll ${query.length > 0 ? "h-48" : ""} ${selectedItem ? "hidden" : ""} `}>
+
+
+            {cities.map((city, index) => (
+              <li
+                className="bg-[#ffffff50] py-2 font-semibold cursor-pointer p-3 "
+                onClick={() => handleSelect(city.name)}
+                key={index}
+              >
+                {city.name}
+              </li>
+            ))}
+          </ul>
 
           <MdCompareArrows />
 
           <input
             className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-2/6 outline-none"
             type="text"
+            value={selectedWhereToItem}
+            onChange={handleWhereToInputChange}
             placeholder="Where to"
           />
+          <ul className={`cityList absolute border left-[40%] w-80 mt-1  outline-none overflow-y-scroll ${whereToQuery.length > 0 ? "h-48" : ""} ${selectedWhereToItem ? "hidden" : ""} `}>
+
+            {whereToCities.map((city, index) => (
+              <li
+                className="bg-[#ffffff50] py-2 font-semibold cursor-pointer p-3 "
+                onClick={() => handleWhereToSelect(city.name)}
+                key={index}
+              >
+                {city.name}
+              </li>
+            ))}
+          </ul>
 
           <input
             className="p-3 py-3 mt-10 ml-3 rounded-md mr-5 w-1/5"
