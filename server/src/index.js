@@ -6,10 +6,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const cityController = require("./controllers/city-Controller");
+const apiRoutes = require("./routers/index");
 
 const createAndRunServer = async () => {
-  app.use("/create", cityController.create);
+  app.use("/api", apiRoutes);
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
