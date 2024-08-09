@@ -7,7 +7,8 @@
 ### Step 1 :
 
 - Sequelize is a promise-based Node.js ORM tool
-  npm sequelize init
+- `npm sequelize init`
+
 - this command creates the 4 folders and initializes the sequelize package.
 
 ```
