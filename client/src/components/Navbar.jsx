@@ -9,9 +9,9 @@ import { FaUserAlt } from "react-icons/fa";
 
 function Navbar() {
   return (
-    <nav className="flex justify-between bg-zinc-900 p-3 text-white font-semibold">
+    <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
       <div className="flex gap-5 ml-10">
-        <div className="mx-3 text-2xl mt-2">Google</div>
+        <div className="mx-3 text-2xl font-extrabold">Flights India</div>
         <NavLink
           style={(e) => {
             return {
@@ -81,17 +81,19 @@ function Navbar() {
       </div>
 
       <div className="login flex">
-          
-        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:bg-[#8AB4F8]" >
-          <CiLogin/>
-            Login
+
+        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]">
+          <FaUserAlt />
+          Create Account
+        </NavLink>
+
+        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]" >
+          <CiLogin />
+          Login
         </NavLink>
 
 
-          <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:bg-[#8AB4F8]">
-            <FaUserAlt/>
-            Sign In
-        </NavLink>
+
 
       </div>
     </nav>

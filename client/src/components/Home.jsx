@@ -8,6 +8,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { MdCompareArrows } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import axios from "axios";
+import Footer from "./Footer";
 function Home() {
   const data = [
     {
@@ -276,16 +277,7 @@ function Home() {
           ))}
         </div>
       </div>
-      <div className="bg-[#86C1ED] w-full flex justify-center items-center py-10">
-        <p className="text-sm font-medium w-[3/4]">
-          <h1>
-            current language and currency options applied: English (United
-            Kingdom) - India - INR Displayed currencies may differ from the
-            currencies used to purchase flights. Learn more{" "}
-          </h1>
-          <br />© 2023 Travel Agency. All rights reserved.
-        </p>
-      </div>
+      <Footer />
     </>
   );
 }
