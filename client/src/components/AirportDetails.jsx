@@ -28,7 +28,7 @@ function AirportDetails() {
       setWeatherData(data);
     };
     getWeather("Odisha");
-  });
+  }, []);
 
   const [value, setValue] = useState();
   const handleChange = (e) => {
