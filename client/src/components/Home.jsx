@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import flight from "../assets/images/flight-3.jpg";
 import destination from "../assets/images/destination.png";
 
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css'; // Import a theme (optional)
+import 'flatpickr/dist/flatpickr.css';
+
 import "../assets/css/HomeStyle.css";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdCompareArrows } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import Footer from "./Footer";
 function Home() {
@@ -132,7 +137,6 @@ function Home() {
   };
 
   // For Where to 
-
   const [whereToQuery, setWhereToQuery] = useState("");
   const [whereToCities, setWhereToCities] = useState([]);
 
@@ -161,6 +165,16 @@ function Home() {
     setSelectedWhereToItem(item);
   };
 
+  // OnCross Click data should be cleared.
+  const WhereToDataClear = ()=>{
+    setSelectedWhereToItem("");
+  }
+  const whereFromDataClear = ()=>{
+    setSelectedItem("");
+  }
+// Date 
+  const [date, setDate] = useState(null);
+
 
   return (
     <>
@@ -176,13 +190,13 @@ function Home() {
           className="absolute top-0 w-3/4 h-36 bg-[#7FBFF0] border rounded-md mt-10 "
         >
           <input
-            className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-2/6 outline-none"
+            className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-[32%] outline-none"
             type="text"
             value={selectedItem}
             onChange={handleInputChange}
             placeholder="Where From"
           />
-          <ul className={`cityList absolute border ml-8 w-80 mt-1 left-0 outline-none overflow-y-scroll ${query.length > 0 ? "h-48" : ""} ${selectedItem ? "hidden" : ""} `}>
+          <ul className={`cityList absolute border ml-10 w-80 mt-1 left-0 outline-none overflow-y-scroll ${query.length > 0 && setCities.length > 0 ? "h-48" : ""} ${selectedItem ? "hidden" : ""} `}>
 
 
             {cities.map((city, index) => (
@@ -196,16 +210,21 @@ function Home() {
             ))}
           </ul>
 
-          <MdCompareArrows />
+          {/* <MdCompareArrows /> */}
+          {query.length > 0  ? (<RxCross1 onClick={whereFromDataClear} className="cursor-pointer"/>) : (null)}
+
+          {query.length > 0 ? (<RxCross1 onClick={WhereToDataClear} className="rightCross -ml-[35%]  cursor-pointer"/>) : (null)}
+
+
 
           <input
-            className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-2/6 outline-none"
-            type="text"
+            className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-[32%] outline-none" 
+            type="text" 
             value={selectedWhereToItem}
             onChange={handleWhereToInputChange}
             placeholder="Where to"
           />
-          <ul className={`cityList absolute border left-[40%] w-80 mt-1  outline-none overflow-y-scroll ${whereToQuery.length > 0 ? "h-48" : ""} ${selectedWhereToItem ? "hidden" : ""} `}>
+          <ul className={`cityList absolute border left-[39%] w-80 mt-1  outline-none overflow-y-scroll ${whereToQuery.length > 0 ? "h-48" : ""} ${selectedWhereToItem ? "hidden" : ""} `}>
 
             {whereToCities.map((city, index) => (
               <li
@@ -218,10 +237,19 @@ function Home() {
             ))}
           </ul>
 
-          <input
-            className="p-3 py-3 mt-10 ml-3 rounded-md mr-5 w-1/5"
-            type="date"
-          />
+          <Flatpickr
+           value={date}
+           onChange={([selectedDate]) => setDate(selectedDate)}
+           options={{
+             dateFormat: 'Y-m-d',
+             altInput: true,
+             altFormat: 'F j, Y',
+             minDate: '2024-08-15',
+             maxDate: '2024-08-31',
+           }}
+           placeholder="Select a date"
+           className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[28%] outline-none"
+         />
 
           <div className="search flex justify-center items-center mt-6">
             <button
@@ -252,7 +280,7 @@ function Home() {
 
         <button className="px-9 py-3 rounded-full text-xl font-semibold bg-red-600 mt-28 text-white">
           Explore more
-          <MdKeyboardDoubleArrowRight />
+          {/* <MdKeyboardDoubleArrowRight /> */}
         </button>
       </div>
       {/* 86C1ED */}

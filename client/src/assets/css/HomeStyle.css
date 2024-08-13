@@ -12,9 +12,9 @@
 .input-container svg {
         position: absolute;
         padding-inline: 6px;
-        left: 354px;
-        top: 47px;
-        font-size: 42px;
+        left: 720px;
+        top: 50px;
+        font-size: 35px;
         border: 1px solid #ffffff;
         border-radius: 50%;
         background-color: white;
@@ -22,7 +22,20 @@
         /* Adjust as needed */
 }
 
-.explore svg{
+
+.rightCross svg {
+        /* position: absolute; */
+        /* padding-inline: 6px; */
+        margin-left: 50px;
+        /* top: 50px; */
+        /* font-size: 35px;
+        border: 1px solid white;
+        border-radius: 50%;
+        background-color: white;
+        color: #7FBFF0; */
+}
+
+.explore svg {
         margin-top: 480px;
         margin-left: 375px;
         font-size: 40px;
@@ -31,4 +44,34 @@
         background-color: transparent;
         border: 0px;
 
+}
+
+/* Date Styles */
+
+.flatpickr-calendar {
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.flatpickr-month {
+        background-color: #4CAF50;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+}
+
+.flatpickr-day {
+        border-radius: 5px;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+        background-color: #4CAF50;
+        color: #fff;
+}
+
+.flatpickr-day.today {
+        background-color: #0283ce;
+        color: #fff;
 }

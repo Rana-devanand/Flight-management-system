@@ -7,7 +7,7 @@ function Flight() {
     <>
       <div className="bg-zinc-800 h-auto w-full text-white flex justify-center">
         <img className="relative w-full h-auto brightness-50" src={skyImage} alt="" />
-        <div className=" absolute container ">
+        <div className="absolute w-[95%]">
           <h1 className="px-8 pt-5 text-2xl font-semibold"> Search Flights</h1>
           <hr className="w-[95%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           <div className="Search-form w-[95%] mx-auto border h-80 ">
@@ -26,7 +26,7 @@ function Flight() {
               </div>
               <div className="flex flex-col ml-10 mt-5">
                 <label className="ml-2 font-mono" htmlFor="">Date</label>
-                <input className="w-[33%] text-black p-2 rounded-md text-sm outline-none bg-zinc-300 border" placeholder="Enter Flight Date" type="Date" />
+                <input className="w-[29%] text-black p-2 rounded-md text-sm outline-none bg-zinc-300 border" placeholder="Enter Flight Date" type="Date" />
               </div>
 
               <br />
@@ -82,7 +82,7 @@ function Flight() {
               </div>
               <div className="w-[80%] py-2 px-3 border-2 border-[#c58413] mt-3 text-center text-xl font-semibold flex justify-between">
                 Flights details
-                <button className="px-[10%] py-2 bg-[#c58413] text-lg" type="submit">Visit</button>
+                <button className="px-[9%] py-2 bg-[#c58413] text-lg" type="submit">Visit</button>
               </div>
             </form>
 

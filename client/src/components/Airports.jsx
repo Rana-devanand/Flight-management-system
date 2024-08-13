@@ -20,7 +20,7 @@ function Airports() {
   return (
     <div className="bg-zinc-800 h-auto w-full text-white flex justify-center">
       <img
-        className="relative w-full h-auto brightness-50"
+        className="fixed w-full h-auto brightness-50"
         src={RunwayImage}
         alt=""
       />

@@ -25,4 +25,3 @@ dist-ssr
 
 
 .env
-src/components/Map/MAP_KEY.jsx
