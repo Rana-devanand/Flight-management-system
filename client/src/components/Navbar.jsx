@@ -34,10 +34,10 @@ function Navbar() {
             };
           }}
           className="flex items-center shadow-sm px-3 py-2 rounded-full border "
-          to="/travel"
+          to="/hotels"
         >
           <MdOutlineCardTravel className="mx-1  " />
-          Travel
+          Hotels
         </NavLink>
 
         <NavLink

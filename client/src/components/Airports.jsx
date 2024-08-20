@@ -1,22 +1,48 @@
 import React, { useState } from "react";
 import RunwayImage from "../assets/images/Windsock.jpg";
 import "../assets/css/Airport.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import AirportDetails from "./AirportDetails";
 
 function Airports() {
   const navigate = useNavigate();
 
-  const [value, setValue] = useState({
-    airport: "",
-  });
+  const [query, setQuery] = useState("");
+  const [cities, setCities] = useState([]);
 
   const handleChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
+    setQuery(e.target.value);
+    fetchCities(e.target.value);
   };
 
   const HandleSubmit = (e) => {
     e.preventDefault();
   };
+  const [selected, selectedCity] = useState(null);
+  const handleSelect = (city) => {
+    selectedCity(city);
+  }
+
+  // http://localhost:3000/airport/getCities
+  const fetchCities = async (query) => {
+    const URL = import.meta.env.VITE_BACKEND_API_URL;
+    if (query.length > 0) {
+      try {
+        const response = await axios.get(URL + `/api/V1/allCity?name=${query}`);
+        const data = await response.data.data;
+        setCities(data);
+      } catch (error) {
+        console.error("error getting cities", error);
+      }
+    }
+    else {
+      // Clear the cities state
+      setCities([]);
+    }
+  };
+
+
   return (
     <div className="bg-zinc-800 h-auto w-full text-white flex justify-center">
       <img
@@ -31,22 +57,47 @@ function Airports() {
 
           <form action="" onSubmit={HandleSubmit}>
             <input
-              className="w-[50%] p-2 rounded bg-zinc-300 text-black outline-none border "
+              className="w-[40%] p-2 rounded bg-zinc-300 text-black outline-none border "
               placeholder="Example : AA or American Airline"
               type="text"
               name="airport"
+              value={selected}
               onChange={handleChange}
             />
+            <ul className={`absolute border ml-[6%]  w-[35%] mt-1 left-0 outline-none overflow-y-scroll
+              ${query.length > 0 && setCities.length > 0 ? "h-48" : ""} ${selected ? "hidden" : ""}`
+            }>
+              {cities.map((city, index) => (
+                <li
+                  className="bg-[#ffffff50] py-2 font-semibold cursor-pointer p-3 "
+                  onClick={() => handleSelect(city.name)}
+                  key={index}
+                >
+                  {city.name}
+                </li>
+              ))}
+            </ul>
+
             <br />
             <button
-              className="px-16 mt-6 py-2 bg-[#FAA718]"
+              className="relative px-16 py-2 ml-[45%] bg-[#FAA718] bottom-10"
               onClick={() => {
-                navigate("/AirportDetails", { airport: value });
+                navigate("/AirportDetails", { city: selected });
               }}
             >
               Search
             </button>
+            {/* <Link className="relative px-16 py-2 ml-[45%] bg-[#FAA718] bottom-10"
+              to={`/Airports/${selected}`}
+
+            >
+              Search
+            </Link> */}
           </form>
+          <hr className="w-[100%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
+
+          {selected ? <AirportDetails city={selected} /> : (null)}
+
         </div>
       </div>
     </div >

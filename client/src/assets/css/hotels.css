@@ -1,0 +1,39 @@
+.hotel-heading h1 {
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.hotel-form {
+     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+     font-size: 15px;
+}
+
+
+
+
+/* Date  */
+.flatpickr-calendar {
+     border-radius: 10px;
+     background-color: #f0f0f0;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.flatpickr-month {
+     background-color: #4CAF50;
+     color: #fff;
+     border-radius: 10px 10px 0 0;
+}
+
+.flatpickr-day {
+     border-radius: 5px;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+     background-color: #4CAF50;
+     color: #fff;
+}
+
+.flatpickr-day.today {
+     background-color: #0283ce;
+     color: #fff;
+}
