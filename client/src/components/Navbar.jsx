@@ -82,7 +82,10 @@ function Navbar() {
 
       <div className="login flex">
 
-        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]">
+        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
+          to="/CreateUser"
+        >
+          
           <FaUserAlt />
           Create Account
         </NavLink>

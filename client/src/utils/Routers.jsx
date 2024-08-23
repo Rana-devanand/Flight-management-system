@@ -4,6 +4,7 @@ import Home from "../components/Home";
 import City from "../components/City";
 import Airports from "../components/Airports";
 import Flight from "../components/Flight";
+import CreateAccount from "../components/CreateAccount";
 
 function Routers() {
   return (
@@ -17,6 +18,7 @@ function Routers() {
         <Route path="/Airports/:cityName" element={<Airports />} />
       </Route>
 
+      <Route path="/CreateUser" element={<CreateAccount />} />
 
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
     </Routes >
