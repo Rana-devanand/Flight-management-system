@@ -1,3 +1,22 @@
 .airport-h1{
      font-family:Arial, Helvetica, sans-serif;
 }
+
+.cross svg {
+     position: absolute;
+     padding-inline: 6px;
+     left: 470px;
+     top: 108px;
+     font-size: 35px;
+     color: #00d812;
+     border-radius: 50%;
+     /* border: 1px solid #ffffff; */
+     /* background-color: white; */
+}
+
+.cross svg:hover{
+     cursor: pointer;
+     color: #db0404;
+     background-color: white;
+     border: 1px solid #ffffff;
+}

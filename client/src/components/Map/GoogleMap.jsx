@@ -68,7 +68,7 @@ function GoogleMap({ city }) {
 
   return (
     <div
-      className="mt-10 border"
+      className="mt-10 border rounded-md"
       id="googleMap"
       style={{ width: "80%", height: "500px" }}
     ></div>
