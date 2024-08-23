@@ -1,21 +1,30 @@
 import React from "react";
-import BackgroundImage from "../assets/images/background.svg";
-import createUserLogo from "../assets/images/createUserLogo.svg";
+import { useNavigate } from "react-router-dom";
+
 
 const CreateAccount = () => {
-    
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Navigate to login page after successful account creation
+    navigate("/login");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
-      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+
+    <div className=" bg-zinc-900 text-gray-900 flex justify-center h-screen">
+      <div className=" bg-[#111827] shadow sm:rounded-lg flex justify-center flex-1">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 ">
           {/* <div className="border h-28">
             <img
               src={createUserLogo}
               className="w-full h-full border"
             />
           </div> */}
-          <div className="mt-12 flex flex-col items-center">
-            <div className="w-full flex-1 mt-8">
+          <div className="flex flex-col items-center border py-10 px-3 rounded-lg bg-[#111827] dark:border-gray-700">
+            <div className="w-full flex-1">
               <div className="flex flex-col items-center">
                 <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                   <div className="bg-white p-2 rounded-full">
@@ -38,28 +47,39 @@ const CreateAccount = () => {
                       />
                     </svg>
                   </div>
-                  <span className="ml-4">Sign In with Google</span>
+                  <span className="ml-4 ">Sign In with Google</span>
                 </button>
               </div>
 
               <div className="my-12 border-b text-center">
-                <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                <div className="leading-none px-2 inline-block text-sm text-gray-400 tracking-wide font-medium bg-[#111827]  transform translate-y-1/2">
                   Or sign In with E-mail
                 </div>
               </div>
 
               <div className="mx-auto max-w-xs">
                 <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 text-white"
                   type="email"
                   placeholder="Email"
                 />
                 <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 mt-5  text-white"
                   type="password"
                   placeholder="Password"
                 />
-                <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-100 focus:bg-gray-600 mt-5  text-white"
+                  type="Telephone"
+                  placeholder="+91 xxxxxxxx"
+                />
+
+                <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                onClick={handleSubmit}
+                >
+                
+
                   <svg
                     className="w-6 h-6 -ml-2"
                     fill="none"
@@ -76,11 +96,17 @@ const CreateAccount = () => {
                 </button>
                 <p className="mt-6 text-xs text-gray-600 text-center">
                   I agree to abide by FLight India
-                  <a href="#" className="border-b border-gray-500 border-dotted">
+                  <a
+                    href="#"
+                    className="border-b border-gray-500 border-dotted"
+                  >
                     Terms of Service
                   </a>
                   and its
-                  <a href="#" className="border-b border-gray-500 border-dotted">
+                  <a
+                    href="#"
+                    className="border-b border-gray-500 border-dotted"
+                  >
                     Privacy Policy
                   </a>
                 </p>
@@ -88,10 +114,10 @@ const CreateAccount = () => {
             </div>
           </div>
         </div>
-        
-        <div className="flex-1 bg-green-100 text-center hidden lg:flex">
-            <img src={BackgroundImage} alt="" srcset="" />
-        </div>
+
+        {/* <div className="flex-1 bg-green-100 text-center hidden lg:flex">
+          <img src={BackgroundImage} alt="" srcset="" />
+        </div> */}
       </div>
     </div>
   );

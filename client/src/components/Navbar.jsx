@@ -90,7 +90,9 @@ function Navbar() {
           Create Account
         </NavLink>
 
-        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]" >
+        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]" 
+          to = "/login"
+        >
           <CiLogin />
           Login
         </NavLink>
