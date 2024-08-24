@@ -15,13 +15,26 @@ const Login = () => {
   const handleChange = (e) => {
     validateUserData({ ...UserData, [e.target.name]: e.target.value });
   }
-  // http://localhost:3000/api/V1/users
+  // http://localhost:3000/api/V1/signIn
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const URL = import.meta.env.VITE_BACKEND_API_URL;
-      const response = await axios.get(`${URL}/api/V1/users`)
+      const response = await axios.post(`${URL}/api/V1/signIn`, UserData)
+      // console.log(response.data);
+      // console.log("Token : ", response.data.data.token)
+      // console.log("email : ", response.data.data.user.email)
+      // console.log("Username : ", response.data.data.user.username)
 
+      localStorage.setItem("token", response.data.data.token);
+      localStorage.setItem("email", response.data.data.user.email);
+      localStorage.setItem("username", response.data.data.user.username);
+
+      // localStorage.setItem("token", JSON.stringify(response.data));
+      if (response.data.data) {
+        alert("Login Successful!");
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Something went wrong : ", error);
     }
@@ -71,7 +84,6 @@ const Login = () => {
                     <div className="mb-2">
                       <label
                         className="text-sm font-medium text-gray-900 dark:text-gray-300"
-                        // dataTestId="flowbite-label"
                         htmlFor="password"
                       >
                         Password
