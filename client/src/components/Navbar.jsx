@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineCardTravel } from "react-icons/md";
 import { FaHome, FaCity } from "react-icons/fa";
 import { MdFlight } from "react-icons/md";
@@ -8,6 +8,31 @@ import { CiLogin } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 
 function Navbar() {
+
+  const navigate = useNavigate();
+
+  const [token, setToken] = useState(null);
+  const [userName, setUserName] = useState(null);
+  useEffect(() => {
+    // Retrieve the token from localStorage
+    const storedToken = localStorage.getItem('token');
+    const userName = localStorage.getItem('username');
+    if (storedToken && userName) {
+      // Parse it if necessary (e.g., if it's stored as a JSON string)
+      setToken(storedToken);
+      setUserName(userName);
+    }
+  });
+
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    setToken(null);
+    navigate("/login");
+  };
+
   return (
     <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
       <div className="flex gap-5 ml-10">
@@ -81,25 +106,36 @@ function Navbar() {
       </div>
 
       <div className="login flex">
+        {token ? (
+          <>
+            <div className="text-sm font-bold mr-3 mt-3 italic">
+              <NavLink
+                className="" to="/dashboard">
+                Welcome, {userName}!
+              </NavLink>
+            </div>
+            <button className=" flex items-center shadow-sm gap-2 mr-6 hover:text-[#0c0c0c] text-[#fff] px-4 py-2 bg-red-400 rounded-md"
+              onClick={handleLogout}
+            >Logout</button>
+          </>
+        ) : (
+          <>
+            <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
+              to="/CreateUser"
+            >
 
-        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
-          to="/CreateUser"
-        >
-          
-          <FaUserAlt />
-          Create Account
-        </NavLink>
+              <FaUserAlt />
+              Create Account
+            </NavLink>
 
-        <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]" 
-          to = "/login"
-        >
-          <CiLogin />
-          Login
-        </NavLink>
-
-
-
-
+            <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]"
+              to="/login"
+            >
+              <CiLogin />
+              Login
+            </NavLink>
+          </>
+        )}
       </div>
     </nav>
   );

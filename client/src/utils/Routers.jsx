@@ -6,8 +6,12 @@ import Airports from "../components/Airports";
 import Flight from "../components/Flight";
 import CreateAccount from "../components/CreateAccount";
 import UserLogin from "../components/Login"
+import DashBoard from "../components/DashBoard";
+// import { useEffect, useState } from "react";
 
 function Routers() {
+
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -18,10 +22,9 @@ function Routers() {
       <Route path="/Airports" element={<Airports />} >
         <Route path="/Airports/:cityName" element={<Airports />} />
       </Route>
-
       <Route path="/CreateUser" element={<CreateAccount />} />
-      <Route path="/login" element={<UserLogin />}/>
-
+      <Route path="/login" element={<UserLogin />} />
+      <Route path="/dashboard" element={<DashBoard />} />
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
     </Routes >
 
