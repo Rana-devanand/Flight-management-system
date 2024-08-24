@@ -21,21 +21,30 @@ const CreateAccount = () => {
     setValue({ ...value, [e.target.name]: e.target.value });
   }
 
+  const notify = (e) => {
+    toast(e);
+  }
+
   //http://localhost:3000/api/V1/createUser
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const URL = import.meta.env.VITE_BACKEND_API_URL;
-      formRef.current.reset();
-      const response = await axios.post(`${URL}/api/V1/createUser`, value);
-      console.log(response.status);
+      if ((value.username) && (value.email) && (value.password) && (value.number)) {
+        const response = await axios.post(`${URL}/api/V1/createUser`, value);
+        formRef.current.reset();
+        console.log(response.status);
+        toast("Successfully created account");
+      }
+      else {
+        toast.error("All fields are required!");
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const notify = () => toast("Account created successfully!");
-
+  // const notify = toast("Successfully created account");
 
   return (
 

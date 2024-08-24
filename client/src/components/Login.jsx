@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Login = () => {
 
@@ -15,6 +18,11 @@ const Login = () => {
   const handleChange = (e) => {
     validateUserData({ ...UserData, [e.target.name]: e.target.value });
   }
+
+  const notify = (e) => {
+    toast(e);
+  }
+
   // http://localhost:3000/api/V1/signIn
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,11 +39,16 @@ const Login = () => {
       localStorage.setItem("username", response.data.data.user.username);
 
       // localStorage.setItem("token", JSON.stringify(response.data));
+      console.log(response);
       if (response.data.data) {
-        alert("Login Successful!");
+        toast("Login Successful!");
         navigate("/dashboard");
       }
+      else {
+        toast.error("please correct credentials");
+      }
     } catch (error) {
+      toast.error("Invalid Email or Password");
       console.error("Something went wrong : ", error);
     }
   }
@@ -109,6 +122,7 @@ const Login = () => {
                     <button
                       type="submit"
                       className="border transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed border-transparent bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
+                      onClick={notify}
                     >
                       <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
                         Login
@@ -172,6 +186,7 @@ const Login = () => {
                       </span>
                     </button>
                   </div>
+                  <ToastContainer />
                 </form>
                 <div className="min-w-[270px]">
                   <div className="mt-4 text-center dark:text-gray-200">

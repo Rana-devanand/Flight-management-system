@@ -4,6 +4,8 @@ const router = express.Router();
 const cityController = require("../../controllers/city-Controller");
 const userController = require("../../controllers/user-Controler");
 
+const auth_middleWare = require("../../middlewares/auth-middleware")
+
 router.post("/createCity", cityController.create);
 router.get("/allCity", cityController.getAllCity);
 
@@ -17,6 +19,10 @@ router.post("/createUser", userController.create)
 router.get("/users", userController.get);
 
 // localhost:3000/api/V1/signIn
-router.post("/signIn", userController.signIn);
+router.post("/signIn",
+     auth_middleWare.ValidateUserAuth,
+     userController.signIn
+);
+
 
 module.exports = router;
