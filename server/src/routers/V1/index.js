@@ -16,4 +16,7 @@ router.post("/createUser", userController.create)
 //localhost:3000/api/V1/users
 router.get("/users", userController.get);
 
+// localhost:3000/api/V1/signIn
+router.post("/signIn", userController.signIn);
+
 module.exports = router;
