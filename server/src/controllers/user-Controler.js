@@ -23,6 +23,28 @@ const create = async (req, res) => {
      }
 };
 
+// http://localhost:3000/api/V1/users
+const get = async (req, res) => {
+     try {
+          const response = await userServices.getUser(req.body);
+          return res.status(200).json({
+               data: response,
+               message: "User fetched successfully",
+               success: true,
+               error: {},
+          })
+     } catch (error) {
+          console.error("An error occurred while fetching the user", error);
+          res.status(500).json({
+               data: {},
+               message: "Failed to fetch the user",
+               success: false,
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
+     get,
 };

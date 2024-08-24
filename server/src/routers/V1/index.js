@@ -10,6 +10,10 @@ router.get("/allCity", cityController.getAllCity);
 
 // Users routes :
 
+//localhost:3000/api/V1/createUser
 router.post("/createUser", userController.create)
+
+//localhost:3000/api/V1/users
+router.get("/users", userController.get);
 
 module.exports = router;

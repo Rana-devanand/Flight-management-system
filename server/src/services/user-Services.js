@@ -15,6 +15,15 @@ class UserServices {
           }
      }
 
+     async getUser() {
+          try {
+               const allUsers = await this.UserRepository.getAllUsers();
+               return allUsers;
+          } catch (error) {
+               console.log("Something went wrong in service", error);
+          }
+     }
+
 }
 
 module.exports = { UserServices };

@@ -10,6 +10,16 @@ class UserRepository {
                console.log("Something went wrong in User repository", error);
           }
      }
+
+
+     async getAllUsers() {
+          try {
+               const response = await user.findAll();
+               return response;
+          } catch (error) {
+               console.log("Something went wrong in User repository", error);
+          }
+     }
 }
 
 module.exports = { UserRepository };
