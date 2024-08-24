@@ -1,96 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const Login = ()=> {
+const Login = () => {
 
-     const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [UserData, validateUserData] = useState(
+    {
+      email: "",
+      password: "",
+    }
+  );
 
-     const CreateUser = (e) => {
-          e.preventDefault();
-          navigate("/CreateUser");
-     }
+  const handleChange = (e) => {
+    validateUserData({ ...UserData, [e.target.name]: e.target.value });
+  }
+  // http://localhost:3000/api/V1/users
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const URL = import.meta.env.VITE_BACKEND_API_URL;
+      const response = await axios.get(`${URL}/api/V1/users`)
+
+    } catch (error) {
+      console.error("Something went wrong : ", error);
+    }
+  }
+
+  const CreateUser = (e) => {
+    e.preventDefault();
+    navigate("/CreateUser");
+  }
+
 
   return (
     <>
-      <div class="py-12 bg-[#111827]">
-        <div class="flex h-full items-center justify-center">
-          <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4">
-            <div class="flex h-full flex-col justify-center gap-4 p-6">
-              <div class="left-0 right-0 inline-block border-gray-200 px-2 py-2.5 sm:px-4">
-                <form class="flex flex-col gap-4 pb-4">
-                  <h1 class="mb-4 text-2xl font-bold  dark:text-white">
+      <div className="py-12 bg-[#111827]">
+        <div className="flex h-full items-center justify-center">
+          <div className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4">
+            <div className="flex h-full flex-col justify-center gap-4 p-6">
+              <div className="left-0 right-0 inline-block border-gray-200 px-2 py-2.5 sm:px-4">
+                <form className="flex flex-col gap-4 pb-4" onSubmit={handleSubmit}>
+                  <h1 className="mb-4 text-2xl font-bold  dark:text-white">
                     Login
                   </h1>
                   <div>
-                    <div class="mb-2">
+                    <div className="mb-2">
                       <label
-                        class="text-sm font-medium text-gray-900 dark:text-gray-300"
-                        for="email"
+                        className="text-sm font-medium text-gray-900 dark:text-gray-300"
+                        htmlFor="email"
                       >
                         Email:
                       </label>
                     </div>
-                    <div class="flex w-full rounded-lg pt-1">
-                      <div class="relative w-full">
+                    <div className="flex w-full rounded-lg pt-1">
+                      <div className="relative w-full">
                         <input
-                          class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg"
+                          className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg"
                           id="email"
                           type="email"
                           name="email"
                           placeholder="email@example.com"
                           required=""
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
                   </div>
                   <div>
-                    <div class="mb-2">
+                    <div className="mb-2">
                       <label
-                        class="text-sm font-medium text-gray-900 dark:text-gray-300"
-                        data-testid="flowbite-label"
-                        for="password"
+                        className="text-sm font-medium text-gray-900 dark:text-gray-300"
+                        // dataTestId="flowbite-label"
+                        htmlFor="password"
                       >
                         Password
                       </label>
                     </div>
-                    <div class="flex w-full rounded-lg pt-1">
-                      <div class="relative w-full">
+                    <div className="flex w-full rounded-lg pt-1">
+                      <div className="relative w-full">
                         <input
-                          class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg"
+                          className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg"
                           id="password"
                           type="password"
                           name="password"
                           required=""
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
-                    <p class="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
+                    <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
                       Forgot password?
                     </p>
                   </div>
-                  <div class="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2">
                     <button
                       type="submit"
-                      class="border transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed border-transparent bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
+                      className="border transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed border-transparent bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
                     >
-                      <span class="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
+                      <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
                         Login
                       </span>
                     </button>
                     <button
                       type="button"
-                      class="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
+                      className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
                     >
-                      <span class="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
+                      <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
                         <svg
                           stroke="currentColor"
                           fill="currentColor"
-                          stroke-width="0"
+                          strokeWidth="0"
                           version="1.1"
                           x="0px"
                           y="0px"
                           viewBox="0 0 48 48"
-                          enable-background="new 0 0 48 48"
+                          enableBackground="new 0 0 48 48"
                           height="1em"
                           width="1em"
                           xmlns="http://www.w3.org/2000/svg"
@@ -117,13 +142,13 @@ const Login = ()=> {
                     </button>
                     <button
                       type="button"
-                      class="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
+                      className="transition-colors focus:ring-2 p-0.5 disabled:cursor-not-allowed bg-white hover:bg-gray-100 text-gray-900 border border-gray-200 disabled:bg-gray-300 disabled:text-gray-700 rounded-lg "
                     >
-                      <span class="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
+                      <span className="flex items-center justify-center gap-1 font-medium py-1 px-2.5 text-base false">
                         <svg
                           stroke="currentColor"
                           fill="currentColor"
-                          stroke-width="0"
+                          strokeWidth="0"
                           viewBox="0 0 448 512"
                           height="1em"
                           width="1em"
@@ -136,11 +161,11 @@ const Login = ()=> {
                     </button>
                   </div>
                 </form>
-                <div class="min-w-[270px]">
-                  <div class="mt-4 text-center dark:text-gray-200">
+                <div className="min-w-[270px]">
+                  <div className="mt-4 text-center dark:text-gray-200">
                     New user?
                     <a
-                      class="text-blue-500 underline hover:text-blue-600 cursor:pointer"
+                      className="text-blue-500 underline hover:text-blue-600 cursor:pointer"
                       onClick={CreateUser}
                     >
                       Create account here

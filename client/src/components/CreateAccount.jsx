@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateAccount = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const formRef = useRef(null);
   const [value, setValue] = useState(
     {
       username: "",
@@ -17,21 +20,22 @@ const CreateAccount = () => {
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   }
+
+  //http://localhost:3000/api/V1/createUser
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const URL = import.meta.env.VITE_BACKEND_API_URL;
+      formRef.current.reset();
       const response = await axios.post(`${URL}/api/V1/createUser`, value);
-      console.log(response.data);
-      if (response.status === 200) {
-        alert("User created successfully!");
-      }
-      navigate("/login");
+      console.log(response.status);
     } catch (error) {
       console.log(error);
     }
-
   };
+
+  const notify = () => toast("Account created successfully!");
+
 
   return (
 
@@ -79,7 +83,7 @@ const CreateAccount = () => {
               </div>
 
               <div className="mx-auto max-w-xs">
-                <form action="" onSubmit={handleSubmit}>
+                <form action="" onSubmit={handleSubmit} ref={formRef}>
                   <input
                     className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 text-white"
                     type="text"
@@ -113,6 +117,7 @@ const CreateAccount = () => {
 
                   <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                     type="submit"
+                    onClick={notify}
                   >
                     <svg
                       className="w-6 h-6 -ml-2"
@@ -128,7 +133,7 @@ const CreateAccount = () => {
                     </svg>
                     <span className="ml-">Sign In</span>
                   </button>
-
+                  <ToastContainer />
                 </form>
 
                 {/* <p className="mt-6 text-xs text-gray-600 text-center">
@@ -156,7 +161,7 @@ const CreateAccount = () => {
           <img src={BackgroundImage} alt="" srcset="" />
         </div> */}
       </div>
-    </div>
+    </div >
   );
 };
 
