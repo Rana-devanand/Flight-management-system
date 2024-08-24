@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 
 const CreateAccount = () => {
 
   const navigate = useNavigate();
+  const [value, setValue] = useState(
+    {
+      username: "",
+      email: "",
+      password: "",
+      number: "",
+    }
+  );
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setValue({ ...value, [e.target.name]: e.target.value });
+  }
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Navigate to login page after successful account creation
-    navigate("/login");
+    try {
+      const URL = import.meta.env.VITE_BACKEND_API_URL;
+      const response = await axios.post(`${URL}/api/V1/createUser`, value);
+      console.log(response.data);
+      if (response.status === 200) {
+        alert("User created successfully!");
+      }
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+
   };
 
   return (
@@ -26,7 +47,7 @@ const CreateAccount = () => {
           <div className="flex flex-col items-center border py-10 px-3 rounded-lg bg-[#111827] dark:border-gray-700">
             <div className="w-full flex-1">
               <div className="flex flex-col items-center">
-                <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-200 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                   <div className="bg-white p-2 rounded-full">
                     <svg className="w-4" viewBox="0 0 533.5 544.3">
                       <path
@@ -58,43 +79,59 @@ const CreateAccount = () => {
               </div>
 
               <div className="mx-auto max-w-xs">
-                <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 text-white"
-                  type="email"
-                  placeholder="Email"
-                />
-                <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 mt-5  text-white"
-                  type="password"
-                  placeholder="Password"
-                />
+                <form action="" onSubmit={handleSubmit}>
+                  <input
+                    className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 text-white"
+                    type="text"
+                    name="username"
+                    onChange={handleChange}
+                    placeholder="Full name"
+                  />
 
-                <input
-                  className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-100 focus:bg-gray-600 mt-5  text-white"
-                  type="Telephone"
-                  placeholder="+91 xxxxxxxx"
-                />
+                  <input
+                    className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 mt-5 text-white"
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    placeholder="Email"
+                  />
+                  <input
+                    className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-gray-600 mt-5  text-white"
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    placeholder="Password"
+                  />
 
-                <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                onClick={handleSubmit}
-                >
-                
+                  <input
+                    className="w-full px-8 py-4 rounded-lg font-medium bg-[#374151] border dark:border-gray-700 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-100 focus:bg-gray-600 mt-5  text-white"
+                    type="text"
+                    name="number"
+                    onChange={handleChange}
+                    placeholder="+91 xxxxxxxx"
+                  />
 
-                  <svg
-                    className="w-6 h-6 -ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                    type="submit"
                   >
-                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                    <circle cx="8.5" cy="7" r="4" />
-                    <path d="M20 8v6M23 11h-6" />
-                  </svg>
-                  <span className="ml-">Sign In</span>
-                </button>
-                <p className="mt-6 text-xs text-gray-600 text-center">
+                    <svg
+                      className="w-6 h-6 -ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                      <circle cx="8.5" cy="7" r="4" />
+                      <path d="M20 8v6M23 11h-6" />
+                    </svg>
+                    <span className="ml-">Sign In</span>
+                  </button>
+
+                </form>
+
+                {/* <p className="mt-6 text-xs text-gray-600 text-center">
                   I agree to abide by FLight India
                   <a
                     href="#"
@@ -109,7 +146,7 @@ const CreateAccount = () => {
                   >
                     Privacy Policy
                   </a>
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
