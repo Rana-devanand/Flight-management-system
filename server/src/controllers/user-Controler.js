@@ -13,7 +13,7 @@ const create = async (req, res) => {
                error: {},
           });
      } catch (error) {
-          console.error("An error occurred while creating the user", error);
+          console.log("An error occurred while creating the user", error);
           return res.status(500).json({
                data: {},
                message: "Failed to create the user",
@@ -38,6 +38,26 @@ const get = async (req, res) => {
           res.status(500).json({
                data: {},
                message: "Failed to fetch the user",
+               success: false,
+               error: error,
+          })
+     }
+}
+
+const getByEmail = async (req, res) => {
+     try {
+          const response = await userServices.getUserEmail(req.body.email)
+          return res.status(200).json({
+               data: response,
+               message: "User fetched successfully",
+               success: true,
+               error: {},
+          })
+     } catch (error) {
+          console.log("An error occurred while fetching user information from email", error);
+          return res.status(500).json({
+               data: {},
+               message: "Failed to fetch user information from email",
                success: false,
                error: error,
           })
@@ -71,5 +91,6 @@ const signIn = async (req, res) => {
 module.exports = {
      create,
      get,
-     signIn
+     signIn,
+     getByEmail
 };

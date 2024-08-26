@@ -7,11 +7,20 @@ class UserServices {
           this.UserRepository = new UserRepository();
      }
      async createUser(data) {
-          console.log("Service data :", data);
+          // console.log("Service data :", data);
           try {
                const user = await this.UserRepository.createUser(data);
                return user;
           } catch (error) {
+               if (error.name === "SequelizeUniqueConstraintError") {
+                    throw { error };
+               }
+               if (error.name == "UniqueConstraintError") {
+                    throw { error };
+               }
+               if (error.name === "SequelizeValidationError") {
+                    throw { error };
+               }
                console.log("Something went wrong in service", error);
           }
      }
@@ -22,6 +31,15 @@ class UserServices {
                return allUsers;
           } catch (error) {
                console.log("Something went wrong in service", error);
+          }
+     }
+
+     async getUserEmail(email) {
+          try {
+               const userEmail = await this.UserRepository.getByEmail(email);
+               return userEmail;
+          } catch (error) {
+               console.log("Something went wrong in service to get User Data through Email", error);
           }
      }
 

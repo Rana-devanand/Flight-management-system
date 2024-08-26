@@ -24,5 +24,6 @@ router.post("/signIn",
      userController.signIn
 );
 
+router.get("/getByEmail", userController.getByEmail);
 
 module.exports = router;
