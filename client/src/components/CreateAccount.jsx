@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateAccount = () => {
-
+  const URL = import.meta.env.VITE_BACKEND_API_URL;
   // const navigate = useNavigate();
   const formRef = useRef(null);
   const [value, setValue] = useState(
@@ -29,15 +29,20 @@ const CreateAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const URL = import.meta.env.VITE_BACKEND_API_URL;
+      if ((!value.username) || (!value.email) || (!value.password) || (!value.number)) {
+        toast.error("All fields are required!");
+        return;  // stop the function execution if any field is empty.
+      }
+      const response = await axios.get(`${URL}/api/V1/getByEmail?email=${value.email}`);
+      if (response) {
+        toast.error("Email already exists!");
+        return;  // stop the function execution if the email already exists.
+      }
       if ((value.username) && (value.email) && (value.password) && (value.number)) {
         const response = await axios.post(`${URL}/api/V1/createUser`, value);
         formRef.current.reset();
         console.log(response.status);
         toast("Successfully created account");
-      }
-      else {
-        toast.error("All fields are required!");
       }
     } catch (error) {
       console.log(error);

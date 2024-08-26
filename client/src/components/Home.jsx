@@ -166,16 +166,17 @@ function Home() {
   };
 
   // OnCross Click data should be cleared.
-  const WhereToDataClear = ()=>{
+  const WhereToDataClear = () => {
     setSelectedWhereToItem("");
   }
-  const whereFromDataClear = ()=>{
+  const whereFromDataClear = () => {
     setSelectedItem("");
   }
-// Date 
+  // Date 
   const [date, setDate] = useState(null);
-
-
+  const todayDate = new Date();
+  const onlyDate = todayDate.toISOString().slice(0, 10);
+  // console.log(onlyDate);
   return (
     <>
       <div className="input-container relative w-full h-screen bg-gray-500 flex justify-center items-center ">
@@ -211,15 +212,15 @@ function Home() {
           </ul>
 
           {/* <MdCompareArrows /> */}
-          {query.length > 0  ? (<RxCross1 onClick={whereFromDataClear} className="cursor-pointer"/>) : (null)}
+          {query.length > 0 ? (<RxCross1 onClick={whereFromDataClear} className="cursor-pointer" />) : (null)}
 
-          {query.length > 0 ? (<RxCross1 onClick={WhereToDataClear} className="rightCross -ml-[35%]  cursor-pointer"/>) : (null)}
+          {query.length > 0 ? (<RxCross1 onClick={WhereToDataClear} className="rightCross -ml-[35%]  cursor-pointer" />) : (null)}
 
 
 
           <input
-            className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-[32%] outline-none" 
-            type="text" 
+            className="p-3 py-4 mt-10 ml-3 rounded-md mr-3 w-[32%] outline-none"
+            type="text"
             value={selectedWhereToItem}
             onChange={handleWhereToInputChange}
             placeholder="Where to"
@@ -238,18 +239,18 @@ function Home() {
           </ul>
 
           <Flatpickr
-           value={date}
-           onChange={([selectedDate]) => setDate(selectedDate)}
-           options={{
-             dateFormat: 'Y-m-d',
-             altInput: true,
-             altFormat: 'F j, Y',
-             minDate: '2024-08-15',
-             maxDate: '2024-08-31',
-           }}
-           placeholder="Select a date"
-           className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[28%] outline-none"
-         />
+            value={date}
+            onChange={([selectedDate]) => setDate(selectedDate)}
+            options={{
+              dateFormat: 'Y-m-d',
+              altInput: true,
+              altFormat: 'F j, Y',
+              minDate: `${onlyDate}`,
+              maxDate: '',
+            }}
+            placeholder="Select a date"
+            className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[28%] outline-none"
+          />
 
           <div className="search flex justify-center items-center mt-6">
             <button

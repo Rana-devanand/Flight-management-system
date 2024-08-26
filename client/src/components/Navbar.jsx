@@ -72,19 +72,6 @@ function Navbar() {
               background: e.isActive ? "#394457" : "",
             };
           }}
-          className="flex items-center shadow-sm px-4 py-2 rounded-full border"
-          to="/city"
-        >
-          <FaCity className="mx-1  " /> City
-        </NavLink>
-
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
-            };
-          }}
           className="flex items-center shadow-sm px-3 py-2 rounded-full border"
           to="/flight"
         >
@@ -103,6 +90,21 @@ function Navbar() {
         >
           <MdOutlineConnectingAirports className="mx-1  " /> Airport
         </NavLink>
+
+
+        <NavLink
+          style={(e) => {
+            return {
+              color: e.isActive ? "#8AB4F8" : "",
+              background: e.isActive ? "#394457" : "",
+            };
+          }}
+          className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+          to="/city"
+        >
+          <FaCity className="mx-1  " /> About
+        </NavLink>
+
       </div>
 
       <div className="login flex">

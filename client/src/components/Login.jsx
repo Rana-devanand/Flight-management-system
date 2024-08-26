@@ -40,6 +40,10 @@ const Login = () => {
 
       // localStorage.setItem("token", JSON.stringify(response.data));
       console.log(response);
+      if ((!UserData.email) || (!UserData.password)) {
+        toast.error("All fields are required!");
+        return;
+      }
       if (response.data.data) {
         toast("Login Successful!");
         navigate("/dashboard");
@@ -48,7 +52,7 @@ const Login = () => {
         toast.error("please correct credentials");
       }
     } catch (error) {
-      toast.error("Invalid Email or Password");
+      toast.error("All fields are required!");
       console.error("Something went wrong : ", error);
     }
   }
