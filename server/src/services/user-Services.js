@@ -12,16 +12,8 @@ class UserServices {
                const user = await this.UserRepository.createUser(data);
                return user;
           } catch (error) {
-               if (error.name === "SequelizeUniqueConstraintError") {
-                    throw { error };
-               }
-               if (error.name == "UniqueConstraintError") {
-                    throw { error };
-               }
-               if (error.name === "SequelizeValidationError") {
-                    throw { error };
-               }
                console.log("Something went wrong in service", error);
+
           }
      }
 
@@ -68,6 +60,7 @@ class UserServices {
                          email: user.email,
                          id: user.id,
                          username: user.username,
+                         userType: user.userType,
                     }
                )
                return newJWT;
@@ -93,6 +86,7 @@ class UserServices {
                          id: user.id,
                          email: user.email,
                          username: user.username,
+                         userType: user.userType,
                     }
                }
                return obj;

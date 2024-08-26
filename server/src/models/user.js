@@ -47,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
         isNumeric: true,
         len: [10, 10],
       },
+    },
+    userType: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 2,
     }
   }, {
     sequelize,

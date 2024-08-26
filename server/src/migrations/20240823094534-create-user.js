@@ -38,6 +38,11 @@ module.exports = {
           len: [10, 12]
         }
       },
+      userType: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 2, // default user type is 2 (Customer)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
