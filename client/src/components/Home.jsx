@@ -167,10 +167,10 @@ function Home() {
 
   // OnCross Click data should be cleared.
   const WhereToDataClear = () => {
-    setSelectedWhereToItem("");
+    setSelectedItem("");
   }
   const whereFromDataClear = () => {
-    setSelectedItem("");
+    setSelectedWhereToItem("");
   }
   // Date 
   const [date, setDate] = useState(null);

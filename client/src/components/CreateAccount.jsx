@@ -34,9 +34,10 @@ const CreateAccount = () => {
         return;  // stop the function execution if any field is empty.
       }
       const response = await axios.get(`${URL}/api/V1/getByEmail?email=${value.email}`);
-      if (response) {
+      // console.log("Resonse : ", response);
+      if (response.length > 0) {
         toast.error("Email already exists!");
-        return;  // stop the function execution if the email already exists.
+        return;  // stop the function execution if email already exists.
       }
       if ((value.username) && (value.email) && (value.password) && (value.number)) {
         const response = await axios.post(`${URL}/api/V1/createUser`, value);
