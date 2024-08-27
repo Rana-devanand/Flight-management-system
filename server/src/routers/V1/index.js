@@ -3,7 +3,7 @@ const router = express.Router();
 
 const cityController = require("../../controllers/city-Controller");
 const userController = require("../../controllers/user-Controler");
-
+const AirplaneRepository = require("../../controllers/airplane-Controllers");
 const auth_middleWare = require("../../middlewares/auth-middleware")
 
 router.post("/createCity", cityController.create);
@@ -25,5 +25,9 @@ router.post("/signIn",
 );
 
 router.get("/getByEmail", userController.getByEmail);
+
+router.post("/create", AirplaneRepository.create);
+router.post("/airplaneID", AirplaneRepository.destroy);
+router.get("/airplane/:id", AirplaneRepository.getByPk);
 
 module.exports = router;
