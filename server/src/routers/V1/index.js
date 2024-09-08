@@ -13,6 +13,9 @@ router.post("/createCity", cityController.create);
 // localhost:4000/api/V1/allCity
 router.get("/allCity", cityController.getAllCity);
 
+// localhost:4000/api/V1/cityByName
+router.get("/cityByName/:name" , cityController.getByName);
+
 
 // {------- Users routes  --------}
 

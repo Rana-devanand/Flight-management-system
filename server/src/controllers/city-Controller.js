@@ -42,7 +42,30 @@ const getAllCity = async (req, res) => {
   }
 };
 
+const getByName = async (req, res) => {
+  try {
+    console.log(req.params.name);
+    const response = await cityService.getByName(req.params.name);
+    return res.status(200).json({
+      data: response,
+      message: "successFully fetched city by name",
+      success: true,
+      err: {},
+    })
+  } catch (error) {
+    console.log("Something went wrong when fetching city by name");
+    return res.status(500).json({
+      data: {},
+      message: "Not able to fetch city by name",
+      success: false,
+      err: error,
+    });
+  }
+}
+
+
 module.exports = {
   create,
   getAllCity,
+  getByName
 };

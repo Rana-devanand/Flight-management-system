@@ -25,5 +25,15 @@ class CityService {
       console.log("Something went wrong in service", error);
     }
   }
+
+  async getByName(name) {
+    try {
+      const allCities = await this.CityRepository.getByName(name);
+      return allCities;
+    } catch (error) {
+      console.log("Something went wrong in service", error);
+    }
+  }
+
 }
 module.exports = CityService;

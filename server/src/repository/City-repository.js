@@ -30,6 +30,20 @@ class CityRepository {
       console.log("Something went wrong in repository", error);
     }
   }
+
+  async getByName(name) {
+    try {
+        const response = await city.findAll({
+         where :{
+          name : name
+         }
+        })
+        return  response;
+    } catch (error) {
+      console.log("Something went wrong in repository", error);
+    }
+  }
+
 }
 
 module.exports = CityRepository;
