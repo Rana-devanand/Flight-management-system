@@ -5,9 +5,7 @@ class CityRepository {
   async createCity({ name }) {
     try {
       console.log(name);
-      const response = await city.create({
-        name,
-      });
+      const response = await city.create(name);
       return response;
     } catch (error) {
       console.log("Something went wrong in repository", error);
