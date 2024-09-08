@@ -110,6 +110,8 @@ function Home() {
   const [query, setQuery] = useState("");    // for Where from
   const [cities, setCities] = useState([]);  // for Where from
 
+  const URL = import.meta.env.VITE_BACKEND_API_URL;
+
   const handleInputChange = (e) => {
     setQuery(e.target.value);
     fetchCities(e.target.value);
@@ -118,8 +120,7 @@ function Home() {
   const fetchCities = async (query) => {
     if (query.length > 0) {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/allCity?name=${query}`
+        const response = await axios.get(URL +`/api/v1/allCity?name=${query}`
         );
         const data = await response.data.data;
         setCities(data);
@@ -148,8 +149,7 @@ function Home() {
   const getWhereToCities = async (whereToQuery) => {
     if (whereToQuery.length > 0) {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/allCity?name=${whereToQuery}`
+        const response = await axios.get(URL+ `/api/v1/allCity?name=${whereToQuery}`
         );
         const data = await response.data.data;
         setWhereToCities(data);

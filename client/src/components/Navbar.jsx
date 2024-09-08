@@ -13,14 +13,17 @@ function Navbar() {
 
   const [token, setToken] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [userType, setUserType] = useState(null);
   useEffect(() => {
     // Retrieve the token from localStorage
     const storedToken = localStorage.getItem('token');
     const userName = localStorage.getItem('username');
+    const userType = localStorage.getItem('type');
     if (storedToken && userName) {
       // Parse it if necessary (e.g., if it's stored as a JSON string)
       setToken(storedToken);
       setUserName(userName);
+      setUserType(userType);
     }
   });
 
@@ -91,19 +94,35 @@ function Navbar() {
           <MdOutlineConnectingAirports className="mx-1  " /> Airport
         </NavLink>
 
+        <>
+          {userType == 1 ? (
+            <NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive ? "#8AB4F8" : "",
+                  background: e.isActive ? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+              to="/createCity"
+            >
+              <FaCity className="mx-1  " /> City
+            </NavLink>
+          ) :
+            (<NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive ? "#8AB4F8" : "",
+                  background: e.isActive ? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+              to="/city"
+            >
+              <FaCity className="mx-1  " /> About
+            </NavLink>)}
 
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
-            };
-          }}
-          className="flex items-center shadow-sm px-4 py-2 rounded-full border"
-          to="/city"
-        >
-          <FaCity className="mx-1  " /> About
-        </NavLink>
+        </>
 
       </div>
 
