@@ -61,7 +61,7 @@ function CreateAirport() {
 
   return (
     <>
-      <div className="cross bg-zinc-800 w-full h-auto text-white flex justify-center">
+      <div className="cross bg-zinc-800 w-full h-screen text-white flex justify-center">
         <img className="w-full h-auto brightness-50" src={skyImage} alt="" />
         <div className="absolute w-[80%] mx-auto">
           <div className="w-full mt-10  ">

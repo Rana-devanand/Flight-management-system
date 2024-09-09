@@ -31,7 +31,7 @@ function CreateCity() {
       console.log(CityName);
       const isExistCity = await axios.get(`${URL}/api/V1/cityByName/${CityName}`)
       console.log("City Exist : ", isExistCity.data.data)
-      if(isExistCity.data.data.length > 0) {
+      if (isExistCity.data.data.length > 0) {
         toast.error("City already exists");
         return;
       }
@@ -62,7 +62,7 @@ function CreateCity() {
             <h4 className="w-full p-2 bg-[#5A7FA1] text-lg">
               Enter City Name{" "}
             </h4>
-            <form onSubmit={handleSubmit}  ref={formRef}>
+            <form onSubmit={handleSubmit} ref={formRef}>
               <div className="flex justify-between items-center w-[70%]">
                 <label className="text-lg font-mono ml-12 mt-3 " htmlFor="">
                   Add City Name
