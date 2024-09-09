@@ -1,0 +1,62 @@
+.custom-time-picker {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-top: 20px;
+   }
+   
+   .time-picker-input {
+     width: 180px;
+     padding: 12px 16px;
+     font-size: 16px;
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     outline: none;
+     transition: all 0.3s ease;
+     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+     background-color: #fafafa;
+   }
+   
+   .time-picker-input:hover {
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+     border-color: #0099cc;
+   }
+   
+   .time-picker-input:focus {
+     border-color: #0099cc;
+     box-shadow: 0 6px 12px rgba(0, 153, 204, 0.3);
+   }
+   
+   .flatpickr-calendar {
+     border-radius: 10px;
+     overflow: hidden;
+     border: 1px solid #ddd;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+   }
+   
+   .flatpickr-time {
+     background-color: #fff;
+     border-radius: 8px;
+     padding: 10px;
+     color: #333;
+     transition: background-color 0.3s ease;
+   }
+   
+   .flatpickr-time:hover {
+     background-color: #f0f0f0;
+   }
+   
+   .flatpickr-hour, .flatpickr-minute {
+     font-size: 18px;
+     font-weight: bold;
+     color: #0077cc;
+   }
+   
+   .flatpickr-am-pm {
+     background-color: #0077cc;
+     color: white;
+     padding: 6px 12px;
+     border-radius: 6px;
+   }
+   
+   

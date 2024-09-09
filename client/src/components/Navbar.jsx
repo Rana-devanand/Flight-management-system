@@ -70,18 +70,37 @@ console.log(userType)
           Hotels
         </NavLink>
 
+      <>
+      {userType === "1" ? 
+      (
         <NavLink
           style={(e) => {
             return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
+              color: e.isActive? "#8AB4F8" : "",
+              background: e.isActive? "#394457" : "",
             };
           }}
-          className="flex items-center shadow-sm px-3 py-2 rounded-full border"
-          to="/flight"
+          className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+          to="/createFlight"
         >
-          <MdFlight className="mx-1  " /> Flights
+          <MdFlight className="mx-1  " /> Create Flight
         </NavLink>
+      ) 
+      :
+      ( <NavLink
+        style={(e) => {
+          return {
+            color: e.isActive ? "#8AB4F8" : "",
+            background: e.isActive ? "#394457" : "",
+          };
+        }}
+        className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+        to="/flight"
+      >
+        <MdFlight className="mx-1  " /> Flights
+      </NavLink>)}
+
+       </>
 
        <>
           {userType === "1" ? (

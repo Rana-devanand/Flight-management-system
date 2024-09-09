@@ -9,6 +9,7 @@ import UserLogin from "../components/Login"
 import DashBoard from "../components/DashBoard";
 import CreateCity  from "../components/ADMIN/CreateCity"
 import CreateAirport from "../components/ADMIN/CreateAirport";
+import CreateFlight from "../components/ADMIN/CreateFlight";
 // import { useEffect, useState } from "react";
 
 function Routers() {
@@ -33,6 +34,7 @@ function Routers() {
       {/* Admin Page  UI */}
       <Route path="/createCity" element={<CreateCity />} />
       <Route path="/createAirport" element={<CreateAirport/>}/>
+      <Route path="/CreateFlight" element={<CreateFlight/>}/>
     </Routes >
 
   );
