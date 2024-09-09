@@ -8,6 +8,7 @@ import CreateAccount from "../components/CreateAccount";
 import UserLogin from "../components/Login"
 import DashBoard from "../components/DashBoard";
 import CreateCity  from "../components/ADMIN/CreateCity"
+import CreateAirport from "../components/ADMIN/CreateAirport";
 // import { useEffect, useState } from "react";
 
 function Routers() {
@@ -27,7 +28,11 @@ function Routers() {
       <Route path="/login" element={<UserLogin />} />
       <Route path="/dashboard" element={<DashBoard />} />
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
+      
+      
+      {/* Admin Page  UI */}
       <Route path="/createCity" element={<CreateCity />} />
+      <Route path="/createAirport" element={<CreateAirport/>}/>
     </Routes >
 
   );

@@ -26,16 +26,18 @@ function Navbar() {
       setUserType(userType);
     }
   });
-
   const handleLogout = () => {
     // Remove the token from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
+    localStorage.removeItem('type');
     setToken(null);
     navigate("/login");
   };
 
+  
+console.log(userType)
   return (
     <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
       <div className="flex gap-5 ml-10">
@@ -81,21 +83,38 @@ function Navbar() {
           <MdFlight className="mx-1  " /> Flights
         </NavLink>
 
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
-            };
-          }}
-          className="flex items-center shadow-sm px-3 py-2 rounded-full border"
-          to="/Airports"
-        >
-          <MdOutlineConnectingAirports className="mx-1  " /> Airport
-        </NavLink>
+       <>
+          {userType === "1" ? (
+            <NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive? "#8AB4F8" : "",
+                  background: e.isActive? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+              to="/createAirport"
+            >
+              <MdFlight className="mx-1  " /> Create Airport
+            </NavLink>
+          ) 
+          :
+          ( <NavLink
+            style={(e) => {
+              return {
+                color: e.isActive ? "#8AB4F8" : "",
+                background: e.isActive ? "#394457" : "",
+              };
+            }}
+            className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+            to="/Airports"
+          >
+            <MdOutlineConnectingAirports className="mx-1  " /> Airport
+          </NavLink>)}
+       </>
 
         <>
-          {userType == 1 ? (
+          {userType === "1" ? (
             <NavLink
               style={(e) => {
                 return {
@@ -106,7 +125,7 @@ function Navbar() {
               className="flex items-center shadow-sm px-4 py-2 rounded-full border"
               to="/createCity"
             >
-              <FaCity className="mx-1  " /> City
+              <FaCity className="mx-1  " /> Create City
             </NavLink>
           ) :
             (<NavLink
