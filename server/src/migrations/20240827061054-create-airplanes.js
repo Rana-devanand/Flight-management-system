@@ -9,15 +9,36 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      Airline: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       modelNo: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
       Capacity: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         defaultValue: 200
+      },
+      Departure: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      Arrival: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      DepartureTime: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      ArrivalTime: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

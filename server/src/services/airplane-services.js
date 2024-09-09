@@ -35,6 +35,17 @@ class AirplaneServices {
                throw error;
           }
      }
+
+     async getAllFLights() {
+          try {
+               const allFlights = await this.airplaneRepository.allFLights();
+               return allFlights;
+          } catch (error) {
+               console.error("Error to get all Flights in Services");
+               throw error;
+          }
+     }
+
 }
 
 module.exports = AirplaneServices;

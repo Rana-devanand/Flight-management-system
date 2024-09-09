@@ -62,8 +62,29 @@ const getByPk = async (req, res) => {
      }
 }
 
+const getAll = async (req, res) => {
+     try {
+          const response = await airplaneServices.getAllFLights();
+          return res.status(200).json({
+               data: response,
+               message: 'All Airplanes fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching all Airplanes',
+               messageType: 'error',
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      destroy,
-     getByPk
+     getByPk,
+     getAll,
 }

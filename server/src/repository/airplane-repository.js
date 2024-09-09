@@ -35,6 +35,16 @@ class AirplaneRepository {
                throw error;
           }
      }
+
+     async allFLights(){
+          try {
+               const allAirports = await airplanes.findAll();
+               return allAirports;
+          } catch (error) {
+               console.error("something went wrong on repository fetching Airplane", error);
+               throw error;
+          }
+     }
 }
 
 

@@ -14,7 +14,7 @@ router.post("/createCity", cityController.create);
 router.get("/allCity", cityController.getAllCity);
 
 // localhost:4000/api/V1/cityByName
-router.get("/cityByName/:name" , cityController.getByName);
+router.get("/cityByName/:name", cityController.getByName);
 
 
 // {------- Users routes  --------}
@@ -46,6 +46,9 @@ router.post("/airplaneID", AirplaneRepository.destroy);
 // localhost:4000/api/V1/airplane/:id
 router.get("/airplane/:id", AirplaneRepository.getByPk);
 
+//localhost:4000/api/V1/allFlights
+router.get("/allFlights", AirplaneRepository.getAll);
+
 
 // {--------- Airport routes ------------}
 
@@ -53,7 +56,7 @@ router.get("/airplane/:id", AirplaneRepository.getByPk);
 router.post("/createAirport", airportController.create);
 
 // localhost:4000/api/V1/allAirports
-router.get("/allAirports" , airportController.getAll);
+router.get("/allAirports", airportController.getAll);
 
 // localhost:4000/api/V1/getAirport/:id
 router.get("/getAirport/:id", airportController.getById);
