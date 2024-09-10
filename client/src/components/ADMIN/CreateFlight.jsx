@@ -72,6 +72,28 @@ const LoadAllFlight = async () => {
      }
 }
 
+// fetch all filtered flights data from the server..
+
+const [getAllFilteredFlightData, setAllFilteredFlightData] = useState([]);
+const [filterFlight , setFilteredFlight] = useState({
+  Airline : "",
+})
+
+const getFilteredFlight = (e) => {
+  setFilteredFlight({...filterFlight ,[e.target.name] : e.target.value});
+  getAllFilteredFlight();
+}
+
+const getAllFilteredFlight = async()=>{
+  try {
+    const response = await axios.get(URL + "/api/V1/allFlights/?Airline=" + filterFlight.Airline);
+    setAllFilteredFlightData(response.data.data);
+    // console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   return (
     <>
       <div className="bg-zinc-800 h-screen w-full text-white flex justify-center">
@@ -241,7 +263,7 @@ const LoadAllFlight = async () => {
       <div className="w-full h-screen bg-slate-300">
         <div className="w-[95%] mx-auto flex justify-center">
           <div>
-            <h1 className="text-3xl font-semibold mt-10">All Flights</h1>
+            <h1 className="text-3xl font-semibold mt-10">All Flight</h1>
             <hr className="h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           </div>
         </div>
@@ -249,9 +271,15 @@ const LoadAllFlight = async () => {
           <button className="bg-blue-800 px-6 py-2 rounded text-white" onClick={LoadAllFlight}>
             CLick to load
           </button>
+
+          <input type="search" placeholder="Search Flight by name..." 
+             class="w-[60%] px-4 ml-5 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
+              onChange={getFilteredFlight}
+              name="Airline"
+             />
         </div>
 
-{/* all flight data in table  */}
+ {/* all flight data in table  */}
 
        <table class="min-w-full table-auto border-collapse border border-gray-300">
           <thead class="bg-gray-200">
@@ -273,26 +301,49 @@ const LoadAllFlight = async () => {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
                {/* <!-- Rows here --> */}
-              
-                    {flightData.map((flight , index) =>(
-                        <tr class="hover:bg-gray-100"> 
-                         <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.Airline}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.modelNo}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.Capacity}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.Departure}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.Arrival}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
-                         <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
-                    </tr>
-                    ))}
-                    
-                    
+                        
+                        { getAllFilteredFlightData && getAllFilteredFlightData.length > 0 ? 
+                        
+                        (
+                          getAllFilteredFlightData.map((flight , index) =>(
+                            <tr class="hover:bg-gray-100"> 
+                             <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Airline}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.modelNo}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Capacity}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Departure}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Arrival}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                        </tr>
+                        ))
+                        )
+                        :
+                        (
+                          flightData.map((flight , index) =>(
+                            <tr class="hover:bg-gray-100"> 
+                             <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Airline}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.modelNo}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Capacity}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Departure}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Arrival}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                        </tr>
+                        ))
+                        )
+                      }
           </tbody>
      </table>
  </div>

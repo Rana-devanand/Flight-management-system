@@ -57,7 +57,44 @@ function CreateAirport() {
 
   useEffect(() => {
     getCityID();
+    getAllAirports();
   }, []);
+
+// Get all Airports from the database;
+const [allAirports , setAllAirports] = useState([]);
+
+const getAllAirports = async()=>{
+  try {
+    const airports = await axios.get(URL + "/api/V1/allAirports");
+    setAllAirports(airports.data.data);
+    // console.log(airports);
+  } catch (error) {
+    console.log(error);
+  }
+} 
+
+const [filterAirport , setFilterAirport] = useState({
+  name : "",
+});
+
+const [filterAirportData , setFilterAirportData] = useState([]);
+
+const getFilterAirports = (e) =>{
+  setFilterAirport({ ...filterAirport ,[e.target.name] : e.target.value });
+  AirportFilter();
+  // console.log(filterAirport.name);
+}
+
+const AirportFilter = async ()=> {
+  try {
+    const response = await axios.get(URL + "/api/V1/allAirports/?name=" + filterAirport.name);
+    setFilterAirportData(response.data.data);
+    // console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
   return (
     <>
@@ -152,6 +189,81 @@ function CreateAirport() {
           </div>
         </div>
       </div>
+              
+      <div className="w-full h-screen bg-slate-300">
+      <div className="w-[95%] mx-auto flex justify-center">
+          <div>
+            <h1 className="text-3xl font-semibold mt-10">All Airports</h1>
+            <hr className="h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
+          </div>
+        </div>
+
+        <div className="flex justify-start gap-10 px-6 py-2 ">
+          <button className="bg-blue-800 px-6 py-2 rounded text-white" onClick={getAllAirports} >
+            CLick to load
+          </button>
+
+          <input type="search" placeholder="Search Airport..." 
+             class="w-[60%] px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              onChange={getFilterAirports}
+              name="name"
+             />
+        </div>
+
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+          <thead class="bg-gray-200">
+               <tr>
+                    <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Airport Name</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Airport Address</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">City Id</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Airport Type </th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Created At</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Updated At</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Edit</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Remove</th>
+               </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+               {/* <!-- Rows here --> */}
+              
+                  {filterAirportData && filterAirportData.length > 0 
+                  ?
+                  (
+                    filterAirportData.map((airports , index) =>(
+                    <tr class="hover:bg-gray-100"> 
+                     <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.name}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.address}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.cityId}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.type}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.createdAt}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.updatedAt}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
+                     <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                </tr>
+                )))
+                  :
+                  (
+                    allAirports.map((airports , index) =>(
+                      <tr class="hover:bg-gray-100"> 
+                       <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.name}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.address}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.cityId}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.type}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.createdAt}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.updatedAt}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
+                       <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                  </tr>
+                  ))
+                  )}
+          </tbody>
+     </table>
+
+      </div>
+
     </>
   );
 }

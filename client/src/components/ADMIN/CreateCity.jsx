@@ -61,6 +61,29 @@ useEffect(() => {
 LoadCity();
 },[])
 
+// get all cities Filtered Cities list from database..
+const [FilterCity, setFilteredCity] = useState({
+  name: "",
+})
+
+const [FilterCityData ,setFilterCityData ] = useState([]);
+const getFilterCity = (e) =>{
+  setFilteredCity({...FilterCity , [e.target.name] : e.target.value})
+  fetchAllFilteredCities();
+}
+console.log(FilterCity.name)
+
+const fetchAllFilteredCities = async() =>{
+  try {
+    const response = await axios.get(URL + "/api/V1/allCity/?name=" + FilterCity.name)
+    console.log(response)
+    setFilterCityData(response.data.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 // console.log(allCityData);
   return (
     <div className="bg-zinc-800 h-screen w-full text-white">
@@ -125,6 +148,12 @@ LoadCity();
           <button className="bg-blue-800 px-6 py-2 rounded text-white" onClick={LoadCity} >
             CLick to load
           </button>
+
+          <input type="search" placeholder="Search Airport..." 
+             class="w-[60%] px-4 ml-5 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
+              onChange={getFilterCity}
+              name="name"
+             />
         </div>
 
 {/* all City data in table  */}
@@ -143,18 +172,37 @@ LoadCity();
           <tbody class="bg-white divide-y divide-gray-200">
                {/* <!-- Rows here --> */}
                 
-                {allCityData.length > 0 && allCityData
-                .sort((a,b) => a.name.localeCompare(b.name))
-                .map((cityData , index) =>(
-                         <tr className="hover:bg-gray-100 text-black"> 
-                         <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
-                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
-                         <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
-                  </tr> 
-                ))}                   
+                {FilterCityData && FilterCityData.length > 0 
+                ?
+                (
+                  FilterCityData.length > 0 && FilterCityData
+                  .sort((a,b) => a.name.localeCompare(b.name))
+                  .map((cityData , index) =>(
+                           <tr className="hover:bg-gray-100 text-black"> 
+                           <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
+                          <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
+                           <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
+                    </tr> 
+                  ))
+                )
+                :
+                (
+                    allCityData.length > 0 && allCityData
+                  .sort((a,b) => a.name.localeCompare(b.name))
+                  .map((cityData , index) =>(
+                           <tr className="hover:bg-gray-100 text-black"> 
+                           <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
+                          <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
+                           <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
+                    </tr> 
+                  ))
+                 )}                 
           </tbody>
      </table>
  </div>
