@@ -46,6 +46,22 @@ function CreateCity() {
     }
   };
 
+// Load all City 
+const [allCityData , setAllCityData ] = useState([]);
+const LoadCity = async() =>{
+  try {
+    const city = await axios.get(URL + "/api/V1/allCity");
+    setAllCityData(city.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+useEffect(() => {
+LoadCity();
+},[])
+
+// console.log(allCityData);
   return (
     <div className="bg-zinc-800 h-screen w-full text-white">
       {/* <h1 className="text-2xl">City </h1> */}
@@ -97,6 +113,51 @@ function CreateCity() {
           </div>
         </div>
       </div>
+                
+      <div className="w-full h-screen bg-slate-300">
+        <div className="w-[95%] mx-auto flex justify-center">
+          <div>
+            <h1 className="text-3xl font-semibold mt-10 text-black">All City</h1>
+            <hr className="h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
+          </div>
+        </div>
+        <div className="px-6 py-2 ">
+          <button className="bg-blue-800 px-6 py-2 rounded text-white" onClick={LoadCity} >
+            CLick to load
+          </button>
+        </div>
+
+{/* all City data in table  */}
+
+       <table class="min-w-full table-auto border-collapse border border-gray-300">
+          <thead class="bg-gray-200 text-black">
+               <tr>
+                    <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">City Name</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Created At</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Updated At</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Edit</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Remove</th>
+               </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+               {/* <!-- Rows here --> */}
+                
+                {allCityData.length > 0 && allCityData
+                .sort((a,b) => a.name.localeCompare(b.name))
+                .map((cityData , index) =>(
+                         <tr className="hover:bg-gray-100 text-black"> 
+                         <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
+                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
+                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
+                         <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
+                         <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
+                  </tr> 
+                ))}                   
+          </tbody>
+     </table>
+ </div>
     </div>
   );
 }
