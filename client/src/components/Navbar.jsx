@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineCardTravel } from "react-icons/md";
 import { FaHome, FaCity } from "react-icons/fa";
@@ -7,8 +7,9 @@ import { MdOutlineConnectingAirports } from "react-icons/md";
 import { CiLogin } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 
-function Navbar() {
+// import ADMINNAVBAR from "../components/ADMIN/Navbar";
 
+function Navbar() {
   const navigate = useNavigate();
 
   const [token, setToken] = useState(null);
@@ -16,124 +17,84 @@ function Navbar() {
   const [userType, setUserType] = useState(null);
   useEffect(() => {
     // Retrieve the token from localStorage
-    const storedToken = localStorage.getItem('token');
-    const userName = localStorage.getItem('username');
-    const userType = localStorage.getItem('type');
+    let storedToken = localStorage.getItem("token");
+    let userName = localStorage.getItem("username");
+    let userType = localStorage.getItem("type");
     if (storedToken && userName) {
       // Parse it if necessary (e.g., if it's stored as a JSON string)
       setToken(storedToken);
       setUserName(userName);
       setUserType(userType);
     }
-  });
+  }, [window.location.href]);
+
   const handleLogout = () => {
     // Remove the token from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
-    localStorage.removeItem('type');
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("type");
     setToken(null);
     navigate("/login");
   };
 
-  
-console.log(userType)
+  // console.log(typeof userType)
   return (
-    <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
-      <div className="flex gap-5 ml-10">
-        <div className="mx-3 text-2xl font-extrabold">Flights India</div>
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
-            };
-          }}
-          className="flex items-center shadow-sm px-3 py-2 rounded-full border "
-          to="/"
-        >
-          <FaHome className="mx-1" />
-          Home
-        </NavLink>
-
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive ? "#8AB4F8" : "",
-              background: e.isActive ? "#394457" : "",
-            };
-          }}
-          className="flex items-center shadow-sm px-3 py-2 rounded-full border "
-          to="/hotels"
-        >
-          <MdOutlineCardTravel className="mx-1  " />
-          Hotels
-        </NavLink>
-
-      <>
-      {userType === "1" ? 
-      (
-        <NavLink
-          style={(e) => {
-            return {
-              color: e.isActive? "#8AB4F8" : "",
-              background: e.isActive? "#394457" : "",
-            };
-          }}
-          className="flex items-center shadow-sm px-4 py-2 rounded-full border"
-          to="/createFlight"
-        >
-          <MdFlight className="mx-1  " /> Create Flight
-        </NavLink>
-      ) 
-      :
-      ( <NavLink
-        style={(e) => {
-          return {
-            color: e.isActive ? "#8AB4F8" : "",
-            background: e.isActive ? "#394457" : "",
-          };
-        }}
-        className="flex items-center shadow-sm px-3 py-2 rounded-full border"
-        to="/flight"
-      >
-        <MdFlight className="mx-1  " /> Flights
-      </NavLink>)}
-
-       </>
-
-       <>
-          {userType === "1" ? (
-            <NavLink
-              style={(e) => {
-                return {
-                  color: e.isActive? "#8AB4F8" : "",
-                  background: e.isActive? "#394457" : "",
-                };
-              }}
-              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
-              to="/createAirport"
-            >
-              <MdFlight className="mx-1  " /> Create Airport
-            </NavLink>
-          ) 
-          :
-          ( <NavLink
+    <>
+      <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
+        <div className="flex gap-5 ml-10">
+          <div className="mx-3 text-2xl font-extrabold">Flights India</div>
+          {/* ---------------------------------------------------------------- 
+                                  Home page 
+              ------------------------------------------------------------------*/}
+          <NavLink
             style={(e) => {
               return {
                 color: e.isActive ? "#8AB4F8" : "",
                 background: e.isActive ? "#394457" : "",
               };
             }}
-            className="flex items-center shadow-sm px-3 py-2 rounded-full border"
-            to="/Airports"
+            className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+            to="/"
           >
-            <MdOutlineConnectingAirports className="mx-1  " /> Airport
-          </NavLink>)}
-       </>
-
-        <>
-          {userType === "1" ? (
+            <FaHome className="mx-1" />
+            Home
+          </NavLink>
+          {/* ---------------------------------------------------------------- 
+                                  Hotels 
+              ------------------------------------------------------------------*/}
+          <NavLink
+            style={(e) => {
+              return {
+                color: e.isActive ? "#8AB4F8" : "",
+                background: e.isActive ? "#394457" : "",
+              };
+            }}
+            className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+            to="/hotels"
+          >
+            <MdOutlineCardTravel className="mx-1  " />
+            Hotels
+          </NavLink>
+          {/* ---------------------------------------------------------------- 
+                                  Create Flight 
+              ------------------------------------------------------------------*/}
+          {token ? (
+            <>
+              <NavLink
+                style={(e) => {
+                  return {
+                    color: e.isActive ? "#8AB4F8" : "",
+                    background: e.isActive ? "#394457" : "",
+                  };
+                }}
+                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                to="/createFlight"
+              >
+                <MdFlight className="mx-1  " /> Create Flight
+              </NavLink>
+            </>
+          ) : (
             <NavLink
               style={(e) => {
                 return {
@@ -141,13 +102,66 @@ console.log(userType)
                   background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
-              to="/createCity"
+              className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+              to="/flight"
             >
-              <FaCity className="mx-1  " /> Create City
+              <MdFlight className="mx-1  " /> Flights
             </NavLink>
-          ) :
-            (<NavLink
+          )}
+          {/* ---------------------------------------------------------------- 
+                                  Create Airport 
+              ------------------------------------------------------------------*/}
+
+          {token ? (
+            <>
+              <NavLink
+                style={(e) => {
+                  return {
+                    color: e.isActive ? "#8AB4F8" : "",
+                    background: e.isActive ? "#394457" : "",
+                  };
+                }}
+                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                to="/createAirport"
+              >
+                <MdFlight className="mx-1  " /> Create Airport
+              </NavLink>
+            </>
+          ) : (
+            <NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive ? "#8AB4F8" : "",
+                  background: e.isActive ? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+              to="/Airports"
+            >
+              <MdOutlineConnectingAirports className="mx-1  " /> Airport
+            </NavLink>
+          )}
+
+          {/* ---------------------------------------------------------------- 
+                                  Create City 
+              ------------------------------------------------------------------*/}
+          {token ? (
+            <>
+              <NavLink
+                style={(e) => {
+                  return {
+                    color: e.isActive ? "#8AB4F8" : "",
+                    background: e.isActive ? "#394457" : "",
+                  };
+                }}
+                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                to="/createCity"
+              >
+                <FaCity className="mx-1  " /> Create City
+              </NavLink>
+            </>
+          ) : (
+            <NavLink
               style={(e) => {
                 return {
                   color: e.isActive ? "#8AB4F8" : "",
@@ -158,45 +172,58 @@ console.log(userType)
               to="/city"
             >
               <FaCity className="mx-1  " /> About
-            </NavLink>)}
-
-        </>
-
-      </div>
-
-      <div className="login flex">
-        {token ? (
-          <>
-            <div className="text-sm font-bold mr-3 mt-3 italic">
+            </NavLink>
+          )}
+        </div>
+        {/* ---------------------------------------------------------------- 
+                                  Welcome user 
+              ------------------------------------------------------------------*/}
+        <div className="login flex">
+          {token ? (
+            <>
+              <div className="text-sm font-bold mr-3 mt-3 italic">
+                <NavLink className="" to="/dashboard">
+                  Welcome, {userName}!
+                </NavLink>
+              </div>
+              <button
+                className=" flex items-center shadow-sm gap-2 mr-6 hover:text-[#0c0c0c] text-[#fff] px-4 py-2 bg-red-400 rounded-md"
+                onClick={handleLogout}
+              >
+                {/* ---------------------------------------------------------------- 
+                                  Handle Logout 
+              ------------------------------------------------------------------*/}
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              {/* ---------------------------------------------------------------- 
+                                  Create Account 
+              ------------------------------------------------------------------*/}
               <NavLink
-                className="" to="/dashboard">
-                Welcome, {userName}!
+                className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
+                to="/CreateUser"
+              >
+                <FaUserAlt />
+                Create Account
               </NavLink>
-            </div>
-            <button className=" flex items-center shadow-sm gap-2 mr-6 hover:text-[#0c0c0c] text-[#fff] px-4 py-2 bg-red-400 rounded-md"
-              onClick={handleLogout}
-            >Logout</button>
-          </>
-        ) : (
-          <>
-            <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
-              to="/CreateUser"
-            >
 
-              <FaUserAlt />
-              Create Account
-            </NavLink>
-
-            <NavLink className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]"
-              to="/login"
-            >
-              <CiLogin />
-              Login
-            </NavLink>
-          </>
-        )}
-      </div>
-    </nav>
+              <NavLink
+                className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]"
+                to="/login"
+              >
+                {/* ---------------------------------------------------------------- 
+                                  Login 
+              ------------------------------------------------------------------*/}
+                <CiLogin />
+                Login
+              </NavLink>
+            </>
+          )}
+        </div>
+      </nav>
+    </>
   );
 }
 

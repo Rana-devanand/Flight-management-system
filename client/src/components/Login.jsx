@@ -1,49 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+// import AdminNavbar from "../components/ADMIN/Navbar";
 
 const Login = () => {
-
   const navigate = useNavigate();
-  const [UserData, validateUserData] = useState(
-    {
-      email: "",
-      password: "",
-    }
-  );
+  const [UserData, validateUserData] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
     validateUserData({ ...UserData, [e.target.name]: e.target.value });
-  }
+  };
 
   const notify = (e) => {
     toast(e);
-  }
+  };
 
   // http://localhost:3000/api/V1/signIn
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const URL = import.meta.env.VITE_BACKEND_API_URL;
-      const response = await axios.post(`${URL}/api/V1/signIn`, UserData)
+      const response = await axios.post(`${URL}/api/V1/signIn`, UserData);
       // console.log(response.data);
       // console.log("Token : ", response.data.data.token)
       // console.log("email : ", response.data.data.user.email)
       // console.log("Username : ", response.data.data.user.username)
-
+      // const user = response.data.data.user.userType;
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("email", response.data.data.user.email);
       localStorage.setItem("username", response.data.data.user.username);
       localStorage.setItem("type", response.data.data.user.userType);
       // localStorage.setItem("token", JSON.stringify(response.data));
-      console.log(response);
+
+      // console.log(response);
       if (!response) {
         toast.error("please correct credentials");
       }
-      if ((!UserData.email) || (!UserData.password)) {
+      if (!UserData.email || !UserData.password) {
         toast.error("All fields are required!");
         return;
       }
@@ -55,13 +53,12 @@ const Login = () => {
       toast.error("please enter correct credentials");
       console.error("Something went wrong : ", error);
     }
-  }
+  };
 
   const CreateUser = (e) => {
     e.preventDefault();
     navigate("/CreateUser");
-  }
-
+  };
 
   return (
     <>
@@ -70,7 +67,10 @@ const Login = () => {
           <div className="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center sm:px-4">
             <div className="flex h-full flex-col justify-center gap-4 p-6">
               <div className="left-0 right-0 inline-block border-gray-200 px-2 py-2.5 sm:px-4">
-                <form className="flex flex-col gap-4 pb-4" onSubmit={handleSubmit}>
+                <form
+                  className="flex flex-col gap-4 pb-4"
+                  onSubmit={handleSubmit}
+                >
                   <h1 className="mb-4 text-2xl font-bold  dark:text-white">
                     Login
                   </h1>
@@ -210,6 +210,6 @@ const Login = () => {
       </div>
     </>
   );
-}
+};
 
 export default Login;
