@@ -57,7 +57,7 @@ function CreateAirport() {
 
   useEffect(() => {
     getCityID();
-    getAllAirports();
+    // getAllAirports();
   }, []);
 
 // Get all Airports from the database;

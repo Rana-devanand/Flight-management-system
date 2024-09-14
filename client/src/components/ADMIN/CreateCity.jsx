@@ -58,7 +58,7 @@ const LoadCity = async() =>{
 }
 
 useEffect(() => {
-LoadCity();
+// LoadCity();
 },[])
 
 // get all cities Filtered Cities list from database..

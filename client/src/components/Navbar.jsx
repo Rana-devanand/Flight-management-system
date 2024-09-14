@@ -47,19 +47,36 @@ function Navbar() {
           {/* ---------------------------------------------------------------- 
                                   Home page 
               ------------------------------------------------------------------*/}
-          <NavLink
-            style={(e) => {
-              return {
-                color: e.isActive ? "#8AB4F8" : "",
-                background: e.isActive ? "#394457" : "",
-              };
-            }}
-            className="flex items-center shadow-sm px-3 py-2 rounded-full border "
-            to="/"
-          >
-            <FaHome className="mx-1" />
-            Home
-          </NavLink>
+          {token ? (
+            <NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive ? "#8AB4F8" : "",
+                  background: e.isActive ? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+              to="/adminDashboard"
+            >
+              <FaHome className="mx-1" />
+              Home
+            </NavLink>
+          ) : (
+            <NavLink
+              style={(e) => {
+                return {
+                  color: e.isActive ? "#8AB4F8" : "",
+                  background: e.isActive ? "#394457" : "",
+                };
+              }}
+              className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+              to="/"
+            >
+              <FaHome className="mx-1" />
+              Home
+            </NavLink>
+          )}
+
           {/* ---------------------------------------------------------------- 
                                   Hotels 
               ------------------------------------------------------------------*/}

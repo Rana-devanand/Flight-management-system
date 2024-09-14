@@ -18,7 +18,7 @@ function CreateFlight() {
   // console.log(allCity);
   useEffect(() => {
     getAlCity();
-    LoadAllFlight();
+    // LoadAllFlight();
   }, []);
 
   const [value, SetValue] = useState({
