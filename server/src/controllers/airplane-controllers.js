@@ -64,7 +64,7 @@ const getByPk = async (req, res) => {
 
 const getAll = async (req, res) => {
      try {
-          const response = await airplaneServices.getAllFLights();
+          const response = await airplaneServices.getAllFLights(req.query);
           return res.status(200).json({
                data: response,
                message: 'All Airplanes fetched successfully',

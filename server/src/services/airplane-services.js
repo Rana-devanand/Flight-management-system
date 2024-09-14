@@ -36,9 +36,11 @@ class AirplaneServices {
           }
      }
 
-     async getAllFLights() {
+     async getAllFLights(filter) {
           try {
-               const allFlights = await this.airplaneRepository.allFLights();
+               const allFlights = await this.airplaneRepository.allFLights({
+                    Airline : filter.Airline
+               });
                return allFlights;
           } catch (error) {
                console.error("Error to get all Flights in Services");

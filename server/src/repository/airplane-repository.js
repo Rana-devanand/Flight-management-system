@@ -1,4 +1,5 @@
 const { airplanes } = require("../models/index")
+const { Op } = require("sequelize");
 
 class AirplaneRepository {
      async create(data) {
@@ -36,8 +37,18 @@ class AirplaneRepository {
           }
      }
 
-     async allFLights(){
+     async allFLights(filter){
           try {
+               if(filter.Airline){
+                    const getFilteredData = await airplanes.findAll({
+                         where :{
+                              Airline : {
+                                   [Op.substring] : filter.Airline 
+                              },    
+                         }
+                    });
+                    return getFilteredData;
+               }
                const allAirports = await airplanes.findAll();
                return allAirports;
           } catch (error) {

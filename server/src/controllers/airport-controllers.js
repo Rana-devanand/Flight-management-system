@@ -25,7 +25,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
      try {
-          const response = await airportServices.getAllAirports();
+          const response = await airportServices.getAllAirports(req.query);
           return res.status(200).json({
                data : response,
                message: "Success getting all Airports",

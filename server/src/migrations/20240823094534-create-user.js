@@ -39,9 +39,9 @@ module.exports = {
         }
       },
       userType: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 2, // default user type is 2 (Customer)
+        defaultValue: "user", // default user type is 2 (Customer)
       },
       createdAt: {
         allowNull: false,
