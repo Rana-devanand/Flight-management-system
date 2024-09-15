@@ -53,5 +53,13 @@ class CityService {
     }
   }
 
+  async deleteCity(id) {
+    try {
+      const deleteCityRequest = await this.CityRepository.deleteCity(id);
+      return deleteCityRequest;
+    } catch (error) {
+        console.log("Something went wrong when deleting city", error);
+    }
+  }
 }
 module.exports = CityService;

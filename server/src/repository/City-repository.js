@@ -64,6 +64,17 @@ class CityRepository {
     }
   }
 
+    async deleteCity(id){
+      try {
+        const cityToDelete = await city.findByPk(id);
+        if (!cityToDelete) throw new Error("City not found");
+        await cityToDelete.destroy();
+        return true;
+      } catch (error) {
+        console.log("Something went wrong in repository", error);
+        return false;
+      }
+    }
 }
 
 module.exports = CityRepository;

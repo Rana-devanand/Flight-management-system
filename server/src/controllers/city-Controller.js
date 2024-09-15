@@ -105,10 +105,30 @@ const updateCity =  async (req, res) => {
   }
 }
 
+const destroy = async (req, res) => {
+  try {
+    const response = await cityService.deleteCity(req.params.id);
+    return res.status(200).json({
+      data: response,
+      message: "City deleted successfully",
+      success: true,
+      err: {},
+    })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      data: {},
+      message: "Not able to delete the city",
+      success: false,
+      err: error,
+    })
+  }
+}
 module.exports = {
   create,
   getAllCity,
   getByName,
   getByPk,
-  updateCity
+  updateCity,
+  destroy
 };

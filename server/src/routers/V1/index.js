@@ -22,6 +22,9 @@ router.get("/city/:id", cityController.getByPk);
 // http://localhost:4000/api/V1/updateCity/:cityId
 router.patch("/updateCity/:id", cityController.updateCity)
 
+// http://localhost/4000/api/V1/deleteCity/:cityId
+router.delete("/deleteCity/:id", cityController.destroy)
+
 
 // {------- Users routes  --------}
 
