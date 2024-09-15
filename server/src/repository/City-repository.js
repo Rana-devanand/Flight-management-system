@@ -44,6 +44,26 @@ class CityRepository {
     }
   }
 
+  async getByPk(id){
+    try {
+        const response = await city.findByPk(id);
+        return response;
+    } catch (error) {
+      console.log("Something went wrong in repository", error);
+    }
+  }
+
+  async updateCity(id, data) {
+    try {
+      const cityToUpdate = await city.findByPk(id);
+      if (!cityToUpdate) throw new Error("City not found");
+      const updatedCity = await cityToUpdate.update(data);
+      return updatedCity;
+    } catch (error) {
+      console.log("Something went wrong in repository", error);
+    }
+  }
+
 }
 
 module.exports = CityRepository;

@@ -35,5 +35,23 @@ class CityService {
     }
   }
 
+  async getCityByPk(id){
+    try {
+      const city = await this.CityRepository.getByPk(id);
+      return city;
+    } catch (error) {
+      console.log("Something went wrong in service", error);
+    }
+  }
+
+  async updateCity(id, data) {
+    try {
+      const city = await this.CityRepository.updateCity(id, data);
+      return city;
+    } catch (error) {
+      console.log("Something went wrong in service", error);
+    }
+  }
+
 }
 module.exports = CityService;
