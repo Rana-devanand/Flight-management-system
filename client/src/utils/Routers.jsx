@@ -11,6 +11,7 @@ import CreateCity from "../components/ADMIN/CreateCity";
 import CreateAirport from "../components/ADMIN/CreateAirport";
 import CreateFlight from "../components/ADMIN/CreateFlight";
 import AdminDashboard  from "../components/ADMIN/AdminDashboard"
+import UpdateCity from "../components/ADMIN/UpdateCity"
 // import { useEffect, useState } from "react";
 
 function Routers() {
@@ -34,6 +35,7 @@ function Routers() {
       <Route path="/createCity" element={<CreateCity />} />
       <Route path="/createAirport" element={<CreateAirport />} />
       <Route path="/CreateFlight" element={<CreateFlight />} />
+      <Route path="/updateCity/:id" element={<UpdateCity />} />
     </Routes>
   );
 }

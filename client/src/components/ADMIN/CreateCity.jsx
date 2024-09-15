@@ -3,8 +3,10 @@ import skyImage from "../../assets/images/sky.jpg";
 import axios, { all } from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function CreateCity() {
+  const navigate = useNavigate();
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const [name, seName] = useState({
     name: "",
@@ -28,9 +30,9 @@ function CreateCity() {
     e.preventDefault();
     try {
       const CityName = name.name;
-      console.log(CityName);
+      // console.log(CityName);
       const isExistCity = await axios.get(`${URL}/api/V1/cityByName/${CityName}`)
-      console.log("City Exist : ", isExistCity.data.data)
+      // console.log("City Exist : ", isExistCity.data.data)
       if (isExistCity.data.data.length > 0) {
         toast.error("City already exists");
         return;
@@ -40,7 +42,7 @@ function CreateCity() {
       if (response) {
         toast.success("City Created Successfully");
       }
-      console.log("data inserted ", response);
+      // console.log("data inserted ", response);
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +73,7 @@ const getFilterCity = (e) =>{
   setFilteredCity({...FilterCity , [e.target.name] : e.target.value})
   fetchAllFilteredCities();
 }
-console.log(FilterCity.name)
+// console.log(allCityData)
 
 const fetchAllFilteredCities = async() =>{
   try {
@@ -82,7 +84,9 @@ const fetchAllFilteredCities = async() =>{
     console.log(error);
   }
 }
-
+const HandleEdit = (index) =>{
+  navigate(`/updateCity/${index}` );
+}
 
 // console.log(allCityData);
   return (
@@ -163,6 +167,7 @@ const fetchAllFilteredCities = async() =>{
                <tr>
                     <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">City Name</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">City ID</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Created At</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Updated At</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Edit</th>
@@ -181,6 +186,7 @@ const fetchAllFilteredCities = async() =>{
                            <tr className="hover:bg-gray-100 text-black"> 
                            <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.id}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
                           <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
@@ -196,9 +202,18 @@ const fetchAllFilteredCities = async() =>{
                            <tr className="hover:bg-gray-100 text-black"> 
                            <td class="border border-gray-300 px-4 py-2 text-left">{index + 1}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.name}</td>
+                           <td class="border border-gray-300 px-4 py-2 text-left">{cityData.id}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
-                          <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
+                          
+                          <td class="border border-gray-300 px-4 py-2 text-left">
+                            <button className="px-4 py-2 rounded text-white bg-blue-500" 
+                                    type="button"
+                                    onClick={() => HandleEdit(cityData.id)}
+                                    >EDIT
+                            </button>
+                          </td>
+
                            <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
                     </tr> 
                   ))
