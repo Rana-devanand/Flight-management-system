@@ -56,6 +56,20 @@ class AirplaneRepository {
                throw error;
           }
      }
+
+     async updateFlightByPk(id , data){
+          try {
+               console.log("repo data : ", data);
+               const flight = await airplanes.findByPk(id);
+               if(!flight){
+                    throw new Error("Flight not found");
+               }
+               const updatedFlight = await flight.update(data);
+               return updatedFlight;
+          } catch (error) {
+               console.error("Something went wrong on repository updating Airplane", error);
+          }
+     }
 }
 
 

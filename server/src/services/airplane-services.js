@@ -1,3 +1,4 @@
+const { update } = require("../controllers/airport-controllers");
 const AirplaneRepository = require("../repository/airplane-repository")
 
 class AirplaneServices {
@@ -48,6 +49,15 @@ class AirplaneServices {
           }
      }
 
+     async updateFlightByPk(id , data) {
+          try {
+               const updateFLight = await this.airplaneRepository.updateFlightByPk(id, data);
+               return updateFLight; 
+          } catch (error) {
+               console.error("Error to update Flight in Services");
+               throw error;
+          }
+     }
 }
 
 module.exports = AirplaneServices;

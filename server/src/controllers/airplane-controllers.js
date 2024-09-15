@@ -82,9 +82,33 @@ const getAll = async (req, res) => {
      }
 }
 
+const updateAirplane = async (req, res) => {
+     try {
+          console.log(req.params.id);
+          console.log("Data come : " ,req.body)
+          const response = await airplaneServices.updateFlightByPk(req.params.id, req.body);
+          return res.status(200).json({
+               data: response,
+               message: 'Airplane updated successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error update Flight',
+               messageType: 'error',
+               error: error,
+          })
+     }
+
+}
+
 module.exports = {
      create,
      destroy,
      getByPk,
      getAll,
+     updateAirplane
 }

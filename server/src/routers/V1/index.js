@@ -22,7 +22,7 @@ router.get("/city/:id", cityController.getByPk);
 // http://localhost:4000/api/V1/updateCity/:cityId
 router.patch("/updateCity/:id", cityController.updateCity)
 
-// http://localhost/4000/api/V1/deleteCity/:cityId
+// http://localhost/4000/api/V1/deleteCity/:id
 router.delete("/deleteCity/:id", cityController.destroy)
 
 
@@ -50,13 +50,16 @@ router.get("/getByEmail", userController.getByEmail);
 router.post("/create", AirplaneRepository.create);
 
 // http://localhost:4000/api/V1/airplaneID
-router.post("/airplaneID", AirplaneRepository.destroy);
+router.delete("/delete/:id", AirplaneRepository.destroy);
 
 // http://localhost:4000/api/V1/airplane/:id
 router.get("/airplane/:id", AirplaneRepository.getByPk);
 
 //http://localhost:4000/api/V1/allFlights
 router.get("/allFlights", AirplaneRepository.getAll);
+
+// http://localhost:4000/api/V1/updateAirplane/:id
+router.patch("/updateAirplane/:id", AirplaneRepository.updateAirplane)
 
 
 // {--------- Airport routes ------------}
