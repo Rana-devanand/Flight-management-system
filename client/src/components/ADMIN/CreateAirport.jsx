@@ -4,10 +4,11 @@ import skyImage from "../../assets/images/sky.jpg";
 import "../../assets/css/Airport.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function CreateAirport() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
-
+  const navigate = useNavigate();
   const [value, setValue] = useState({
     name: "",
     address: "",
@@ -95,6 +96,22 @@ const AirportFilter = async ()=> {
   }
 }
 
+const HandleDelete = async (airportId) =>{
+  try {
+    const response = await axios.delete(URL+`/api/V1/deleteAirport/${airportId}`);
+    if(response.status === 200) {
+      toast.success("Airport deleted successfully");
+      getAllAirports();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Handle Edit Airport Data
+const HandleEdit = (index) =>{
+  navigate(`/updateAirport/${index}`)
+}
 
   return (
     <>
@@ -254,8 +271,22 @@ const AirportFilter = async ()=> {
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.type}</td>
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.createdAt}</td>
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.updatedAt}</td>
-                       <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
-                       <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                       
+                       <td class="border border-gray-300 px-4 py-2 text-left"> 
+                            <button className="px-4 py-2 rounded text-white bg-cyan-600"      
+                                    type="button"
+                                    onClick={() => HandleEdit(airports.id)}
+                                    >Update
+                            </button>
+                        </td>
+                       
+                       
+                       <td class="border border-gray-300 px-4 py-2 text-left">
+                        <button className="px-4 py-2 rounded text-white bg-red-500" 
+                                type="button"
+                                onClick={() => HandleDelete(airports.id)}>Delete
+                        </button>
+                        </td>
                   </tr>
                   ))
                   )}

@@ -361,10 +361,10 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
                              
                              <td class="border border-gray-300 px-4 py-2 text-left"> 
-                                <button className="px-4 py-2 rounded text-white bg-blue-700" 
+                                <button className="px-4 py-2 rounded text-white bg-cyan-600" 
                                         type="button"
                                         onClick={() => updateFlight(flight.id)}
-                                        >EDIT
+                                        >Update
                                 </button>
                              </td>
 

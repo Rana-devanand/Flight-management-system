@@ -223,7 +223,7 @@ const HandleDelete = async (id) =>{
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
                           
                           <td class="border border-gray-300 px-4 py-2 text-left">
-                            <button className="px-4 py-2 rounded text-white bg-blue-500" 
+                            <button className="px-4 py-2 rounded text-white bg-blue-600" 
                                     type="button"
                                     onClick={() => HandleEdit(cityData.id)}
                                     >EDIT
