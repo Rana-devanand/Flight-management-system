@@ -13,12 +13,14 @@ class AirportRepository {
     }
   }
 
-  async updateAirport(airportId, airportName) {
+  async updateAirport(airportId, data) {
     try {
       const updateAirports = await airport.findByPk(airportId);
-      updateAirports.name = airportName.name;
-      await updateAirports.save();
-      return updateAirports;
+      // updateAirports.name = airportName.name;
+      // await updateAirports.save();
+      if(!updateAirports)  throw new Error("Airport not found")
+      const response = await updateAirports.update(data);
+      return response;
     } catch (error) {
       console.error("Something went wrong updating the airport ", error);
     }
