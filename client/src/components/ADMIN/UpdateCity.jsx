@@ -9,13 +9,12 @@ function UpdateCity() {
   const index = useParams();
   const id = index.id;
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const [city , SetCity] = useState({});
 
   // http://localhost:4000/api/V1/city/2
-  // localhost:4000/api/V1/city/2
   const LoadCityId = async () =>{
     try {
       const response = await axios.get(URL+`/api/v1/city/${id}`);

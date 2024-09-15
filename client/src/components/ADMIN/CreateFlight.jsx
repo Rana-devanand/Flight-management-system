@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import skyImage from "../../assets/images/sky.jpg";
-import axios, { all } from "axios";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function CreateFlight() {
+  const navigate = useNavigate();
   const [allCity, setAlCity] = useState([]);
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const getAlCity = async () => {
@@ -93,6 +95,25 @@ const getAllFilteredFlight = async()=>{
     console.log(error)
   }
 }
+
+// Update Flights with data from server and update flight
+ const updateFlight = (id) =>{
+  navigate(`/updateFlight/${id}`)
+ }
+
+ // Handle DeleteFlight 
+ // http://localhost:4000/api/V1/delete/:id
+ const HandleDelete = async(id) =>{
+  try {
+    const flight = await axios.delete(URL+`/api/V1/delete/${id}`);
+    if(flight){
+      toast.success("Flight Deleted Successfully");
+      LoadAllFlight();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+ }
 
   return (
     <>
@@ -338,8 +359,23 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
-                             <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                             
+                             <td class="border border-gray-300 px-4 py-2 text-left"> 
+                                <button className="px-4 py-2 rounded text-white bg-blue-700" 
+                                        type="button"
+                                        onClick={() => updateFlight(flight.id)}
+                                        >EDIT
+                                </button>
+                             </td>
+
+
+                             <td class="border border-gray-300 px-4 py-2 text-left">
+                                  <button className="px-4 py-2 rounded text-white bg-red-500"       
+                                          type="button"
+                                          onClick={() => HandleDelete(flight.id)}
+                                          >Delete
+                                  </button>
+                             </td>
                         </tr>
                         ))
                         )
