@@ -39,6 +39,7 @@ function CreateCity() {
       }
       const response = await axios.post(`${URL}/api/V1/createCity`, { name });
       formRef.current.reset();
+      LoadCity();
       if (response) {
         toast.success("City Created Successfully");
       }
@@ -86,6 +87,21 @@ const fetchAllFilteredCities = async() =>{
 }
 const HandleEdit = (index) =>{
   navigate(`/updateCity/${index}` );
+}
+
+ // http://localhost/4000/api/V1/deleteCity/:id
+const HandleDelete = async (id) =>{
+  console.log(id)
+  try {
+    const cityId = await axios.delete(URL+`/api/V1/deleteCity/${id}`);
+    // console.log(cityId);
+    if(cityId) {
+      toast.success("City Deleted Successfully");
+      LoadCity();
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // console.log(allCityData);
@@ -214,7 +230,13 @@ const HandleEdit = (index) =>{
                             </button>
                           </td>
 
-                           <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
+                           <td class="border border-gray-300 px-4 py-2 text-left">
+                              <button className="px-4 py-2 rounded text-white bg-red-500" 
+                                      type="button"
+                                      onClick={() => HandleDelete(cityData.id)}
+                                      >Delete
+                              </button>
+                           </td> 
                     </tr> 
                   ))
                  )}                 
