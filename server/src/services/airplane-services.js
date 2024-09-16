@@ -58,6 +58,17 @@ class AirplaneServices {
                throw error;
           }
      }
+
+     async fetchFilterFlightData(filter){
+          try {
+               console.log("services : " , filter)
+               const flightData = await this.airplaneRepository.fetchFilterFlightData(filter);
+               return flightData;
+          } catch (error) {
+               console.error("Error to Fetch Flight in Services");
+               throw error;
+          }
+     }
 }
 
 module.exports = AirplaneServices;

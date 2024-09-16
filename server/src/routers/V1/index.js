@@ -61,6 +61,15 @@ router.get("/allFlights", AirplaneRepository.getAll);
 // http://localhost:4000/api/V1/updateAirplane/:id
 router.patch("/updateAirplane/:id", AirplaneRepository.updateAirplane)
 
+// http://localhost:4000/api/V1/filterFlight
+router.get("/filterFlight" , AirplaneRepository.filterFlightData);
+
+
+
+
+
+
+
 
 // {--------- Airport routes ------------}
 

@@ -70,6 +70,22 @@ class AirplaneRepository {
                console.error("Something went wrong on repository updating Airplane", error);
           }
      }
+
+     async fetchFilterFlightData(filter) {
+          try {
+               console.log("Fetching in Repo ", filter); 
+               const flight = await airplanes.findAll({
+                    where : {
+                         Departure : filter.Departure,
+                         Arrival : filter.Arrival,
+                         Remark : filter.Date
+                    }
+               })
+               return flight;
+          } catch (error) {
+               console.error("Failed to get flight from database " + error.message);
+          }
+     }
 }
 
 

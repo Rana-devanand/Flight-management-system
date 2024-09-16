@@ -105,10 +105,33 @@ const updateAirplane = async (req, res) => {
 
 }
 
+const filterFlightData = async (req, res) =>{
+     try {
+          console.log("controller : ",req.params);
+          const response = await airplaneServices.fetchFilterFlightData(req.query);
+          // console.log(response);
+          return res.status(200).json({
+               data: response,
+               message: 'Flight data fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching flight data',
+               messageType: 'error',
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      destroy,
      getByPk,
      getAll,
-     updateAirplane
+     updateAirplane,
+     filterFlightData
 }
