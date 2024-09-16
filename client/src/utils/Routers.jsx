@@ -14,6 +14,7 @@ import AdminDashboard  from "../components/ADMIN/AdminDashboard"
 import UpdateCity from "../components/ADMIN/UpdateCity";
 import UpdateFLight from "../components/ADMIN/UpdateFlight";
 import UpdateAirport from "../components/ADMIN/UpdateAirport";
+import FilterFlight from "../components/FilterFlight";
 // import { useEffect, useState } from "react";
 
 function Routers() {
@@ -31,6 +32,7 @@ function Routers() {
       <Route path="/login" element={<UserLogin />} />
       <Route path="/dashboard" element={<DashBoard />} />
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
+      <Route path="/filterFLights" element={<FilterFlight/>}/>
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />
