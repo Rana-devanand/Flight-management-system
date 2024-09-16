@@ -73,7 +73,7 @@ class AirplaneRepository {
 
      async fetchFilterFlightData(filter) {
           try {
-               console.log("Fetching in Repo ", filter); 
+               // console.log("Fetching in Repo ", filter); 
                const flight = await airplanes.findAll({
                     where : {
                          Departure : filter.Departure,
@@ -84,6 +84,19 @@ class AirplaneRepository {
                return flight;
           } catch (error) {
                console.error("Failed to get flight from database " + error.message);
+          }
+     }
+
+     async getDailyFlights(){
+          try {
+               const flight = await airplanes.findAll({
+                    where : {
+                         Remark : { [Op.substring]: "Daily" }
+                    }
+               })
+               return flight;
+          } catch (error) {
+          console.log("Failed to get flight from database " + error.message); 
           }
      }
 }

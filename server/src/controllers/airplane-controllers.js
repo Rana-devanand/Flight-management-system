@@ -127,11 +127,33 @@ const filterFlightData = async (req, res) =>{
      }
 }
 
+const dailyFlights = async(req, res) =>{
+     try {
+          const response = await airplaneServices.getDailyFlights(req.query);
+          return res.status(200).json({
+               data: response,
+               message: 'Daily flights fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching daily flights data',
+               messageType: 'error',
+               error: error,
+          })
+     
+     }
+}
+
 module.exports = {
      create,
      destroy,
      getByPk,
      getAll,
      updateAirplane,
-     filterFlightData
+     filterFlightData,
+     dailyFlights
 }

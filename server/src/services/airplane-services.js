@@ -69,6 +69,16 @@ class AirplaneServices {
                throw error;
           }
      }
+
+     async getDailyFlights(filter){
+          try {
+               const dailyFlights = await this.airplaneRepository.getDailyFlights(filter);
+               return dailyFlights;
+          } catch (error) {
+               console.error("Error to Fetch Daily Flights in Services");
+               throw error;
+          }
+     }
 }
 
 module.exports = AirplaneServices;
