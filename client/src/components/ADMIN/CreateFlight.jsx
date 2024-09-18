@@ -17,27 +17,46 @@ function CreateFlight() {
       console.log(error);
     }
   };
+
+
+
   // console.log(allCity);
   useEffect(() => {
     getAlCity();
     // LoadAllFlight();
   }, []);
+  const [Airline , setAirline] = useState("");
+  const [modelNo , setModelNo] = useState("");
+  const [Capacity , setCapacity] = useState("");
+  const [Departure , setDeparture] = useState("");
+  const [Arrival , setArrival] = useState("");
+  const [DepartureTime , setDepartureTime] = useState("");
+  const [ArrivalTime , setArrivalTime] = useState("");
+  const [Remark , setRemark] = useState("");
+  const [flightLogo , setFlightLogo] = useState(null);
 
-  const [value, SetValue] = useState({
-    Airline: "",
-    modelNo: "",
-    Capacity: "",
-    Departure: "",
-    Arrival: "",
-    DepartureTime: "",
-    ArrivalTime: "",
-    Remark: "",
-  });
-
-  const handleChange = (e) => {
-    SetValue({ ...value, [e.target.name]: e.target.value });
-    console.log(value);
+  const handleImage = (e) => {
+    setFlightLogo(e.target.files[0]);
   };
+
+  // const [value, SetValue] = useState({
+  //   Airline: "",
+  //   modelNo: "",
+  //   Capacity: "",
+  //   Departure: "",
+  //   Arrival: "",
+  //   DepartureTime: "",
+  //   ArrivalTime: "",
+  //   Remark: "",
+  //   flightLogo : "",
+  // });
+
+
+  // console.log(image)
+  // const handleChange = (e) => {
+  //   SetValue({ ...value, [e.target.name]: e.target.value });
+  //   console.log(value);
+  // };
   const notify = (e) => {
     toast(e);
   };
@@ -46,8 +65,20 @@ function CreateFlight() {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("Airline", Airline);
+    formData.append("modelNo", modelNo);
+    formData.append("Capacity", Capacity);
+    formData.append("Departure", Departure);
+    formData.append("Arrival", Arrival);
+    formData.append("DepartureTime", DepartureTime);
+    formData.append("ArrivalTime", ArrivalTime);
+    formData.append("Remark", Remark);
+    formData.append("flightLogo", flightLogo);
+
     try {
-      const response = await axios.post(URL + "/api/V1/create", value);
+      const response = await axios.post(URL + "/api/V1/create", formData);
       if (response.status === 200) {
         toast.success("Flight Created Successfully");
         FormRef.current.reset();
@@ -67,7 +98,14 @@ const [flightData , setFlightData] = useState([]);
 const LoadAllFlight = async () => {
      try {
           const response = await axios.get(URL + "/api/V1/allFlights");
-          setFlightData(response.data.data);
+
+          const updateFlightData = response.data.data.map((flight) => {
+            return {
+              ...flight,
+              flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g,"/")}`,
+          }});
+          
+          setFlightData(updateFlightData);
           console.log(response);
      } catch (error) {
           console.error(error);
@@ -140,7 +178,7 @@ const getAllFilteredFlight = async()=>{
                     placeholder="Example : AA or American Airline"
                     type="text"
                     name="Airline"
-                    onChange={handleChange}
+                    onChange={(e) => setAirline(e.target.value)}
                   />
                 </div>
                 <div className=" flex flex-col w-[32%]">
@@ -153,7 +191,7 @@ const getAllFilteredFlight = async()=>{
                     type="text"
                     name="modelNo"
                     //  value={selected}
-                    onChange={handleChange}
+                    onChange={(e) => setModelNo(e.target.value)}
                   />
                 </div>
 
@@ -166,7 +204,7 @@ const getAllFilteredFlight = async()=>{
                     placeholder="Example : Mumbai, Maharashtra"
                     type="text"
                     name="Capacity"
-                    onChange={handleChange}
+                    onChange={(e) => setCapacity(e.target.value)}
                   />
                 </div>
 
@@ -177,7 +215,7 @@ const getAllFilteredFlight = async()=>{
                   <select
                     id="countries"
                     className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
-                    onChange={handleChange}
+                    onChange={(e) => setDeparture(e.target.value)}
                     name="Departure"
                   >
                     <option selected>Choose a City</option>
@@ -199,7 +237,7 @@ const getAllFilteredFlight = async()=>{
                   <select
                     id="countries"
                     className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
-                    onChange={handleChange}
+                    onChange={(e) => setArrival(e.target.value)}
                     name="Arrival"
                   >
                     <option selected>Choose airport type </option>
@@ -223,7 +261,7 @@ const getAllFilteredFlight = async()=>{
                     type="time"
                     id="appt"
                     name="DepartureTime"
-                    onChange={handleChange}
+                    onChange={(e) => setDepartureTime(e.target.value)}
                   />
                 </div>
 
@@ -237,7 +275,7 @@ const getAllFilteredFlight = async()=>{
                     type="time"
                     id="appt"
                     name="ArrivalTime"
-                    onChange={handleChange}
+                    onChange={(e) => setArrivalTime(e.target.value)}
                   />
                 </div>
 
@@ -248,7 +286,7 @@ const getAllFilteredFlight = async()=>{
                   <select
                     id="countries"
                     className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
-                    onChange={handleChange}
+                    onChange={(e) => setRemark(e.target.value)}
                     name="Remark"
                   >
                     <option selected>Choose Airline Remark </option>
@@ -262,7 +300,21 @@ const getAllFilteredFlight = async()=>{
                     <option value="SUNDAY">SUNDAY</option>
                   </select>
                 </div>
-                {/* </div> */}
+                
+                <div className=" flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-lg">
+                    Choose Flight Logo
+                  </label>
+                  <input
+                    className=" p-3  rounded bg-zinc-300 text-black outline-none border "
+                    placeholder="Example : AA or American Airline"
+                    type="file"
+                    name="flightLogo"
+                    onChange={handleImage}
+                  />
+                </div>
+
+                
               </div>
 
               <button
@@ -314,6 +366,7 @@ const getAllFilteredFlight = async()=>{
                     <th class="border border-gray-300 px-4 py-2 text-left">Departure Time</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Arrival Time</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Remark</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Flight Logo</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Created At</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Updated At</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Edit</th>
@@ -337,6 +390,7 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"><img src={flight.flightLogo} alt=""/></td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
@@ -357,6 +411,7 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left"><img src={flight.flightLogo} alt="" /></td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
                              
