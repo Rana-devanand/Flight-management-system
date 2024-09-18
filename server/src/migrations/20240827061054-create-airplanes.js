@@ -40,6 +40,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      Remark :{
+        type : Sequelize.STRING,
+        allowNull : false,
+      },
+      flightLogo : {
+        type : Sequelize.STRING,
+        allowNull : false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

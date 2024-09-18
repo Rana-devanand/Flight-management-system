@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // const DB_SYNC = process.env.DB_SYNC;
 const apiRoutes = require("./routers/index");
 
+app.use("/uploads",express.static('uploads'));
+
 const createAndRunServer = async () => {
   app.use("/api", apiRoutes);
 

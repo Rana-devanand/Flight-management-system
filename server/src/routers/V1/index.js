@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+
 
 const cityController = require("../../controllers/city-Controller");
 const userController = require("../../controllers/user-Controler");
-const AirplaneRepository = require("../../controllers/airplane-Controllers");
+// const AirplaneRepository = require("../../controllers/airplane-Controllers");
+const AirplaneRepository = require("../../controllers/airplane-controllers")
 const auth_middleWare = require("../../middlewares/auth-middleware")
 const airportController = require("../../controllers/airport-controllers");
+const storage = require("../../middlewares/airline-Logo-Middleware");
 
 // http://localhost:4000/api/V1/createCity
 router.post("/createCity", cityController.create);
@@ -46,8 +50,10 @@ router.get("/getByEmail", userController.getByEmail);
 
 // {-------   Airplane routes  -------}
 
+const upload = multer({ storage});
+
 // http://localhost:4000/api/V1/create
-router.post("/create", AirplaneRepository.create);
+router.post("/create", upload.single("flightLogo"), AirplaneRepository.create);
 
 // http://localhost:4000/api/V1/airplaneID
 router.delete("/delete/:id", AirplaneRepository.destroy);

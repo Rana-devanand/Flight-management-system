@@ -9,6 +9,7 @@ class AirplaneServices {
 
      async createAirplaneService(data) {
           try {
+               console.log(data);
                const AirplaneServices = await this.airplaneRepository.create(data);
                return AirplaneServices;
           } catch (error) {

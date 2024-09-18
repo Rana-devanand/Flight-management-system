@@ -46,7 +46,11 @@ module.exports = (sequelize, DataTypes) => {
     Remark: {
       type: DataTypes.STRING,
       allowNull: true,
-    }
+    },
+    flightLogo : {
+      type : DataTypes.STRING,
+      allowNull : false,
+    },
   }, {
     sequelize,
     modelName: 'airplanes',

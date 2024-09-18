@@ -4,7 +4,11 @@ const airplaneServices = new AirplaneServices();
 const create = async (req, res) => {
      try {
           console.log("controllers : ", req.body);
-          const response = await airplaneServices.createAirplaneService(req.body);
+          const flightData = req.body;
+          const imagePath = req.file ? req.file.path : null;
+          const flightsDetail = ({...flightData ,flightLogo : imagePath})
+          
+          const response = await airplaneServices.createAirplaneService(flightsDetail);
           return res.status(200).json({
                data: response,
                message: 'Airplane created successfully',
@@ -17,7 +21,7 @@ const create = async (req, res) => {
                data: {},
                message: 'Error creating Airplane service',
                messageType: 'error',
-               error: error.message || error.toString()
+               error: error.message,
           });
      }
 }
