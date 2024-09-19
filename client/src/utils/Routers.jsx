@@ -34,7 +34,7 @@ function Routers() {
       <Route path="/dashboard" element={<DashBoard />} />
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
       <Route path="/filterFLights" element={<FilterFlight/>}/>
-      <Route path="/bookTicket/:id" element={<BookTicket/>}/>
+      <Route path="/bookTicket" element={<BookTicket/>}/>
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />
