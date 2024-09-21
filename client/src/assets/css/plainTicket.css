@@ -1,0 +1,51 @@
+.ticket-container {
+  width: 80%;
+  margin: auto;
+  background-color: #f1f8ff;
+  padding: 20px;
+  border-radius: 10px;
+  /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.booking-details {
+  margin: 20px 0;
+}
+
+.flight-details {
+  background-color: #e1ecff;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.route, .seat-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.fare-breakdown {
+  background-color: #e1ecff;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.important-info {
+  font-size: 14px;
+  color: #666;
+}
+
+

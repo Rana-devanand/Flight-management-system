@@ -16,6 +16,10 @@ import UpdateFLight from "../components/ADMIN/UpdateFlight";
 import UpdateAirport from "../components/ADMIN/UpdateAirport";
 import FilterFlight from "../components/FilterFlight";
 import BookTicket from "../components/BookTicket";
+import BookTicketInfo from "../components/BookTicketInfo"
+import PaymentSuccess from "../components/PaymentSuccess"
+import Payment from "../components/PaymentDone"
+import PlainTicket from "../components/PlainTicket"
 // import { useEffect, useState } from "react";
 
 function Routers() {
@@ -35,6 +39,10 @@ function Routers() {
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
       <Route path="/filterFLights" element={<FilterFlight/>}/>
       <Route path="/bookTicket" element={<BookTicket/>}/>
+      <Route path="/bookTicketInfo" element={<BookTicketInfo/>}/>
+      <Route path="/PaymentSuccess" element={<PaymentSuccess/>}/>
+      <Route path="/Payment" element={<Payment/>}/>
+      <Route path="/PlainTicket" element={<PlainTicket/>}/>
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />

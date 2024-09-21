@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { FaArrowCircleRight } from "react-icons/fa";
 
-
-
 function BookTicket() {
+
+  const navigate = useNavigate();
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const location = useLocation();
   const userData = location.state?.user;
@@ -32,25 +32,45 @@ function BookTicket() {
     getChooseFlightData();
   }, []);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [countryName, setCountryName] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [countryName, setCountryName] = useState("");
   const [totalPassenger, setTotalPassenger] = useState("");
   const [totalFair, setTotalFair] = useState(userChoiceCost);
 
-  const formData = new FormData();
+  
+  const [data , setData ] = useState({
+    name: "",
+    email: "",
+    address: "",
+    country: "",
+    flightId: flightId,
+    cost: userChoiceCost,
+  });
+
+
+  const HandleChange = (e) =>{
+    const formData = ({...data , [e.target.name] :e.target.value })
+    setData(formData);
+  }
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("address", address);
-    formData.append("countryName", countryName);
-    formData.append("totalPassenger", totalPassenger);
-    formData.append("flightId", flightId);
-    formData.append("cost", userChoiceCost);
-    formData.append("noOfSeats", totalPassenger);
+    // const formData = new FormData();
+    // formData.append("name", name);
+    // formData.append("email", email);
+    // formData.append("address", address);
+    // formData.append("countryName", countryName);
+    // formData.append("totalPassenger", totalPassenger);
+    // formData.append("flightId", flightId);
+    // formData.append("cost", userChoiceCost);
+    // formData.append("noOfSeats", totalPassenger);
+    // console.log(data);
+    navigate("/bookTicketInfo", { state:  data } );
   };
+
 
   const [passengerCount, setPassengerCount] = useState({
     adults: 1,
@@ -71,18 +91,23 @@ function BookTicket() {
       setPassengerCount((prevCount) => ({
         ...prevCount,
         [type]: prevCount[type] - 1,
-      }));
+      })); 
     }
   };
 
-  const sendAllPassengerList = () => {
+  const sendAllPassengerList = (e) => {
     const sum =
       passengerCount.adults +
       passengerCount.children +
       passengerCount.infantsInSeat +
       passengerCount.infantsOnLap;
+
+    const TotalFair = sum * userChoiceCost;
+    setData({...data , noOfSeats : sum});
+    setTotalFair(TotalFair);
     setTotalPassenger(sum);
-    setTotalFair(sum * userChoiceCost);
+    // setData({...data , totalFair : totalFair})
+    
   };
 
   return (
@@ -103,10 +128,10 @@ function BookTicket() {
                     <label for="full_name">Full Name</label>
                     <input
                       type="text"
-                      name="full_name"
-                      id="full_name"
+                      name="name"
+                      id="name"
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      onClick={(e) => setName(e.target.value)}
+                      onChange={HandleChange}
                     />
                   </div>
 
@@ -118,7 +143,7 @@ function BookTicket() {
                       id="email"
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       placeholder="email@domain.com"
-                      onClick={(e) => setEmail(e.target.value)}
+                      onChange={HandleChange}
                     />
                   </div>
 
@@ -130,7 +155,7 @@ function BookTicket() {
                       id="address"
                       class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                       placeholder=""
-                      onClick={(e) => setAddress(e.target.value)}
+                      onChange={HandleChange}
                     />
                   </div>
 
@@ -142,7 +167,7 @@ function BookTicket() {
                         id="country"
                         placeholder="Country"
                         class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                        onClick={(e) => setCountryName(e.target.value)}
+                        onChange={HandleChange}
                       />
                     </div>
                   </div>
@@ -364,11 +389,11 @@ function BookTicket() {
                 </div>
               </div>
                     
-              <div className="w-[24%] mr-5">
-                <div className="border w-full h-52  bg-pink-800 m-2 rounded-xl text-center">
+              <div className="w-[24%] mr-5 ">
+                <div className="border w-full m-2 h-52 bg-pink-800  rounded-xl text-center flex justify-center">
                   <button
-                    className="w-40 ml-4 mt-20 text-white py-3 px-4 bg-pink-500 rounded flex justify-center gap-2"
-                    // onClick={() => HandleBook(flight.id)}
+                    className="w-40  mt-20 h-14 text-white py-3 px-4 bg-pink-500 rounded flex justify-center gap-2"
+                    onClick={handleSubmit}
                   >
                     Book Now
                     <p className="w-7 mt-1 text-xl">
