@@ -44,8 +44,8 @@ router.post("/signIn",
      userController.signIn
 );
 
-// http://localhost:4000/api/V1/getByEmail
-router.get("/getByEmail", userController.getByEmail);
+// http://localhost:4000/api/v1/getByEmail/:email
+router.get("/getByEmail/:email", userController.getByEmail);
 
 
 // {-------   Airplane routes  -------}

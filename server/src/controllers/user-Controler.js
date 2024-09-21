@@ -46,7 +46,8 @@ const get = async (req, res) => {
 
 const getByEmail = async (req, res) => {
      try {
-          const response = await userServices.getUserEmail(req.body.email)
+          // console.log(req.params.email)
+          const response = await userServices.getUserEmail(req.params.email)
           return res.status(200).json({
                data: response,
                message: "User fetched successfully",
