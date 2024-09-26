@@ -6,6 +6,10 @@ import { GiCommercialAirplane } from "react-icons/gi";
 import { FaArrowCircleRight } from "react-icons/fa";
 import rightIcon from "../assets/images/icons8-arrow.gif";
 
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
+import "flatpickr/dist/flatpickr.css";
+
 function FilterFlight() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
@@ -14,6 +18,8 @@ function FilterFlight() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const location = useLocation();
   const userData = location.state?.user; // Retrieving the object data
+
+  const [storeAllCity, setAllCity] = useState({});
 
   // http://localhost:4000/api/V1/dailyFlights
   const getDailyFlightsData = async () => {
@@ -24,7 +30,7 @@ function FilterFlight() {
           Remark: "DAILY",
         },
       });
-      console.log(response);
+      // console.log(response);
 
       const updateFlightData = response.data.data.map((flight) => {
         return {
@@ -35,6 +41,18 @@ function FilterFlight() {
 
       setDailyFlightData(updateFlightData);
       // console.log("Daily : ",response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // http://localhost:4000/api/V1/allCity
+  const getAllCityData = async () => {
+    try {
+      const url = `${URL}/api/V1/allCity`;
+      const response = await axios.get(url);
+      setAllCity(response.data.data);
+      // console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -59,8 +77,10 @@ function FilterFlight() {
         day: "numeric",
       })
     );
+
+    getAllCityData();
   }, []);
-  const [cost , setCost] = useState(2253);
+  const [cost, setCost] = useState(2253);
 
   const HandleBook = (id) => {
     const type = localStorage.getItem("type");
@@ -68,9 +88,9 @@ function FilterFlight() {
     if (!type) {
       navigate("/login");
     } else if (type == "user") {
-      const updatePriceInFlight  = ({...id,id : id,price : cost})
+      const updatePriceInFlight = { ...id, id: id, price: cost };
       console.log(updatePriceInFlight);
-      navigate(`/bookTicket` ,{ state: { user: updatePriceInFlight } });
+      navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
     }
   };
 
@@ -86,6 +106,79 @@ function FilterFlight() {
   return (
     <div className="bg-zinc-200 w-full h-auto">
       <div className="rounded-md w-[80%] h-auto m-auto flex flex-col gap-5">
+        <div className=" w-full h-40 mt-10 mb-10">
+          <h4 className="text-xl">Filter Flights </h4>
+          <div className="flex justify-between w-full h-40 border border-[#cacaca] p-5 rounded-md bg-[#E3E3E6] shadow-2xl">
+            <div className="flex flex-col w-[32%] items-start justify-center mb-5 ">
+              <label htmlFor="" className="text-xl">
+                Departure city{" "}
+              </label>
+              <select
+                name="cityFrom"
+                id=""
+                className="w-[95%] px-10 py-4 rounded-md outline-none"
+              >
+                <option value="" defaultChecked>
+                  Select
+                </option>
+                {storeAllCity &&
+                  storeAllCity.length > 0 &&
+                  storeAllCity
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((city) => (
+                      <option value={city.name} onChange={FilterData}>{city.name} 
+                              
+                      </option>
+                    ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col w-[32%] items-start justify-center mb-5 ">
+              <label htmlFor="" className="text-xl">
+                Arrival city{" "}
+              </label>
+              <select
+                name="cityFrom"
+                id=""
+                className="w-[95%] px-10 py-4 rounded-md outline-none"
+              >
+                <option value="" defaultChecked>
+                  Select
+                </option>
+                {storeAllCity &&
+                  storeAllCity.length > 0 &&
+                  storeAllCity
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((city) => (
+                      <option
+                        value={city.name}
+                        className="overflow-scroll h-16"
+                      >
+                        {city.name}
+                      </option>
+                    ))}
+              </select>
+            </div>
+
+            <div className="custom-flatpickr flex flex-col items-start justify-center rounded-md w-[30%] outline-none text-lg">
+              <Flatpickr
+                // value={date}
+                // onChange={chooseDate}
+                options={{
+                  dateFormat: "Y-m-d",
+                  altInput: true,
+                  altFormat: "F j, Y",
+                  // minDate: `${onlyDate}`,
+                  maxDate: "",
+                }}
+                placeholder="Choose the date"
+                className="custom-flatpickr p-3 rounded-md w-[95%] outline-none text-lg"
+                name="Date"
+              />
+            </div>
+          </div>
+        </div>
+
         <h4 className="text-black text-2xl mt-7 font-serif">
           Departing flights
         </h4>
@@ -110,16 +203,21 @@ function FilterFlight() {
                   <div className=" rounded-md p-4 flex flex-col justify-between">
                     <p className="font-semibold text-lg">Fair types</p>
                     <p className="font-semibold text-lg mt-4">Baggage</p>
-                    <p className="font-semibold text-lg mt-4">Change/Cancellation</p>
-                    <p className="font-semibold text-lg mt-4">Add-ons and services</p>
+                    <p className="font-semibold text-lg mt-4">
+                      Change/Cancellation
+                    </p>
+                    <p className="font-semibold text-lg mt-4">
+                      Add-ons and services
+                    </p>
                   </div>
 
-                  <button className="border border-zinc-200 p-4 rounded-md w-[25%] shadow-2xl text-start hover:bg-sky-100 hover:text-black bg-white"
-                       onClick={(e) =>{ 
-                        setCost(2253) ;
-                        setModal(false)
-                      }}
-                    >
+                  <button
+                    className="border border-zinc-200 p-4 rounded-md w-[25%] shadow-2xl text-start hover:bg-sky-100 hover:text-black bg-white"
+                    onClick={(e) => {
+                      setCost(2253);
+                      setModal(false);
+                    }}
+                  >
                     <p className="text-gray-500">saver Fare</p>
                     <p className="font-semibold text-xl"> ₹ 2,253</p>
 
@@ -137,16 +235,15 @@ function FilterFlight() {
 
                     <p className="border border-dashed mt-5 mb-4"></p>
                     <p className="font-medium"> - </p>
-                    <p className="font-medium">
-                      -
-                    </p>
+                    <p className="font-medium">-</p>
                   </button>
 
-                  <button className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white"
-                   onClick={(e) =>{
-                    setCost(3988)
-                    setModal(false)
-                   }}
+                  <button
+                    className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white"
+                    onClick={(e) => {
+                      setCost(3988);
+                      setModal(false);
+                    }}
                   >
                     <p className="text-gray-500">Flexi plus Fare</p>
                     <p className="font-semibold text-xl"> ₹ 3,988</p>
@@ -169,12 +266,13 @@ function FilterFlight() {
                     <p className="font-medium">Free Standard seat</p>
                   </button>
 
-                  <button className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white "
-                     onClick={(e) => {
+                  <button
+                    className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white "
+                    onClick={(e) => {
                       setCost(5038);
                       setModal(false);
-                     }}
-                    >
+                    }}
+                  >
                     <p className="text-gray-500">Super Fare</p>
                     <p className="font-semibold text-xl"> ₹ 5,038</p>
 
@@ -353,9 +451,10 @@ function FilterFlight() {
                     </p>
                   </button>
                 </div>
-                <button className="text-lg ml-16 font-semibold px-6 py-1 bg-zinc-300 flex items-center rounded-md gap-2"
-                    onClick={showModal}
-                  >
+                <button
+                  className="text-lg ml-16 font-semibold px-6 py-1 bg-zinc-300 flex items-center rounded-md gap-2"
+                  onClick={showModal}
+                >
                   Fair types...
                   <img className="w-10 h-10" src={rightIcon} alt="" />
                 </button>

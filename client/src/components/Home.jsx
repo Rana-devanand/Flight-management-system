@@ -244,13 +244,13 @@ function Home() {
       }
     };
     console.log(filterFlight);
-    if(filterFlight && filterFlight.length > 0) {
+    if(filterFlight && filterFlight.length >= 0) {
       navigate(`/filterFLights`, { state: { user: filterFlight } });
                                 // { state: { user: data } }
     }
-    else if(filterFlight.length == 0){
-     navigate("/filterFLights"); 
-    }
+    // if(filterFlight.length == 0) {
+    //  navigate("/filterFLights"); 
+    // }
 
   // Date 
   const [date, setDate] = useState(null);
