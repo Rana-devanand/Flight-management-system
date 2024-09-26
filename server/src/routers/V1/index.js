@@ -10,6 +10,7 @@ const AirplaneRepository = require("../../controllers/airplane-controllers")
 const auth_middleWare = require("../../middlewares/auth-middleware")
 const airportController = require("../../controllers/airport-controllers");
 const storage = require("../../middlewares/airline-Logo-Middleware");
+const FLightScheduleController = require("../../controllers/flight-schedule-controllers")
 
 // http://localhost:4000/api/V1/createCity
 router.post("/createCity", cityController.create);
@@ -30,7 +31,11 @@ router.patch("/updateCity/:id", cityController.updateCity)
 router.delete("/deleteCity/:id", cityController.destroy)
 
 
+
+
+
 // {------- Users routes  --------}
+
 
 // http://localhost:4000/api/V1/createUser
 router.post("/createUser", userController.create)
@@ -48,7 +53,12 @@ router.post("/signIn",
 router.get("/getByEmail/:email", userController.getByEmail);
 
 
+
+
+
 // {-------   Airplane routes  -------}
+
+
 
 const upload = multer({ storage});
 
@@ -95,5 +105,17 @@ router.patch("/updateAirport/:id", airportController.update);
 
 // http://localhost:4000/api/V1/deleteAirport/:id
 router.delete("/deleteAirport/:id", airportController.destroy)
+
+
+
+
+// {----------- Flights Schedule Route --------- }
+
+
+// http://localhost:4000/api/V1/scheduleFlights
+router.post("/scheduleFlights" , FLightScheduleController.create)
+
+
+
 
 module.exports = router;
