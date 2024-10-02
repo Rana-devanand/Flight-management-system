@@ -41,9 +41,10 @@ function Navbar() {
   // console.log(typeof userType)
   return (
     <>
-      <nav className="flex justify-between bg-[#071C35] items-center py-5 text-white font-semibold">
-        <div className="flex gap-5 ml-10">
-          <div className="mx-3 text-2xl font-extrabold">Flights India</div>
+    {/* 071C35 */}
+      <nav className="flex justify-between bg-[#ffffffec] items-center py-2  text-[#000] text-sm font-semibold shadow-2xl">
+        <div className="flex gap-2 ml-4">
+          <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">Flights India</div>
           {/* ---------------------------------------------------------------- 
                                   Home page 
               ------------------------------------------------------------------*/}
@@ -51,11 +52,11 @@ function Navbar() {
             <NavLink
               style={(e) => {
                 return {
-                  color: e.isActive ? "#8AB4F8" : "",
-                  background: e.isActive ? "#394457" : "",
+                  color: e.isActive ? "#15A0EF" : "",
+                  // background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+              className="flex items-center  px-3 py-2 "
               to="/adminDashboard"
             >
               <FaHome className="mx-1" />
@@ -65,11 +66,11 @@ function Navbar() {
             <NavLink
               style={(e) => {
                 return {
-                  color: e.isActive ? "#8AB4F8" : "",
-                  background: e.isActive ? "#394457" : "",
+                  color: e.isActive ? "#15A0EF" : "",
+                  // background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+              className="flex items-center px-3 py-2 "
               to="/"
             >
               <FaHome className="mx-1" />
@@ -83,11 +84,11 @@ function Navbar() {
           <NavLink
             style={(e) => {
               return {
-                color: e.isActive ? "#8AB4F8" : "",
-                background: e.isActive ? "#394457" : "",
+                color: e.isActive ? "#15A0EF" : "",
+                // background: e.isActive ? "#394457" : "",
               };
             }}
-            className="flex items-center shadow-sm px-3 py-2 rounded-full border "
+            className="flex items-center  px-3 py-2 "
             to="/hotels"
           >
             <MdOutlineCardTravel className="mx-1  " />
@@ -101,11 +102,11 @@ function Navbar() {
               <NavLink
                 style={(e) => {
                   return {
-                    color: e.isActive ? "#8AB4F8" : "",
-                    background: e.isActive ? "#394457" : "",
+                    color: e.isActive ? "#15A0EF" : "",
+                    // background: e.isActive ? "#394457" : "",
                   };
                 }}
-                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                className="flex items-center  px-4 py-2"
                 to="/createFlight"
               >
                 <MdFlight className="mx-1  " /> Create Flight
@@ -116,10 +117,10 @@ function Navbar() {
               style={(e) => {
                 return {
                   color: e.isActive ? "#8AB4F8" : "",
-                  background: e.isActive ? "#394457" : "",
+                  // background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+              className="flex items-center  px-3 py-2"
               to="/flight"
             >
               <MdFlight className="mx-1  " /> Flights
@@ -134,11 +135,11 @@ function Navbar() {
               <NavLink
                 style={(e) => {
                   return {
-                    color: e.isActive ? "#8AB4F8" : "",
-                    background: e.isActive ? "#394457" : "",
+                    color: e.isActive ? "#15A0EF" : "",
+                    // background: e.isActive ? "#394457" : "",
                   };
                 }}
-                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                className="flex items-center  px-4 py-2"
                 to="/createAirport"
               >
                 <MdFlight className="mx-1  " /> Create Airport
@@ -148,11 +149,11 @@ function Navbar() {
             <NavLink
               style={(e) => {
                 return {
-                  color: e.isActive ? "#8AB4F8" : "",
-                  background: e.isActive ? "#394457" : "",
+                  color: e.isActive ? "#15A0EF" : "",
+                  // background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-3 py-2 rounded-full border"
+              className="flex items-center  px-3 py-2"
               to="/Airports"
             >
               <MdOutlineConnectingAirports className="mx-1  " /> Airport
@@ -167,11 +168,11 @@ function Navbar() {
               <NavLink
                 style={(e) => {
                   return {
-                    color: e.isActive ? "#8AB4F8" : "",
-                    background: e.isActive ? "#394457" : "",
+                    color: e.isActive ? "#15A0EF" : "",
+                    // background: e.isActive ? "#394457" : "",
                   };
                 }}
-                className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+                className="flex items-center  px-4 py-2"
                 to="/createCity"
               >
                 <FaCity className="mx-1  " /> Create City
@@ -181,11 +182,11 @@ function Navbar() {
             <NavLink
               style={(e) => {
                 return {
-                  color: e.isActive ? "#8AB4F8" : "",
-                  background: e.isActive ? "#394457" : "",
+                  color: e.isActive ? "#15A0EF" : "",
+                  // background: e.isActive ? "#394457" : "",
                 };
               }}
-              className="flex items-center shadow-sm px-4 py-2 rounded-full border"
+              className="flex items-center  px-4 py-2"
               to="/city"
             >
               <FaCity className="mx-1  " /> About
@@ -204,7 +205,7 @@ function Navbar() {
                 </NavLink>
               </div>
               <button
-                className=" flex items-center shadow-sm gap-2 mr-6 hover:text-[#0c0c0c] text-[#fff] px-4 py-2 bg-red-400 rounded-md"
+                className=" flex items-center  gap-2 mr-6 hover:text-[#0c0c0c] text-[#fff] px-4 py-2 bg-red-400 rounded-md"
                 onClick={handleLogout}
               >
                 {/* ---------------------------------------------------------------- 
@@ -215,27 +216,27 @@ function Navbar() {
             </>
           ) : (
             <>
-              {/* ---------------------------------------------------------------- 
-                                  Create Account 
-              ------------------------------------------------------------------*/}
-              <NavLink
-                className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 hover:text-[#E89D1A]"
-                to="/CreateUser"
-              >
-                <FaUserAlt />
-                Create Account
-              </NavLink>
-
-              <NavLink
-                className="flex items-center shadow-sm px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#fff]"
-                to="/login"
-              >
-                {/* ---------------------------------------------------------------- 
+                   {/* ---------------------------------------------------------------- 
                                   Login 
               ------------------------------------------------------------------*/}
+              <NavLink
+                className="flex items-center px-3 py-2 rounded-full gap-2 mr-2 hover:text-[#E89D1A] text-[#000]"
+                to="/login"
+              >
                 <CiLogin />
                 Login
               </NavLink>
+                     {/* ---------------------------------------------------------------- 
+                                  Create Account 
+              ------------------------------------------------------------------*/}
+              <NavLink
+                className="flex items-center bg-[#0D6AA0] text-white  px-3 py-2 mr-3 gap-2 hover:text-[#E89D1A] rounded-md text-sm"
+                to="/CreateUser"
+              >
+                <FaUserAlt />
+                SignIn
+              </NavLink>
+               
             </>
           )}
         </div>

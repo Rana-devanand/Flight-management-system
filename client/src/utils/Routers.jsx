@@ -20,7 +20,7 @@ import BookTicketInfo from "../components/BookTicketInfo"
 import PaymentSuccess from "../components/PaymentSuccess"
 import Payment from "../components/PaymentDone"
 import PlainTicket from "../components/PlainTicket"
-// import { useEffect, useState } from "react";
+import SeatSelection from "../components/SeatSelection";
 
 function Routers() {
   return (
@@ -43,6 +43,7 @@ function Routers() {
       <Route path="/PaymentSuccess" element={<PaymentSuccess/>}/>
       <Route path="/Payment" element={<Payment/>}/>
       <Route path="/PlainTicket" element={<PlainTicket/>}/>
+      <Route path="/seats" element={<SeatSelection/>}/>
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />

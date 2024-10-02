@@ -9,16 +9,18 @@ import rightIcon from "../assets/images/icons8-arrow.gif";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
 import "flatpickr/dist/flatpickr.css";
+import "../assets/css/HomeStyle.css";
+import Chart from "./Chart/CostChart";
 
 function FilterFlight() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
-  const [filterFlight, setFilterFlightData] = useState({});
+  const [filterFlight, setFilterFlightData] = useState([]);
   const [DailyFlight, setDailyFlightData] = useState({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const location = useLocation();
   const userData = location.state?.user; // Retrieving the object data
-
+  // console.log(userData);
   const [storeAllCity, setAllCity] = useState({});
 
   // http://localhost:4000/api/V1/dailyFlights
@@ -58,16 +60,27 @@ function FilterFlight() {
     }
   };
 
+
+  // http:localhost:4000/api/V1/allFlights
   useEffect(() => {
-    if (userData) {
-      const updateUserChooseDestination = userData.map((flight) => {
-        return {
-          ...flight,
-          flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
-        };
+    
+      const updateUserChooseDestination = userData.map((flightArray) => {
+        const updatedFlights = flightArray.map((flight) => {
+          return {
+            ...flight,
+                          // Replace and update path
+            flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`, 
+          };
+        });
+      
+        // Instead of setting state inside the loop, accumulate the changes
+        return updatedFlights;
       });
-      setFilterFlightData(updateUserChooseDestination);
-    }
+      
+      // Flatten the nested array and store in state all at once
+      setFilterFlightData((prevData) => [...prevData, ...updateUserChooseDestination.flat()]);
+
+      
     getDailyFlightsData();
     setCurrentDate(
       new Date().toLocaleDateString("en-US", {
@@ -90,231 +103,347 @@ function FilterFlight() {
     } else if (type == "user") {
       const updatePriceInFlight = { ...id, id: id, price: cost };
       console.log(updatePriceInFlight);
-      navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
+      // navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
+      navigate("/seats");
     }
   };
 
-  const [modal, setModal] = useState(false);
-  const showModal = () => {
-    setModal(true);
+  const [filterData, setFilteredData] = useState({
+    Departure: "",
+    Arrival: "",
+    Date: "",
+  });
+
+  const HandleChange = (e) => {
+    setFilteredData({ ...filterData, [e.target.name]: e.target.value });
+    // console.log(filterData);
   };
 
-  const closeModal = () => {
-    setModal(false);
-  };
+const [selectedDate, setChooseDate] = useState();
+const chooseDate = (selectDate) => {
+    const myDate = selectDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    setChooseDate(formattedDate)
+    setFilteredData({...filterData, Date: formattedDate + "T00:00:00.000Z"});
+};
+
+
+  // http://localhost:4000/api/V1/filterFlight
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    setFilterFlightData([]);
+    try {
+      const url = `${URL}/api/V1/filterFlight`;
+      const response = await axios.get(url, {
+        params: filterData,
+      });
+      const filterFlightArrayData = response.data.data;
+      // console.log(response.data.data);
+      const updateUserChooseDestination = filterFlightArrayData.map((flightArray) => {
+        const updatedFlights = flightArray.map((flight) => {
+          return {
+            ...flight,
+                          // Replace and update path
+            flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`, 
+          };
+        });
+      
+        // Instead of setting state inside the loop, accumulate the changes
+        return updatedFlights;
+      });
+      
+      // Flatten the nested array and store in state all at once
+      setFilterFlightData((prevData) => [...prevData, ...updateUserChooseDestination.flat()]);
+    
+    } catch (error) {
+      console.error(error);
+    }
+  };  
+
 
   return (
     <div className="bg-zinc-200 w-full h-auto">
-      <div className="rounded-md w-[80%] h-auto m-auto flex flex-col gap-5">
-        <div className=" w-full h-40 mt-10 mb-10">
-          <h4 className="text-xl">Filter Flights </h4>
-          <div className="flex justify-between w-full h-40 border border-[#cacaca] p-5 rounded-md bg-[#E3E3E6] shadow-2xl">
-            <div className="flex flex-col w-[32%] items-start justify-center mb-5 ">
-              <label htmlFor="" className="text-xl">
-                Departure city{" "}
-              </label>
-              <select
-                name="cityFrom"
-                id=""
-                className="w-[95%] px-10 py-4 rounded-md outline-none"
-              >
-                <option value="" defaultChecked>
-                  Select
-                </option>
-                {storeAllCity &&
-                  storeAllCity.length > 0 &&
-                  storeAllCity
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((city) => (
-                      <option value={city.name} onChange={FilterData}>{city.name} 
-                              
-                      </option>
-                    ))}
-              </select>
-            </div>
-
-            <div className="flex flex-col w-[32%] items-start justify-center mb-5 ">
-              <label htmlFor="" className="text-xl">
-                Arrival city{" "}
-              </label>
-              <select
-                name="cityFrom"
-                id=""
-                className="w-[95%] px-10 py-4 rounded-md outline-none"
-              >
-                <option value="" defaultChecked>
-                  Select
-                </option>
-                {storeAllCity &&
-                  storeAllCity.length > 0 &&
-                  storeAllCity
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((city) => (
-                      <option
-                        value={city.name}
-                        className="overflow-scroll h-16"
-                      >
-                        {city.name}
-                      </option>
-                    ))}
-              </select>
-            </div>
-
-            <div className="custom-flatpickr flex flex-col items-start justify-center rounded-md w-[30%] outline-none text-lg">
-              <Flatpickr
-                // value={date}
-                // onChange={chooseDate}
-                options={{
-                  dateFormat: "Y-m-d",
-                  altInput: true,
-                  altFormat: "F j, Y",
-                  // minDate: `${onlyDate}`,
-                  maxDate: "",
-                }}
-                placeholder="Choose the date"
-                className="custom-flatpickr p-3 rounded-md w-[95%] outline-none text-lg"
-                name="Date"
-              />
-            </div>
-          </div>
-        </div>
-
-        <h4 className="text-black text-2xl mt-7 font-serif">
-          Departing flights
-        </h4>
-        {modal == true ? (
-          <>
-            <div
-              id="exampleModal"
-              class="fixed inset-0 flex items-start justify-center bg-black bg-opacity-50"
-            >
-              <div class="bg-[#fff] rounded-lg shadow-lg w-[80%] mt-3">
-                <div class="flex justify-between items-center p-4 border-b border-gray-200">
-                  <h5 class="text-lg font-semibold">Modal title</h5>
-                  <button
-                    type="button"
-                    class="text-gray-400 hover:text-gray-600"
-                    onClick={closeModal}
+      <div className="flex">
+        <div className="rounded-md w-[60%]  h-auto ml-10  ">
+          <div className=" w-full h-40 mt-5 mb-3 text-sm">
+            <div className="flex w-full p-5 rounded-md border  bg-[#ECECEC] shadow-2xl">
+              <form className="flex w-full" action="" onSubmit={HandleSubmit}>
+                <div className="w-[27%] border border-[#b9b9b9]">
+                
+                  <select
+                    name="Departure"
+                   
+                    className="w-[100%] px-5 py-4 outline-none appearance-none"
+                    onChange={HandleChange}
+                    
                   >
-                    <span>&times;</span>
+                    <option value="" defaultChecked>
+                      From where
+                    </option>
+                    {storeAllCity &&
+                      storeAllCity.length > 0 &&
+                      storeAllCity
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((city) => (
+                          <option value={city.name}>{city.name}</option>
+                        ))}
+                  </select>
+                </div>
+
+                <div className=" w-[27%] border border-[#b9b9b9]">
+                 
+                  <select
+                    name="Arrival"
+                    id=""
+                    className="w-[100%]  px-5 py-4 outline-none appearance-none"
+                    onChange={HandleChange}
+                  >
+                    <option value="" defaultChecked>
+                      From to
+                    </option>
+                    {storeAllCity &&
+                      storeAllCity.length > 0 &&
+                      storeAllCity
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((city) => (
+                          <option value={city.name} className="overflow-scroll">
+                            {city.name}
+                          </option>
+                        ))}
+                  </select>
+                </div>
+
+                <div className="custom-flatpickr w-[27%] outline-none border border-[#b9b9b9]">
+                  <Flatpickr
+                    // value={date}
+                    onChange={chooseDate}
+                    options={{
+                      dateFormat: "Y-m-d",
+                      altInput: true,
+                      altFormat: "F j, Y",
+                      // minDate: `${onlyDate}`,
+                      maxDate: "",
+                    }}
+                    placeholder="Date"
+                    className="custom-flatpickr pl-4 py-4 w-[100%] outline-none"
+                    name="Date"
+                  />
+                </div>
+
+                <div className="w-[20%] flex justify-center items-center border border-[#b9b9b9]">
+                  <button className="w-full h-full bg-blue-600 text-sm text-white">
+                    Search
                   </button>
                 </div>
-                <div class="p-4 flex gap-5 bg-[#F6FCFF]">
-                  <div className=" rounded-md p-4 flex flex-col justify-between">
-                    <p className="font-semibold text-lg">Fair types</p>
-                    <p className="font-semibold text-lg mt-4">Baggage</p>
-                    <p className="font-semibold text-lg mt-4">
-                      Change/Cancellation
-                    </p>
-                    <p className="font-semibold text-lg mt-4">
-                      Add-ons and services
-                    </p>
-                  </div>
+              </form>
+            </div>
+            <div className="w-[70%] h-18  p-3 ml-4 flex gap-3 text-xs">
+              <div className="w-36 h-10">
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-10 pl-2 outline-none rounded-md items-center bg-[#ececec] border border-[#a8a8a8] appearance-auto"
+                >
+                  <option value="" selected>
+                    Max Price
+                  </option>
+                  <option value="">1500</option>
+                  <option value="">2000</option>
+                  <option value="">3000</option>
+                  <option value="">4000</option>
+                </select>
+              </div>
+              <div className="w-36 h-10 items-center">
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-10 pl-2 outline-none rounded-md  bg-[#ececec] border border-[#a8a8a8]"
+                >
+                  <option value="" selected>
+                    Time
+                  </option>
+                  <option value="">1500</option>
+                  <option value="">2000</option>
+                  <option value="">3000</option>
+                  <option value="">4000</option>
+                </select>
+              </div>
 
-                  <button
-                    className="border border-zinc-200 p-4 rounded-md w-[25%] shadow-2xl text-start hover:bg-sky-100 hover:text-black bg-white"
-                    onClick={(e) => {
-                      setCost(2253);
-                      setModal(false);
-                    }}
-                  >
-                    <p className="text-gray-500">saver Fare</p>
-                    <p className="font-semibold text-xl"> ₹ 2,253</p>
+              <div className="w-36 h-10">
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-10 pl-2 outline-none rounded-md bg-[#ececec] border border-[#a8a8a8]"
+                >
+                  <option value="" selected>
+                    Airlines
+                  </option>
+                  <option value="">
+                    <input
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                    />
+                    <label for="vehicle1"> India</label>
+                  </option>
 
-                    <p className="border border-dashed mt-5 mb-4"></p>
+                  <option value="">
+                    <input
+                      type="checkbox"
+                      id="vehicle1"
+                      name="vehicle1"
+                      value="Bike"
+                    />
+                    <label for="vehicle1"> Air India</label>
+                  </option>
+                </select>
+              </div>
 
-                    <p className="font-medium">7 kg cabin bag allowance </p>
-                    <p className="font-medium">15 kg check in bag allowance</p>
+              <div className="w-36 h-10">
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-10 pl-2 outline-none rounded-md bg-[#ececec] border border-[#a8a8a8]"
+                >
+                  <option value="" selected>
+                    Seat class
+                  </option>
+                  <option value="">Economy</option>
+                  <option value="">Business class</option>
+                </select>
+              </div>
 
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">Change charge upto INR $ 1599</p>
-                    <p className="font-medium">
-                      Cancellation charges unto in $1899
-                    </p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-                    <p className="font-medium"> - </p>
-                    <p className="font-medium">-</p>
-                  </button>
-
-                  <button
-                    className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white"
-                    onClick={(e) => {
-                      setCost(3988);
-                      setModal(false);
-                    }}
-                  >
-                    <p className="text-gray-500">Flexi plus Fare</p>
-                    <p className="font-semibold text-xl"> ₹ 3,988</p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">7 kg cabin bag allowance </p>
-                    <p className="font-medium">15 kg check in bag allowance</p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">Change charge upto INR $ 1599</p>
-                    <p className="font-medium">
-                      Cancellation charges unto in $1899
-                    </p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">Free meal</p>
-                    <p className="font-medium">Free Standard seat</p>
-                  </button>
-
-                  <button
-                    className="border border-zinc-200 rounded-md shadow-2xl p-4 text-start  hover:bg-sky-100 hover:text-black bg-white "
-                    onClick={(e) => {
-                      setCost(5038);
-                      setModal(false);
-                    }}
-                  >
-                    <p className="text-gray-500">Super Fare</p>
-                    <p className="font-semibold text-xl"> ₹ 5,038</p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">7 kg cabin bag allowance </p>
-                    <p className="font-medium">15 kg check in bag allowance</p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">Change charge upto INR $ 1599</p>
-                    <p className="font-medium">
-                      Cancellation charges unto in $1899
-                    </p>
-
-                    <p className="border border-dashed mt-5 mb-4"></p>
-
-                    <p className="font-medium">Free meal</p>
-                    <p className="font-medium">Free XL seat </p>
-                  </button>
-                </div>
-                <div class="flex justify-end p-4 border-t border-gray-200">
-                  <button
-                    type="button"
-                    class="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                    onClick={closeModal}
-                  >
-                    Close
-                  </button>
-                  {/* <button
-                    type="button"
-                    class="bg-blue-500 text-white py-2 px-4 rounded"
-                  >
-                    Save changes
-                  </button> */}
-                </div>
+              <div className="w-24 h-10  bg-cyan-700 rounded-lg text-white font-semibold">
+                <button className="w-full h-10">Clear</button>
               </div>
             </div>
-          </>
-        ) : null}
+          </div>
 
-        {filterFlight && filterFlight.length > 0 ? (
+          <div className="container mx-auto p-2">
+            <div className="overflow-x-auto">
+              <div className="flex justify-between">
+              <p className="my-3">
+                Choose a <span className="text-[#0ba2cf]">departing </span>flight
+              </p>
+              <p className="mr-16 mt-5 font-semibold text-amber-600"> {selectedDate}</p>
+              </div>
+              <table className="min-w-[95%] text-xs font-medium bg-white border border-gray-200 rounded-lg shadow-md">
+                <thead>
+                  <tr className="bg-gray-100"></tr>
+                </thead>
+                <tbody>
+                  {filterFlight && filterFlight.length > 0  ? (
+                    filterFlight.map((flight, id) => (
+                      <tr key={id} className="hover:bg-gray-50">
+                        <td className="border  border-[#f1f1f1a2]  py-2">
+                          <img
+                            className="w-16 h-10 ml-5"
+                            src={flight.flightLogo}
+                            alt=""
+                          />
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          16H 45m <br /> {flight.Airline}
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
+                          {flight.DepartureTime} AM - {flight.ArrivalTime} PM{" "}
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          non stop
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          {flight.Cost} $250
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2 items-center">
+                          <button
+                            className="w-full h-12 bg-green-500 text-white rounded-lg flex justify-center items-center"
+                            onClick={() => HandleBook(flight.id)}
+                          >
+                            Book Ticket
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="8" className="text-center px-4 py-2 border">
+                        No flights available.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="container mx-auto p-2 ">
+            <div className="overflow-x-auto">
+              <p className="my-3">
+                <span className="text-[#0ba2cf]">Daily departing</span> flight
+              </p>
+              <table className="min-w-[95%] text-xs font-medium bg-white border border-gray-200 rounded-lg shadow-md">
+                <thead>
+                  <tr className="bg-gray-100"></tr>
+                </thead>
+                <tbody>
+                  {DailyFlight && DailyFlight.length > 0 ? (
+                    DailyFlight.map((flight, id) => (
+                      <tr key={id} className="hover:bg-gray-50">
+                        <td className="border  border-[#f1f1f1a2]  py-2">
+                          <img
+                            className="w-16 h-10 ml-5"
+                            src={flight.flightLogo}
+                            alt=""
+                          />
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          16H 45m <br /> {flight.Airline}
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
+                          {flight.DepartureTime} AM - {flight.ArrivalTime} PM{" "}
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          non stop
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                          {flight.Cost} $250
+                        </td>
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2 items-center">
+                          <button
+                            className="w-full h-12 bg-green-500 text-white rounded-lg flex justify-center items-center"
+                            onClick={() => HandleBook(flight.id)}
+                          >
+                            Book Ticket
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="8" className="text-center px-4 py-2 border">
+                        No flights available.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* <h4 className="text-black text-2xl mt-7 font-serif">
+          Departing flights
+         </h4> */}
+
+          {/* {filterFlight && filterFlight.length > 0 ? (
           filterFlight.map((flight, id) => (
             <div
               key={id}
@@ -325,11 +454,8 @@ function FilterFlight() {
                 <p className="text-2xl ml-10 mt-2">{flight.Airline} </p>
                 <p className="mt-10  text-[#747474]">Model No</p>
                 <p className="text-xl">{flight.modelNo}</p>
-                {/* <p className="mt-5">
-                  <span className="text-[#747474]">Date :</span> {currentDate} <br />
-                  <span className="text-[#747474]">Time :</span> {flight.DepartureTime} -  {flight.ArrivalTime} IST 
-                </p> */}
-              </div>
+             
+              </div> 
 
               <div className=" w-[44%] text-center mr-7 ">
                 <p className="flex mt-14 text-3xl gap-5 font-semibold justify-center">
@@ -349,9 +475,7 @@ function FilterFlight() {
                   </p>
                 </div>
                 <div className="mt-10 text-xl">
-                  {/* <p className="text-red-600 font-semibold mb-5">No-Stoppage</p>  
-                    <span className="text-[#747474]">left seats </span> 
-                    <p>{flight.Capacity}</p> */}
+                  
                 </div>
               </div>
 
@@ -379,93 +503,15 @@ function FilterFlight() {
               </div>
             </div>
           ))
-        ) : (
+         ) : (
           <div className=" w-[50%] m-auto p-4 bg-zinc-350 border border-blue-300  shadow-2xl rounded-lg text-lg font-semibold text-red-600 ">
             <p>No Flights Available </p>
           </div>
-        )}
-      </div>
-
-      {/* Daily flights Data  */}
-
-      <div className="rounded-md w-[80%] h-auto m-auto flex flex-col mt-20">
-        <h4 className="text-black text-2xl mt-7 font-serif">
-          Daily departing flights
-        </h4>
-        {DailyFlight && DailyFlight.length > 0 ? (
-          DailyFlight.map((flight, id) => (
-            <div
-              key={id}
-              className="flex w-full h-56 bg-[#fde1f0] border-2 border-pink[#fde1f0] shadow-2xl rounded-lg text-lg font-semibold mb-10"
-            >
-              <div className="w-[35%] p-3">
-                <img
-                  className="w-36 h-14 ml-6 "
-                  src={flight.flightLogo}
-                  alt=""
-                />
-                <p className="text-2xl ml-14 mt-2">{flight.Airline} </p>
-                <p className="mt-5 text-[#747474]">Model No</p>
-                <p className="text-xl">{flight.modelNo}</p>
-                {/* <p className="mt-10">
-                  <span className="text-[#747474]">Date :</span> {currentDate} <br />
-                  <span className="text-[#747474]">Time :</span> {flight.DepartureTime} -  {flight.ArrivalTime} IST 
-                </p> */}
-              </div>
-
-              <div className=" w-[40%] text-center mr-7">
-                <p className="flex mt-14 text-3xl gap-5 font-semibold justify-center">
-                  {flight.Departure}{" "}
-                  <p className="mt-2">
-                    <GiCommercialAirplane />
-                  </p>{" "}
-                  {flight.Arrival}{" "}
-                </p>
-                <div className="flex justify-around">
-                  <p>{flight.DepartureTime} </p>
-                  <p>{flight.ArrivalTime}</p>
-                </div>
-                <div className="mt-10">
-                  <p className="text-xl">
-                    <b>JOHN/DOE</b>
-                  </p>
-                </div>
-                <div className="mt-10 text-xl">
-                  {/* <p className="text-red-600 font-semibold mb-5">No-Stoppage</p>   */}
-                  {/* <span className="text-[#747474]">left seats </span>  */}
-                  {/* <p>{flight.Capacity}</p> */}
-                </div>
-              </div>
-
-              <div className="w-[24%]  mr-5 ">
-                <div className="border w-full h-36  bg-pink-800 m-2 rounded-xl text-center">
-                  <p className="p-5 text-white">Start at : ₹ ${cost}</p>
-                  <button
-                    className="w-40 ml-16 text-white py-2 px-4 bg-pink-500 rounded flex justify-center gap-2"
-                    onClick={() => HandleBook(flight.id)}
-                  >
-                    Book Now
-                    <p className="w-7 mt-1 text-xl">
-                      {" "}
-                      <FaArrowCircleRight />
-                    </p>
-                  </button>
-                </div>
-                <button
-                  className="text-lg ml-16 font-semibold px-6 py-1 bg-zinc-300 flex items-center rounded-md gap-2"
-                  onClick={showModal}
-                >
-                  Fair types...
-                  <img className="w-10 h-10" src={rightIcon} alt="" />
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className=" w-[50%] m-auto p-4 bg-zinc-350 border border-blue-300  shadow-2xl rounded-lg text-lg font-semibold text-red-600 ">
-            <p>No Flights Available </p>
-          </div>
-        )}
+         )} */}
+        </div>
+        <div className="w-[35%] mt-[10%] ">
+          <Chart />
+        </div>
       </div>
     </div>
   );

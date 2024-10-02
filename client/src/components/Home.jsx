@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import flight from "../assets/images/flight-3.jpg";
 import destination from "../assets/images/destination.png";
+import map from "../assets/images/map.jpg";
 
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css'; // Import a theme (optional)
-import 'flatpickr/dist/flatpickr.css';
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
+import "flatpickr/dist/flatpickr.css";
 import { useNavigate } from "react-router-dom";
-import "../assets/css/HomeStyle.css";
+// import "../assets/css/HomeStyle.css";
+import { RiFlightTakeoffFill } from "react-icons/ri";
+
 import { FaLocationDot } from "react-icons/fa6";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdCompareArrows } from "react-icons/md";
@@ -110,149 +113,148 @@ function Home() {
 
   // To get the City details from the database
   const URL = import.meta.env.VITE_BACKEND_API_URL;
-  
-//   const [query, setQuery] = useState("");    // for Where from
-//   const [cities, setCities] = useState([]);  // for Where from
 
-//   const fetchCities = async (query) => {
-//     if (query.length > 0) {
-//       try {
-//         const response = await axios.get(URL +`/api/v1/allCity?name=${query}`
-//         );
-//         const data = await response.data.data;
-//         setCities(data);
-//       } catch (error) {
-//         console.error("Error fetching cities:", error);
-//       }
-//     } else {
-//       setCities([]);
-//     }
-//   };
+  //   const [query, setQuery] = useState("");    // for Where from
+  //   const [cities, setCities] = useState([]);  // for Where from
 
-//   const [formData , setFormData] = useState({
-//     Departure : "",
-//     Arrival : "",
-//     Date : "",
-//   })
-  
-//   const handleInputChange = (e) => {
-    // setQuery(e.target.value);
-//     fetchCities(e.target.value);
-//     setFormData({...formData, [e.target.name]: e.target.value});
-//   };
+  //   const fetchCities = async (query) => {
+  //     if (query.length > 0) {
+  //       try {
+  //         const response = await axios.get(URL +`/api/v1/allCity?name=${query}`
+  //         );
+  //         const data = await response.data.data;
+  //         setCities(data);
+  //       } catch (error) {
+  //         console.error("Error fetching cities:", error);
+  //       }
+  //     } else {
+  //       setCities([]);
+  //     }
+  //   };
 
-// console.log(formData);
+  //   const [formData , setFormData] = useState({
+  //     Departure : "",
+  //     Arrival : "",
+  //     Date : "",
+  //   })
 
-//   const [selectedItem, setSelectedItem] = useState(null);
-//   const handleSelect = (item) => {
-//     setSelectedItem(item);
-//   };
+  //   const handleInputChange = (e) => {
+  // setQuery(e.target.value);
+  //     fetchCities(e.target.value);
+  //     setFormData({...formData, [e.target.name]: e.target.value});
+  //   };
 
-//   // For Where to 
-//   const [whereToQuery, setWhereToQuery] = useState("");
-//   const [whereToCities, setWhereToCities] = useState([]);
+  // console.log(formData);
 
-//   const handleWhereToInputChange = (e) => {
-//     setWhereToQuery(e.target.value);
-//     getWhereToCities(e.target.value);
-//   };
+  //   const [selectedItem, setSelectedItem] = useState(null);
+  //   const handleSelect = (item) => {
+  //     setSelectedItem(item);
+  //   };
 
-//   const getWhereToCities = async (whereToQuery) => {
-//     if (whereToQuery.length > 0) {
-//       try {
-//         const response = await axios.get(URL+ `/api/v1/allCity?name=${whereToQuery}`
-//         );
-//         const data = await response.data.data;
-//         setWhereToCities(data);
-//       } catch (error) {
-//         console.error("Error fetching cities:", error);
-//       }
-//     } else {
-//       setWhereToCities([]);
-//     }
-//   }
-//   const [selectedWhereToItem, setSelectedWhereToItem] = useState(null);
-//   const handleWhereToSelect = (item) => {
-//     setSelectedWhereToItem(item);
-//   };
+  //   // For Where to
+  //   const [whereToQuery, setWhereToQuery] = useState("");
+  //   const [whereToCities, setWhereToCities] = useState([]);
 
-//   // OnCross Click data should be cleared.
-//   const WhereToDataClear = () => {
-//     setSelectedItem("");
-//   }
-//   const whereFromDataClear = () => {
-//     setSelectedWhereToItem("");
-//   }
+  //   const handleWhereToInputChange = (e) => {
+  //     setWhereToQuery(e.target.value);
+  //     getWhereToCities(e.target.value);
+  //   };
+
+  //   const getWhereToCities = async (whereToQuery) => {
+  //     if (whereToQuery.length > 0) {
+  //       try {
+  //         const response = await axios.get(URL+ `/api/v1/allCity?name=${whereToQuery}`
+  //         );
+  //         const data = await response.data.data;
+  //         setWhereToCities(data);
+  //       } catch (error) {
+  //         console.error("Error fetching cities:", error);
+  //       }
+  //     } else {
+  //       setWhereToCities([]);
+  //     }
+  //   }
+  //   const [selectedWhereToItem, setSelectedWhereToItem] = useState(null);
+  //   const handleWhereToSelect = (item) => {
+  //     setSelectedWhereToItem(item);
+  //   };
+
+  //   // OnCross Click data should be cleared.
+  //   const WhereToDataClear = () => {
+  //     setSelectedItem("");
+  //   }
+  //   const whereFromDataClear = () => {
+  //     setSelectedWhereToItem("");
+  //   }
 
   const navigate = useNavigate();
-  const [Cities , setCities ] = useState({})
+  const [Cities, setCities] = useState({});
   const getAllCity = async () => {
     try {
-      const response = await axios.get(URL+`/api/V1/allCity`);
+      const response = await axios.get(URL + `/api/V1/allCity`);
       // console.log(response.data.data);
       setCities(response.data.data);
     } catch (error) {
       console.log(error.message);
     }
-  }
-  const [formData , setData] = useState({
-    Departure : "",
-    Arrival : "",
-    Date : "",
+  };
+  const [formData, setData] = useState({
+    Departure: "",
+    Arrival: "",
+    Date: "",
   });
-  const handleInputChange =  (e) => {
-    const chooseFilter = ({...formData,[e.target.name]: e.target.value});
+  const handleInputChange = (e) => {
+    const chooseFilter = { ...formData, [e.target.name]: e.target.value };
+    console.log(formData)
     setData(chooseFilter);
-  }
+  };
+
 
   const chooseDate = (selectDate) => {
     const myDate = selectDate[0];
     const dateObject = new Date(myDate);
-    const day = dateObject.getDay();
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const dayName = daysOfWeek[day];
-    setData({...formData, Date: dayName });
-  }
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    
+    setData({...formData, Date: formattedDate + "T00:00:00.000Z"});
+};
 
   useEffect(() => {
     getAllCity();
-  },[])
+  }, []);
 
   const [filterFlight, setFilterFlightData] = useState({});
-  console.log(formData)
+  // console.log(formData)
 
-    const HandleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const url = `${URL}/api/V1/filterFlight`;
-        const response = await axios.get(url, {
-          params: formData,
-        });
+ // http://localhost:4000/api/V1/filterFlight
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const url = `${URL}/api/V1/filterFlight`;
+      const response = await axios.get(url, {
+        params: formData,
+      });
 
-        setFilterFlightData(response.data.data);
-        console.log("filter flight data : ", response);
-      } catch (error) {
-        console.error(" Couldn't get flight detail from server", error);
-      }
-    };
-    console.log(filterFlight);
-    if(filterFlight && filterFlight.length >= 0) {
-      navigate(`/filterFLights`, { state: { user: filterFlight } });
-                                // { state: { user: data } }
+      setFilterFlightData(response.data.data);
+      console.log("filter flight data : ", response.data.data);
+    } catch (error) {
+      console.error(" Couldn't get flight detail from server", error);
     }
-    // if(filterFlight.length == 0) {
-    //  navigate("/filterFLights"); 
-    // }
+  };
+  // console.log(filterFlight);
+  if (filterFlight && filterFlight.length >= 0) {
+    navigate(`/filterFLights`, { state: { user: filterFlight }});
+    // { state: { user: data } }
+  }
 
-  // Date 
+
+  // Date
   const [date, setDate] = useState(null);
   const todayDate = new Date();
   const onlyDate = todayDate.toISOString().slice(0, 10);
@@ -261,126 +263,171 @@ function Home() {
     <>
       <div className="input-container relative w-full h-screen bg-gray-500 flex justify-center items-center ">
         <img
-          className="flex flex-col justify-center items-center shadow-lg shadow-black"
-          src={flight}
+          className="flex flex-col justify-center items-center shadow-lg w-full mt-16 opacity-80"
+          src={map}
           alt=""
         />
+        <h1 className="absolute text-7xl font-black top-28 w-[40%] text-center mx-auto text-[#0d6aa0]">
+          Its more than just a trip
+        </h1>
 
-        <form
-          action=""
-          onSubmit={HandleSubmit}
-          className="absolute top-0 w-3/4 h-36 bg-[#7FBFF0] border rounded-md mt-10 "
-        >
-          <select
-            className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
-            type="text"
-            // value={selectedItem}
-            onChange={handleInputChange}
-            placeholder="Where From"
-            name="Departure"
+        {/* <div className="absolute border border-blue-600 w-[80%] h-32 bg-[#E9ECEE]  ">
+          <form
+            action=""
+            onSubmit={HandleSubmit}
+            className="rounded-md  "
           >
-            <option className="bg-gray-100 text-gray-500" disabled selected>Where From </option>
-                    {Cities.length > 0 &&
-                      Cities
-                        .sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
-                        .map((data, index) => (
-                          <option 
-                           className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
-                           key={index} 
-                           value={data.name}>
-                            {data.name}
-                          </option>
-                        ))}
-          </select>
-         
-          {/* <ul className={`cityList absolute border ml-10 w-80 mt-1 left-0 outline-none overflow-y-scroll ${query.length > 0 && setCities.length > 0 ? "h-48" : ""} ${selectedItem ? "hidden" : ""} `}>
-
-
-            {cities.map((city, index) => (
-              <li
-                className="bg-[#ffffff50] py-2 font-semibold cursor-pointer p-3 "
-                onClick={() => handleSelect(city.name)}
-                key={index}
-              >
-                {city.name}
-              </li>
-            ))}
-          </ul> */}
-
-          {/* <MdCompareArrows /> */}
-          {/* {query.length > 0 ? (<RxCross1 onClick={whereFromDataClear} className="cursor-pointer" />) : (null)} */}
-
-          {/* {query.length > 0 ? (<RxCross1 onClick={WhereToDataClear} className="rightCross -ml-[35%]  cursor-pointer" />) : (null)} */}
-
-
-
-          <select
-            className="p-3 py-4 mt-10 ml-3 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
-            type="text"
-            // value={selectedWhereToItem}
-            onChange={handleInputChange}
-            placeholder="Where to"
-            name="Arrival"
-          >
-             <option className="bg-gray-100 text-gray-500" disabled selected>Where To </option>
-                    {Cities.length > 0 &&
-                      Cities
-                        .sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
-                        .map((data, index) => (
-                          <option 
-                           className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
-                           key={index} 
-                           value={data.name}>
-                            {data.name}
-                          </option>
-                        ))}
-          </select>
-          {/* <ul className={`cityList absolute border left-[39%] w-80 mt-1  outline-none overflow-y-scroll ${whereToQuery.length > 0 ? "h-48" : ""} ${selectedWhereToItem ? "hidden" : ""} `}>
-
-            {whereToCities.map((city, index) => (
-              <li
-                className="bg-[#ffffff50] py-2 font-semibold cursor-pointer p-3 "
-                onClick={() => handleWhereToSelect(city.name)}
-                key={index}
-              >
-                {city.name}
-              </li>
-            ))}
-          </ul> */}
-
-          <Flatpickr
-            value={date}
-            onChange={chooseDate}
-            options={{
-              dateFormat: 'Y-m-d',
-              altInput: true,
-              altFormat: 'F j, Y',
-              minDate: `${onlyDate}`,
-              maxDate: '',
-            }}
-            placeholder="Select a date"
-            className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[27%] outline-none text-lg"
-            name="Date"
-          />
-
-          <div className="search flex justify-center items-center mt-6">
-            <button
-              className="bg-[#7FBFF0] px-8 py-2 text-xl rounded-full font-semibold border text-[#0d6aa0] hover:bg-[#43aae6] hover:text-white"
-              // type="submit"
+            <select
+              className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
+              type="text"
+              // value={selectedItem}
+              onChange={handleInputChange}
+              placeholder="Where From"
+              name="Departure"
             >
+              <option className="bg-gray-100 text-gray-500" disabled selected>
+                Where From{" "}
+              </option>
+              {Cities.length > 0 &&
+                Cities.sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
+                  .map((data, index) => (
+                    <option
+                      className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
+                      key={index}
+                      value={data.name}
+                    >
+                      {data.name}
+                    </option>
+                  ))}
+            </select>
+
+
+            <select
+              className="p-3 py-4 mt-10 ml-3 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
+              type="text"
+              // value={selectedWhereToItem}
+              onChange={handleInputChange}
+              placeholder="Where to"
+              name="Arrival"
+            >
+              <option className="bg-gray-100 text-gray-500" disabled selected>
+                Where To{" "}
+              </option>
+              {Cities.length > 0 &&
+                Cities.sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
+                  .map((data, index) => (
+                    <option
+                      className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
+                      key={index}
+                      value={data.name}
+                    >
+                      {data.name}
+                    </option>
+                  ))}
+            </select>
+            <Flatpickr
+              value={date}
+              onChange={chooseDate}
+              options={{
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "F j, Y",
+                minDate: `${onlyDate}`,
+                maxDate: "",
+              }}
+              placeholder="Select a date"
+              className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[27%] outline-none text-lg"
+              name="Date"
+            />
+
+            <div className="search flex justify-center items-center mt-6">
+              <button
+                className="bg-[#7FBFF0] px-8 py-2 text-xl rounded-full font-semibold border text-[#0d6aa0] hover:bg-[#43aae6] hover:text-white"
+                // type="submit"
+              >
+                Search
+              </button>
+            </div>
+          </form>
+        </div> */}
+
+        <div className="absolute flex w-[80%] mt-36 mx-auto rounded-md ">
+          <div className="w-[27%]">
+            <select
+              name="Departure"
+              id=""
+              className="w-[100%] px-5 py-3 outline-none appearance-none  border border-[#b9b9b9]"
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" defaultChecked>
+                From Where
+              </option>
+              {Cities &&
+                Cities.length > 0 &&
+                Cities.sort((a, b) => a.name.localeCompare(b.name)).map(
+                  (city) => <option value={city.name}>{city.name}</option>
+                )}
+            </select>
+          </div>
+
+          <div className=" w-[27%] border border-[#b9b9b9]">
+            {/* <label htmlFor="" className="text-xl">
+                Arrival city{" "}
+              </label> */}
+            <select
+              name="Arrival"
+              id=""
+              className="w-[100%]  px-5 py-3 outline-none appearance-none"
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" defaultChecked>
+                From to
+              </option>
+              {Cities &&
+                Cities.length > 0 &&
+                Cities.sort((a, b) => a.name.localeCompare(b.name)).map(
+                  (city) => (
+                    <option value={city.name} className="overflow-scroll">
+                      {city.name}
+                    </option>
+                  )
+                )}
+            </select>
+          </div>
+
+          <div className="custom-flatpickr w-[27%] outline-none border border-[#b9b9b9]">
+            <Flatpickr
+              // value={date}
+              onChange={chooseDate}
+              options={{
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "F j, Y",
+                // minDate: `${onlyDate}`,
+                maxDate: "",
+              }}
+              placeholder="Date"
+              className="custom-flatpickr pl-4 py-3 w-[100%] outline-none"
+              name="Date"
+              required
+            />
+          </div>
+
+          <div className="w-[20%] flex justify-center items-center border border-[#E1E3E6]">
+            <button className="w-full h-11 bg-blue-600 text-lg text-white"
+                    onClick={HandleSubmit}
+                  >
               Search
             </button>
           </div>
-        </form>
-
-        <h1 className="absolute text-6xl font-black pb-32 text-[#0d6aa0]">
-          Welcome to India
-        </h1>
+        </div>
       </div>
 
       {/* 86C1ED */}
 
-      <div className="explore input-container relative w-full h-screen bg-blue-200 flex justify-center items-center flex-col ">
+      <div className="explore input-container relative w-full h-screen bg-[#D4D9DF] flex justify-center items-center flex-col ">
         <img
           className="flex w-[60%]  flex-col justify-center items-center"
           src={destination}

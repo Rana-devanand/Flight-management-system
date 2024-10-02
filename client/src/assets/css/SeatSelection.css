@@ -1,0 +1,42 @@
+.plane-layout {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     /* padding: 20px; */
+   }
+   
+   .seat-row {
+     display: flex;
+     margin: 5px 0;
+   }
+   
+   .seat {
+     width: 30px;
+     height: 30px;
+     margin: 2px;
+     border-radius: 5px;
+     cursor: pointer;
+   }
+
+   .available {
+     background-color: #dcdcdc; /* Light grey for available seats */
+   }
+   
+   .selected {
+     background-color: #4caf50; /* Green for selected seats */
+   }
+   
+   .booked {
+     background-color: #4441E3; /* Red for booked seats */
+     cursor: not-allowed;
+   }
+   .BusinessBooked{
+    background-color: #43CEB5;
+    cursor: not-allowed;
+   }
+   
+   .seat:hover {
+     opacity: 0.8;
+   }
+   
