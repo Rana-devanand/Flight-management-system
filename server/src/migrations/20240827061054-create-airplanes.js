@@ -5,6 +5,10 @@ module.exports = {
     await queryInterface.createTable('airplanes', {
       id: {
         allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      flight_id: {
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
@@ -19,6 +23,14 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      flight_type :{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      available_seats : {
+        type : Sequelize.JSON,
+        allowNull: false,
+      },
       Capacity: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -32,17 +44,22 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      DepartureTime: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      ArrivalTime: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      // DepartureTime: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      // },
+      // ArrivalTime: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      // },
       Remark :{
         type : Sequelize.STRING,
         allowNull : false,
+      },
+      flight_status :{
+        type : Sequelize.ENUM("Schedule", "Delayed", "Cancelled"),
+        allowNull : false,
+        defaultValue : "Schedule",
       },
       flightLogo : {
         type : Sequelize.STRING,

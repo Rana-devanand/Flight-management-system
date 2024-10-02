@@ -111,7 +111,7 @@ const updateAirplane = async (req, res) => {
 
 const filterFlightData = async (req, res) =>{
      try {
-          console.log("controller : ",req.params);
+          console.log("controller : ",req.query);
           const response = await airplaneServices.fetchFilterFlightData(req.query);
           // console.log(response);
           return res.status(200).json({
@@ -152,6 +152,26 @@ const dailyFlights = async(req, res) =>{
      }
 }
 
+const getByFlightId = async (req, res) =>{
+     try {
+          // console.log(req.params.id)
+          const response = await airplaneServices.getByFlightId(req.params.id);
+          return res.status(200).json({
+               data: response,
+               message: 'Flight data fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          return res.status(500).json({
+               data : {},
+               message : 'unable to fetch flight data',
+               success : false,
+               error : error,
+          })
+     }
+}
+
 module.exports = {
      create,
      destroy,
@@ -159,5 +179,6 @@ module.exports = {
      getAll,
      updateAirplane,
      filterFlightData,
-     dailyFlights
+     dailyFlights,
+     getByFlightId
 }

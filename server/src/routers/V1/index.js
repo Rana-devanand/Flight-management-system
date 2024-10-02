@@ -11,6 +11,7 @@ const auth_middleWare = require("../../middlewares/auth-middleware")
 const airportController = require("../../controllers/airport-controllers");
 const storage = require("../../middlewares/airline-Logo-Middleware");
 const FLightScheduleController = require("../../controllers/flight-schedule-controllers")
+const ScheduleFlightList = require("../../controllers/schedule-flight-list-controller")
 
 // http://localhost:4000/api/V1/createCity
 router.post("/createCity", cityController.create);
@@ -83,6 +84,9 @@ router.get("/filterFlight" , AirplaneRepository.filterFlightData);
 // http://localhost:4000/api/V1/dailyFlights
 router.get("/dailyFlights", AirplaneRepository.dailyFlights)
 
+// http://localhost:4000/api/V1/getFlightById
+router.get("/getFlightById/:id" , AirplaneRepository.getByFlightId)
+
 
 
 
@@ -115,6 +119,13 @@ router.delete("/deleteAirport/:id", airportController.destroy)
 // http://localhost:4000/api/V1/scheduleFlights
 router.post("/scheduleFlights" , FLightScheduleController.create)
 
+
+
+// {--------------- Schedule flight list  --------------------}
+
+router.get("/scheduleflightslist", ScheduleFlightList.getFilteredData);
+
+router.get("/getAllSchedulelists", ScheduleFlightList.getAll);
 
 
 

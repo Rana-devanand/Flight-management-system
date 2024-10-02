@@ -80,6 +80,16 @@ class AirplaneServices {
                throw error;
           }
      }
+
+     async getByFlightId(flightId) {
+          try {
+               const flightsByFlightId = await this.airplaneRepository.getFlightById(flightId);
+               return flightsByFlightId; 
+          } catch (error) {
+               console.error("Error to Fetch Daily Flights in Services");
+               throw {error};
+          }
+     }
 }
 
 module.exports = AirplaneServices;

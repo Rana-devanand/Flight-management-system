@@ -14,12 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   airplanes.init({
+    flight_id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     Airline: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     modelNo: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    flight_type :{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    available_seats : {
+      type : DataTypes.JSON,
       allowNull: false,
     },
     Capacity: {
@@ -35,17 +49,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    DepartureTime: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    ArrivalTime: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
+    // DepartureTime: {
+    //   type: DataTypes.TIME,
+    //   allowNull: false,
+    // },
+    // ArrivalTime: {
+    //   type: DataTypes.TIME,
+    //   allowNull: false,
+    // },
     Remark: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    flight_status :{
+      type : DataTypes.ENUM("Schedule", "Delayed", "Cancelled"),
+      allowNull : false,
+      defaultValue : "Schedule",
     },
     flightLogo : {
       type : DataTypes.STRING,
