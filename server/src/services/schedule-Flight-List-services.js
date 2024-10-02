@@ -21,6 +21,16 @@ class ScheduleListServices {
                console.error("Error getting ScheduleFlightsService in Services");
           }
      }
+
+     async getByFlightId(flightId) {
+          try {
+               const flightsByFlightId = await this.scheduleListRepository.getByFlightId(flightId);
+               return flightsByFlightId; 
+          } catch (error) {
+               console.error("Error to Fetch Daily Flights in Services");
+               throw error;
+          }
+     }
 }
 
 module.exports = ScheduleListServices;

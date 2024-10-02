@@ -24,6 +24,19 @@ class ScheduleListRepository {
                console.log("Something went wrong in repository", error);
           }
      }
+
+     async getByFlightId(flightId) {
+          try {
+               const response = await schedule_list.findAll({
+                    where: {
+                         flight_id: flightId
+                    }
+               });
+               return response;
+          } catch (error) {
+               console.log("Something went wrong in repository", error);
+          }
+     }
 }
 
 module.exports = ScheduleListRepository;

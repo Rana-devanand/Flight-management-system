@@ -123,9 +123,16 @@ router.post("/scheduleFlights" , FLightScheduleController.create)
 
 // {--------------- Schedule flight list  --------------------}
 
+
+// http://localhost:4000/api/V1/scheduleflightslist
 router.get("/scheduleflightslist", ScheduleFlightList.getFilteredData);
 
+// http://localhost:4000/api/V1/getAllSchedulelists
 router.get("/getAllSchedulelists", ScheduleFlightList.getAll);
+
+
+// http://localhost:4000/api/V1/schedulesListByFlightId/:id
+router.get("/schedulesListByFlightId/:id" , ScheduleFlightList.getByFlightId);
 
 
 
