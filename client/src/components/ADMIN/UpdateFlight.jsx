@@ -83,7 +83,7 @@ const notify = () => {
           alt=""
         />
         <div className="absolute w-[95%]">
-          <h1 className="px-8 pt-5 text-2xl font-semibold"> update Flights Data</h1>
+          <h1 className="px-8 pt-5 text-2xl font-semibold"> Update Flights Data</h1>
           <hr className="w-[95%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           <div className="Search-form w-[95%] mx-auto h-80 ">
             <h4 className="w-full p-2 bg-[#5A7FA1] text-lg">Update Flight</h4>
@@ -91,11 +91,11 @@ const notify = () => {
             <form onSubmit={HandleSubmit}  >
               <div className="flex flex-wrap justify-start gap-5 mt-5">
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Airline Name{" "}
                   </label>
                   <input
-                    className=" p-3  rounded bg-zinc-300 text-black outline-none border "
+                    className=" p-2  rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : AA or American Airline"
                     type="text"
                     name="Airline"
@@ -104,11 +104,11 @@ const notify = () => {
                   />
                 </div>
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Model-No{" "}
                   </label>
                   <input
-                    className="p-3 rounded bg-zinc-300 text-black outline-none border "
+                    className="p-2 rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : Mumbai, Maharashtra"
                     type="text"
                     name="modelNo"
@@ -117,12 +117,30 @@ const notify = () => {
                   />
                 </div>
 
+                <div className="flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Enter Flight type
+                  </label>
+                  <select
+                    id="countries"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    // onChange={(e) => setFlightType(e.target.value)}
+                    name="flight_type"
+                    value={flightData.flight_type}
+                    onChange={handleChange}
+                  >
+                    <option selected disabled>Choose flight type</option>
+                    <option value="Domestic">Domestic</option>  
+                    <option value="International">International</option>  
+                  </select>
+                </div>
+
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Capacity{" "}
                   </label>
                   <input
-                    className="p-3 rounded bg-zinc-300 text-black outline-none border "
+                    className="p-2 rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : Mumbai, Maharashtra"
                     type="text"
                     name="Capacity"
@@ -132,12 +150,12 @@ const notify = () => {
                 </div>
 
                 <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Departure City{" "}
                   </label>
                   <select
                     id="countries"
-                    className="p-3 rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2 rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={handleChange}
                     value={flightData.Departure}
                     name="Departure"
@@ -155,12 +173,12 @@ const notify = () => {
                 </div>
 
                 <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Arrival City{" "}
                   </label>
                   <select
                     id="countries"
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={handleChange}
                     value={flightData.Arrival}
                     name="Arrival"
@@ -177,42 +195,42 @@ const notify = () => {
                   </select>
                 </div>
 
-                <div className="flex flex-col w-[32%]">
-                  <label className="font-semibold text-lg" for="appt">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label className="font-semibold text-sm" for="appt">
                     Select Departure Time:
                   </label>
                   <input
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border-zinc-950 gap-5 "
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border-zinc-950 gap-5 "
                     type="time"
                     id="appt"
                     name="DepartureTime"
                     value={flightData.DepartureTime}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
 
                 {/* <div className="flex justify-around"> */}
-                <div className="flex flex-col w-[32%]">
-                  <label className="font-semibold text-lg" for="appt">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label className="font-semibold text-sm" for="appt">
                     Select Arrival Time:
                   </label>
                   <input
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     type="time"
                     id="appt"
                     name="ArrivalTime"
                     value={flightData.ArrivalTime}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
 
-                <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Choose Remark{" "}
                   </label>
                   <select
                     id="countries"
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={handleChange}
                     name="Remark"
                     value={flightData.Remark}
@@ -227,9 +245,9 @@ const notify = () => {
                     <option value="SATURDAY">SATURDAY</option>
                     <option value="SUNDAY">SUNDAY</option>
                   </select>
-                </div>
-                {/* </div> */}
+                </div> */}
               </div>
+                {/* </div> */}
 
               <button
                 className="px-20 py-2 bg-[#c58413] ml-[35%] mt-6"

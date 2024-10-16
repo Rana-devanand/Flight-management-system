@@ -30,6 +30,7 @@ function CreateFlight() {
   const [Capacity , setCapacity] = useState("");
   const [Departure , setDeparture] = useState("");
   const [Arrival , setArrival] = useState("");
+  const [flightType , setFlightType] = useState("");
   const [DepartureTime , setDepartureTime] = useState("");
   const [ArrivalTime , setArrivalTime] = useState("");
   const [Remark , setRemark] = useState("");
@@ -70,10 +71,11 @@ function CreateFlight() {
     formData.append("Airline", Airline);
     formData.append("modelNo", modelNo);
     formData.append("Capacity", Capacity);
+    formData.append("flight_type" ,flightType);
     formData.append("Departure", Departure);
     formData.append("Arrival", Arrival);
-    formData.append("DepartureTime", DepartureTime);
-    formData.append("ArrivalTime", ArrivalTime);
+    // formData.append("DepartureTime", DepartureTime);
+    // formData.append("ArrivalTime", ArrivalTime);
     formData.append("Remark", Remark);
     formData.append("flightLogo", flightLogo);
 
@@ -165,60 +167,81 @@ const getAllFilteredFlight = async()=>{
           <h1 className="px-8 pt-5 text-2xl font-semibold"> Create Flights</h1>
           <hr className="w-[95%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           <div className="Search-form w-[95%] mx-auto h-80 ">
-            <h4 className="w-full p-2 bg-[#5A7FA1] text-lg">Add Flight</h4>
+            <h4 className="w-full p-2 bg-[#5A7FA1] text-sm">Add Flight</h4>
 
             <form onSubmit={HandleSubmit} ref={FormRef}>
               <div className="flex flex-wrap justify-start gap-5 mt-5">
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Airline Name{" "}
                   </label>
                   <input
-                    className=" p-3  rounded bg-zinc-300 text-black outline-none border "
+                    className=" p-2  rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : AA or American Airline"
                     type="text"
                     name="Airline"
                     onChange={(e) => setAirline(e.target.value)}
+                    required
                   />
                 </div>
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Model-No{" "}
                   </label>
                   <input
-                    className="p-3 rounded bg-zinc-300 text-black outline-none border "
+                    className="p-2 rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : Mumbai, Maharashtra"
                     type="text"
                     name="modelNo"
                     //  value={selected}
                     onChange={(e) => setModelNo(e.target.value)}
-                  />
-                </div>
-
-                <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
-                    Enter Capacity{" "}
-                  </label>
-                  <input
-                    className="p-3 rounded bg-zinc-300 text-black outline-none border "
-                    placeholder="Example : Mumbai, Maharashtra"
-                    type="text"
-                    name="Capacity"
-                    onChange={(e) => setCapacity(e.target.value)}
+                    required
                   />
                 </div>
 
                 <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Enter Flight type
+                  </label>
+                  <select
+                    id="countries"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    onChange={(e) => setFlightType(e.target.value)}
+                    name="flight_type"
+                    required
+                  >
+                    <option selected disabled>Choose flight type</option>
+                    <option value="Domestic">Domestic</option>  
+                    <option value="International">International</option>  
+                  </select>
+                </div>
+
+                <div className=" flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Enter Capacity{" "}
+                  </label>
+                  <input
+                    className="p-2 rounded bg-zinc-300 text-black outline-none border "
+                    placeholder="Example : 200 , 80 , 120"
+                    type="text"
+                    name="Capacity"
+                    onChange={(e) => setCapacity(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Enter Departure City{" "}
                   </label>
                   <select
                     id="countries"
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={(e) => setDeparture(e.target.value)}
                     name="Departure"
+                    required
                   >
-                    <option selected>Choose a City</option>
+                    <option selected disabled>Choose a City</option>
                     {allCity.length > 0 &&
                       allCity
                         .sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
@@ -231,16 +254,17 @@ const getAllFilteredFlight = async()=>{
                 </div>
 
                 <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
-                    Enter Arrival Type City{" "}
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Enter Arrival City
                   </label>
                   <select
                     id="countries"
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={(e) => setArrival(e.target.value)}
                     name="Arrival"
+                    required
                   >
-                    <option selected>Choose airport type </option>
+                    <option selected disabled>Choose airport type </option>
                     {allCity.length > 0 &&
                       allCity
                         .sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
@@ -252,40 +276,40 @@ const getAllFilteredFlight = async()=>{
                   </select>
                 </div>
 
-                <div className="flex flex-col w-[32%]">
-                  <label className="font-semibold text-lg" for="appt">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label className="font-semibold text-sm" for="appt">
                     Select Departure Time:
                   </label>
                   <input
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border-zinc-950 gap-5 "
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border-zinc-950 gap-5 "
                     type="time"
                     id="appt"
                     name="DepartureTime"
                     onChange={(e) => setDepartureTime(e.target.value)}
                   />
-                </div>
+                </div> */}
 
                 {/* <div className="flex justify-around"> */}
-                <div className="flex flex-col w-[32%]">
-                  <label className="font-semibold text-lg" for="appt">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label className="font-semibold text-sm" for="appt">
                     Select Arrival Time:
                   </label>
                   <input
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     type="time"
                     id="appt"
                     name="ArrivalTime"
                     onChange={(e) => setArrivalTime(e.target.value)}
                   />
-                </div>
+                </div> */}
 
-                <div className="flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                {/* <div className="flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Choose Remark{" "}
                   </label>
                   <select
                     id="countries"
-                    className="p-3  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     onChange={(e) => setRemark(e.target.value)}
                     name="Remark"
                   >
@@ -299,17 +323,18 @@ const getAllFilteredFlight = async()=>{
                     <option value="SATURDAY">SATURDAY</option>
                     <option value="SUNDAY">SUNDAY</option>
                   </select>
-                </div>
+                </div> */}
                 
                 <div className=" flex flex-col w-[32%]">
-                  <label htmlFor="" className="font-semibold text-lg">
+                  <label htmlFor="" className="font-semibold text-sm">
                     Choose Flight Logo
                   </label>
                   <input
-                    className=" p-3  rounded bg-zinc-300 text-black outline-none border "
+                    className=" p-2  rounded bg-zinc-300 text-black outline-none border "
                     placeholder="Example : AA or American Airline"
                     type="file"
                     name="flightLogo"
+                    required
                     onChange={handleImage}
                   />
                 </div>
@@ -336,12 +361,12 @@ const getAllFilteredFlight = async()=>{
       <div className="w-full h-screen bg-slate-300">
         <div className="w-[95%] mx-auto flex justify-center">
           <div>
-            <h1 className="text-3xl font-semibold mt-10">All Flight</h1>
+            <h1 className="text-2xl font-semibold mt-10">All Flight</h1>
             <hr className="h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           </div>
         </div>
         <div className="px-6 py-2 ">
-          <button className="bg-blue-800 px-6 py-2 rounded text-white" onClick={LoadAllFlight}>
+          <button className="bg-blue-800 px-4 py-2 rounded text-white text-sm" onClick={LoadAllFlight}>
             CLick to load
           </button>
 
@@ -354,7 +379,7 @@ const getAllFilteredFlight = async()=>{
 
  {/* all flight data in table  */}
 
-       <table class="min-w-full table-auto border-collapse border border-gray-300">
+       <table class="min-w-full table-auto border-collapse border border-gray-300 text-sm">
           <thead class="bg-gray-200">
                <tr>
                     <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
@@ -363,9 +388,9 @@ const getAllFilteredFlight = async()=>{
                     <th class="border border-gray-300 px-4 py-2 text-left">Capacity</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Departure City</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Arrival City</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">Departure Time</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">Arrival Time</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">Remark</th>
+                    {/* <th class="border border-gray-300 px-4 py-2 text-left">Departure Time</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Arrival Time</th> */}
+                    {/* <th class="border border-gray-300 px-4 py-2 text-left">Remark</th> */}
                     <th class="border border-gray-300 px-4 py-2 text-left">Flight Logo</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Created At</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">Updated At</th>
@@ -387,9 +412,9 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Capacity}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Departure}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Arrival}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
+                             {/* <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td> */}
+                             {/* <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td> */}
                              <td class="border border-gray-300 px-4 py-2 text-left"><img src={flight.flightLogo} alt=""/></td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
@@ -408,17 +433,17 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Capacity}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Departure}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.Arrival}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td>
-                             <td class="border border-gray-300 px-4 py-2 text-left"><img src={flight.flightLogo} alt="" /></td>
+                             {/* <td class="border border-gray-300 px-4 py-2 text-left">{flight.DepartureTime}</td>
+                             <td class="border border-gray-300 px-4 py-2 text-left">{flight.ArrivalTime}</td> */}
+                             {/* <td class="border border-gray-300 px-4 py-2 text-left">{flight.Remark}</td> */}
+                             <td class="border border-gray-300 px-4 py-2 text-left"><img src={flight.flightLogo} style={{width:60, height:50}} alt="" /></td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.createdAt}</td>
                              <td class="border border-gray-300 px-4 py-2 text-left">{flight.updatedAt}</td>
                              
                              <td class="border border-gray-300 px-4 py-2 text-left"> 
                                 <button className="px-4 py-2 rounded text-white bg-cyan-600" 
                                         type="button"
-                                        onClick={() => updateFlight(flight.id)}
+                                        onClick={() => updateFlight(flight.flight_id)}
                                         >Update
                                 </button>
                              </td>
@@ -427,7 +452,7 @@ const getAllFilteredFlight = async()=>{
                              <td class="border border-gray-300 px-4 py-2 text-left">
                                   <button className="px-4 py-2 rounded text-white bg-red-500"       
                                           type="button"
-                                          onClick={() => HandleDelete(flight.id)}
+                                          onClick={() => HandleDelete(flight.flight_id)}
                                           >Delete
                                   </button>
                              </td>
