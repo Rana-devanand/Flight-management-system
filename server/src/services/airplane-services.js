@@ -90,6 +90,15 @@ class AirplaneServices {
                throw {error};
           }
      }
+
+     async getAllInnerJoinFlights(){
+          try {
+               const response = await this.airplaneRepository.getAllInnerJoinFlights();
+               return response;
+          } catch (error) {
+               console.error(error);
+          }
+     }
 }
 
 module.exports = AirplaneServices;

@@ -56,11 +56,11 @@ module.exports = {
         type : Sequelize.STRING,
         allowNull : false,
       },
-      flight_status :{
-        type : Sequelize.ENUM("Schedule", "Delayed", "Cancelled"),
-        allowNull : false,
-        defaultValue : "Schedule",
-      },
+      // flight_status :{
+      //   type : Sequelize.ENUM("Schedule", "Delayed", "Cancelled"),
+      //   allowNull : false,
+      //   defaultValue : "Schedule",
+      // },
       flightLogo : {
         type : Sequelize.STRING,
         allowNull : false,

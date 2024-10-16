@@ -87,6 +87,9 @@ router.get("/dailyFlights", AirplaneRepository.dailyFlights)
 // http://localhost:4000/api/V1/getFlightById
 router.get("/getFlightById/:id" , AirplaneRepository.getByFlightId)
 
+// http://localhost:4000/api/V1/allFlightScheduleList
+router.get("/allFlightScheduleList", AirplaneRepository.findAllFLightAndSchedule)
+
 
 
 

@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.TIME,
         allowNull: false,
       },
+      totalTIme:{
+        type : Sequelize.STRING,
+        allowNull : false,
+      },
       Total_seats: {
         type: Sequelize.JSON,
         allowNull: false,

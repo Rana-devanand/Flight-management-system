@@ -88,7 +88,7 @@ const getAll = async (req, res) => {
 
 const updateAirplane = async (req, res) => {
      try {
-          console.log(req.params.id);
+          // console.log(req.params.id);
           console.log("Data come : " ,req.body)
           const response = await airplaneServices.updateFlightByPk(req.params.id, req.body);
           return res.status(200).json({
@@ -111,7 +111,7 @@ const updateAirplane = async (req, res) => {
 
 const filterFlightData = async (req, res) =>{
      try {
-          console.log("controller : ",req.query);
+          // console.log("controller : ",req.query);
           const response = await airplaneServices.fetchFilterFlightData(req.query);
           // console.log(response);
           return res.status(200).json({
@@ -172,6 +172,26 @@ const getByFlightId = async (req, res) =>{
      }
 }
 
+const findAllFLightAndSchedule = async (req, res) => {
+     try {
+          const response = await airplaneServices.getAllInnerJoinFlights();
+          return res.status(200).json({
+               data: response,
+               message: 'All flights and schedule fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching all flights and schedule',
+               messageType: 'error',
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      destroy,
@@ -180,5 +200,6 @@ module.exports = {
      updateAirplane,
      filterFlightData,
      dailyFlights,
-     getByFlightId
+     getByFlightId,
+     findAllFLightAndSchedule
 }

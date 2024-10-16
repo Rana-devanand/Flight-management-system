@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.schedule_list, {
+        foreignKey : "flight_id",
+      });
     }
   }
   airplanes.init({
@@ -61,11 +64,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    flight_status :{
-      type : DataTypes.ENUM("Schedule", "Delayed", "Cancelled"),
-      allowNull : false,
-      defaultValue : "Schedule",
-    },
+    // flight_status :{
+    //   type : DataTypes.ENUM("Schedule", "Delayed", "Cancelled"),
+    //   allowNull : false,
+    //   defaultValue : "Schedule",
+    // },
     flightLogo : {
       type : DataTypes.STRING,
       allowNull : false,

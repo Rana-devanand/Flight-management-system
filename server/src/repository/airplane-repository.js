@@ -1,4 +1,4 @@
-const { airplanes } = require("../models/index")
+const { airplanes , schedule_list} = require("../models/index")
 const { Op } = require("sequelize");
 const ScheduleListRepository = require("../repository/schedule-flight-list-Repository")
 
@@ -181,7 +181,19 @@ class AirplaneRepository {
                console.error("Failed to get flight from database " + error.message);
           }
      }
+     async getAllInnerJoinFlights(){
+          try {
+               const flight = await airplanes.findAll({
+                    include: [{
+                         model: schedule_list,
+                         required : true,
+                    }]
+               }) 
+               return flight;
+          } catch (error) {
+          console.log("Failed to get flight from database " + error.message); 
+          }
+     }
 }
-
 
 module.exports = AirplaneRepository;

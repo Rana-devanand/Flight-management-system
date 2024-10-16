@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.airplanes ,{
+       foreignKey : "flight_id",
+       onDelete: "CASCADE",
+    })
     }
   }
   schedule_list.init({
@@ -23,11 +27,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull : false,
     },
     Departure: {
-      type : DataTypes.TIME,
+      type : DataTypes.DATE,
       allowNull : false,
     },
     Arrival: {
-      type : DataTypes.TIME,
+      type : DataTypes.DATE,
+      allowNull : false,
+    },
+    totalTIme : {
+      type : DataTypes.STRING,
+      allowNull : false,
+    },
+    departureTime :{
+      type : DataTypes.STRING,
+      allowNull : false,
+    },
+    arrivalTime : {
+      type : DataTypes.STRING,
       allowNull : false,
     },
     Total_seats: {
