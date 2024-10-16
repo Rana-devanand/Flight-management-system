@@ -17,8 +17,9 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import Footer from "./Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import FilterFlight from "./FilterFlight";
 function Home() {
   const data = [
     {
@@ -243,15 +244,18 @@ function Home() {
 
       setFilterFlightData(response.data.data);
       console.log("filter flight data : ", response.data.data);
+
+      if (filterFlight && filterFlight.length > 0) {
+        navigate(`/filterFLights`, { state: { user: filterFlight }});
+      }else if(filterFlight.length ==0){
+        toast.error("No flights available for your selected date.");
+      }
+    
     } catch (error) {
       console.error(" Couldn't get flight detail from server", error);
     }
   };
   // console.log(filterFlight);
-  if (filterFlight && filterFlight.length >= 0) {
-    navigate(`/filterFLights`, { state: { user: filterFlight }});
-    // { state: { user: data } }
-  }
 
 
   // Date
@@ -422,6 +426,7 @@ function Home() {
               Search
             </button>
           </div>
+          <ToastContainer />
         </div>
       </div>
 

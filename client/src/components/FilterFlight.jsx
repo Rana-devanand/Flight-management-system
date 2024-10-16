@@ -11,6 +11,8 @@ import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
 import "flatpickr/dist/flatpickr.css";
 import "../assets/css/HomeStyle.css";
 import Chart from "./Chart/CostChart";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FilterFlight() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
@@ -22,6 +24,8 @@ function FilterFlight() {
   const userData = location.state?.user; // Retrieving the object data
   // console.log(userData);
   const [storeAllCity, setAllCity] = useState({});
+  // const [flightTiming , setFlightTiming] = useState({});
+  const [ScheduleFlight, setScheduleFlightData] = useState({});
 
   // http://localhost:4000/api/V1/dailyFlights
   const getDailyFlightsData = async () => {
@@ -60,40 +64,24 @@ function FilterFlight() {
     }
   };
 
-
-  // http:localhost:4000/api/V1/allFlights
-  useEffect(() => {
-    
-      const updateUserChooseDestination = userData.map((flightArray) => {
-        const updatedFlights = flightArray.map((flight) => {
-          return {
-            ...flight,
-                          // Replace and update path
-            flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`, 
-          };
-        });
-      
-        // Instead of setting state inside the loop, accumulate the changes
-        return updatedFlights;
-      });
-      
-      // Flatten the nested array and store in state all at once
-      setFilterFlightData((prevData) => [...prevData, ...updateUserChooseDestination.flat()]);
-
-      
-    getDailyFlightsData();
-    setCurrentDate(
-      new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    );
-
-    getAllCityData();
-  }, []);
-  const [cost, setCost] = useState(2253);
+   // http:localhost:4000/api/V1/allFlights
+  const callScheduleFlight = async () => {
+    const list = []
+    try {
+      const ScheduleFlightURL = `${URL}/api/V1/allFlightScheduleList`;
+      const response = await axios.get(ScheduleFlightURL);
+      const ScheduleFlightList = response.data.data;
+      // console.log(ScheduleFlightList);
+      for (let i = 0; i < ScheduleFlightList.length; i++) {
+        let getScheduleLists = await response.data.data[i].schedule_lists[i];
+        console.log(getScheduleLists);
+        list.push(getScheduleLists);
+      }
+      setScheduleFlightData(list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const HandleBook = (id) => {
     const type = localStorage.getItem("type");
@@ -101,7 +89,7 @@ function FilterFlight() {
     if (!type) {
       navigate("/login");
     } else if (type == "user") {
-      const updatePriceInFlight = { ...id, id: id, price: cost };
+      const updatePriceInFlight = { ...id, id: id, price: 3000 };
       console.log(updatePriceInFlight);
       // navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
       navigate("/seats");
@@ -114,13 +102,14 @@ function FilterFlight() {
     Date: "",
   });
 
+  // console.log(filterData)
   const HandleChange = (e) => {
     setFilteredData({ ...filterData, [e.target.name]: e.target.value });
     // console.log(filterData);
   };
 
-const [selectedDate, setChooseDate] = useState();
-const chooseDate = (selectDate) => {
+  const [selectedDate, setChooseDate] = useState();
+  const chooseDate = (selectDate) => {
     const myDate = selectDate[0];
     const dateObject = new Date(myDate);
 
@@ -131,10 +120,9 @@ const chooseDate = (selectDate) => {
 
     // Create the formatted date string in YYYY-MM-DD format
     let formattedDate = `${year}-${month}-${day}`;
-    setChooseDate(formattedDate)
-    setFilteredData({...filterData, Date: formattedDate + "T00:00:00.000Z"});
-};
-
+    setChooseDate(formattedDate);
+    setFilteredData({ ...filterData, Date: formattedDate + "T00:00:00.000Z" });
+  };
 
   // http://localhost:4000/api/V1/filterFlight
   const HandleSubmit = async (e) => {
@@ -147,27 +135,67 @@ const chooseDate = (selectDate) => {
       });
       const filterFlightArrayData = response.data.data;
       // console.log(response.data.data);
-      const updateUserChooseDestination = filterFlightArrayData.map((flightArray) => {
-        const updatedFlights = flightArray.map((flight) => {
-          return {
-            ...flight,
-                          // Replace and update path
-            flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`, 
-          };
-        });
-      
-        // Instead of setting state inside the loop, accumulate the changes
-        return updatedFlights;
-      });
-      
+      if(filterFlightArrayData.length == 0) {
+        toast.error("No Flights available");
+      }
+      const updateUserChooseDestination = filterFlightArrayData.map(
+        (flightArray) => {
+          const updatedFlights = flightArray.map((flight) => {
+            return {
+              ...flight,
+              // Replace and update path
+              flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
+            };
+          });
+
+          // Instead of setting state inside the loop, accumulate the changes
+          return updatedFlights;
+        }
+      );
+
       // Flatten the nested array and store in state all at once
-      setFilterFlightData((prevData) => [...prevData, ...updateUserChooseDestination.flat()]);
-    
+      setFilterFlightData((prevData) => [
+        ...prevData,
+        ...updateUserChooseDestination.flat(),
+      ]);
     } catch (error) {
       console.error(error);
     }
-  };  
+  };
 
+  useEffect(() => {
+    callScheduleFlight();
+    const updateUserChooseDestination = userData.map((flightArray) => {
+      const updatedFlights = flightArray.map((flight) => {
+        return {
+          ...flight,
+          // Replace and update path
+          flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
+        };
+      });
+
+      // Instead of setting state inside the loop, accumulate the changes
+      return updatedFlights;
+    });
+
+    // Flatten the nested array and store in state all at once
+    setFilterFlightData((prevData) => [
+      ...prevData,
+      ...updateUserChooseDestination.flat(),
+    ]);
+
+    getDailyFlightsData();
+    setCurrentDate(
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    );
+
+    getAllCityData();
+  }, []);
 
   return (
     <div className="bg-zinc-200 w-full h-auto">
@@ -177,13 +205,10 @@ const chooseDate = (selectDate) => {
             <div className="flex w-full p-5 rounded-md border  bg-[#ECECEC] shadow-2xl">
               <form className="flex w-full" action="" onSubmit={HandleSubmit}>
                 <div className="w-[27%] border border-[#b9b9b9]">
-                
                   <select
                     name="Departure"
-                   
                     className="w-[100%] px-5 py-4 outline-none appearance-none"
                     onChange={HandleChange}
-                    
                   >
                     <option value="" defaultChecked>
                       From where
@@ -199,7 +224,6 @@ const chooseDate = (selectDate) => {
                 </div>
 
                 <div className=" w-[27%] border border-[#b9b9b9]">
-                 
                   <select
                     name="Arrival"
                     id=""
@@ -331,17 +355,21 @@ const chooseDate = (selectDate) => {
           <div className="container mx-auto p-2">
             <div className="overflow-x-auto">
               <div className="flex justify-between">
-              <p className="my-3">
-                Choose a <span className="text-[#0ba2cf]">departing </span>flight
-              </p>
-              <p className="mr-16 mt-5 font-semibold text-amber-600"> {selectedDate}</p>
+                <p className="my-3">
+                  Choose a <span className="text-[#0ba2cf]">departing </span>
+                  flight
+                </p>
+                <p className="mr-16 mt-5 font-semibold text-amber-600">
+                  {" "}
+                  {selectedDate}
+                </p>
               </div>
-              <table className="min-w-[95%] text-xs font-medium bg-white border border-gray-200 rounded-lg shadow-md">
+              <table className="min-w-[95%] text-xs font-medium bg-white border border-gray-200 rounded-lg shadow-2xl">
                 <thead>
                   <tr className="bg-gray-100"></tr>
                 </thead>
                 <tbody>
-                  {filterFlight && filterFlight.length > 0  ? (
+                  {filterFlight && filterFlight.length > 0 ? (
                     filterFlight.map((flight, id) => (
                       <tr key={id} className="hover:bg-gray-50">
                         <td className="border  border-[#f1f1f1a2]  py-2">
@@ -351,12 +379,27 @@ const chooseDate = (selectDate) => {
                             alt=""
                           />
                         </td>
+                        
+                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData) => (
+                            <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
+                              {flight.flight_id == scheduleData.flight_id ? (scheduleData.totalTIme) : ("")}
+                              <br/>
+                              {flight.Airline}
+                              </td>
+                          ))}
+                          <br />
+                          
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
-                          16H 45m <br /> {flight.Airline}
+                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData) => (
+                            <td>
+                              {flight.flight_id == scheduleData.flight_id ? (scheduleData.departureTime): ("")}
+                              <b> - </b>
+                              {flight.flight_id == scheduleData.flight_id ? (scheduleData.arrivalTime
+                              ): ("")}
+                              </td>
+                          ))}
                         </td>
-                        <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
-                          {flight.DepartureTime} AM - {flight.ArrivalTime} PM{" "}
-                        </td>
+
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
                           non stop
                         </td>
@@ -365,10 +408,10 @@ const chooseDate = (selectDate) => {
                         </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2 items-center">
                           <button
-                            className="w-full h-12 bg-green-500 text-white rounded-lg flex justify-center items-center"
+                            className="w-full h-12 bg-[#0faa90] text-white rounded-lg flex justify-center items-center"
                             onClick={() => HandleBook(flight.id)}
                           >
-                            Book Ticket
+                            Reserve Your Seat
                           </button>
                         </td>
                       </tr>
@@ -376,12 +419,13 @@ const chooseDate = (selectDate) => {
                   ) : (
                     <tr>
                       <td colSpan="8" className="text-center px-4 py-2 border">
-                        No flights available.
+                            No flights Available                            
                       </td>
                     </tr>
                   )}
                 </tbody>
               </table>
+              <ToastContainer />
             </div>
           </div>
 
@@ -406,10 +450,17 @@ const chooseDate = (selectDate) => {
                           />
                         </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
-                          16H 45m <br /> {flight.Airline}
+                          <p className="text-[#fa3333] font-semibold">
+                            Flight Timing Not Schedule !!
+                          </p>
+                          {/* {flightTiming && flightTiming.length > 0 && flightTiming.map(flightTime =>{
+                          return flightTime.flight_id === flight.flight_id ? flightTime.schedule_lists[0].totalTIme : "" ;
+                         })} */}
+                          <br />
+                          {flight.Airline}
                         </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
-                          {flight.DepartureTime} AM - {flight.ArrivalTime} PM{" "}
+                          AM-PM
                         </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
                           non stop
