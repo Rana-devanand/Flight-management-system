@@ -27,10 +27,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      available_seats : {
-        type : Sequelize.JSON,
-        allowNull: false,
-      },
+      // available_seats : {
+      //   type : Sequelize.JSON,
+      //   allowNull: false,
+      // },
       Capacity: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -52,10 +52,10 @@ module.exports = {
       //   type: Sequelize.STRING,
       //   allowNull: false,
       // },
-      Remark :{
-        type : Sequelize.STRING,
-        allowNull : false,
-      },
+      // Remark :{
+      //   type : Sequelize.STRING,
+      //   allowNull : false,
+      // },
       // flight_status :{
       //   type : Sequelize.ENUM("Schedule", "Delayed", "Cancelled"),
       //   allowNull : false,

@@ -35,10 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    available_seats : {
-      type : DataTypes.JSON,
-      allowNull: false,
-    },
+    // available_seats : {
+    //   type : DataTypes.JSON,
+    //   allowNull: false,
+    // },
     Capacity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -60,10 +60,10 @@ module.exports = (sequelize, DataTypes) => {
     //   type: DataTypes.TIME,
     //   allowNull: false,
     // },
-    Remark: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // Remark: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     // flight_status :{
     //   type : DataTypes.ENUM("Schedule", "Delayed", "Cancelled"),
     //   allowNull : false,
