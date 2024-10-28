@@ -27,6 +27,23 @@ function FilterFlight() {
   // const [flightTiming , setFlightTiming] = useState({});
   const [ScheduleFlight, setScheduleFlightData] = useState({});
 
+
+  const getFilterFlightData = async () =>{
+    try {
+      let allFlight = [];
+      for(let i = 0; i < userData.length; i++) {
+        const response = await axios.get(`${URL}/api/V1/airplane/${userData[i][0].flight_id}`);
+        const flightData = response.data.data;
+        flightData.flightLogo = `${URL}/${flightData.flightLogo.replace(/\\/g, "/")}`;
+        console.log(flightData);
+        allFlight.push(flightData);
+      }
+      setFilterFlightData(allFlight);
+    } catch (error) {
+      console.error("flight not fetched");
+    }
+  }
+
   // http://localhost:4000/api/V1/dailyFlights
   const getDailyFlightsData = async () => {
     try {
@@ -64,7 +81,7 @@ function FilterFlight() {
     }
   };
 
-   // http:localhost:4000/api/V1/allFlights
+   // http:localhost:4000/api/V1/allFlightScheduleList
   const callScheduleFlight = async () => {
     const list = []
     try {
@@ -85,14 +102,14 @@ function FilterFlight() {
 
   const HandleBook = (id) => {
     const type = localStorage.getItem("type");
-    console.log(type);
+    // console.log(type);
     if (!type) {
       navigate("/login");
     } else if (type == "user") {
-      const updatePriceInFlight = { ...id, id: id, price: 3000 };
-      console.log(updatePriceInFlight);
+      // const updatePriceInFlight = { ...id, id: id, price: 3000 };
+      // console.log(updatePriceInFlight);
       // navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
-      navigate("/seats");
+      navigate("/seats", { state: { flightId: id } });
     }
   };
 
@@ -165,24 +182,25 @@ function FilterFlight() {
 
   useEffect(() => {
     callScheduleFlight();
-    const updateUserChooseDestination = userData.map((flightArray) => {
-      const updatedFlights = flightArray.map((flight) => {
-        return {
-          ...flight,
-          // Replace and update path
-          flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
-        };
-      });
+    getFilterFlightData();
+    // const updateUserChooseDestination = userData.map((flightArray) => {
+    //   const updatedFlights = flightArray.map((flight) => {
+    //     return {
+    //       ...flight,
+    //       // Replace and update path
+    //       flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
+    //     };
+    //   });
 
-      // Instead of setting state inside the loop, accumulate the changes
-      return updatedFlights;
-    });
+    //   // Instead of setting state inside the loop, accumulate the changes
+    //   return updatedFlights;
+    // });
 
-    // Flatten the nested array and store in state all at once
-    setFilterFlightData((prevData) => [
-      ...prevData,
-      ...updateUserChooseDestination.flat(),
-    ]);
+    // // Flatten the nested array and store in state all at once
+    // setFilterFlightData((prevData) => [
+    //   ...prevData,
+    //   ...updateUserChooseDestination.flat(),
+    // ]);
 
     getDailyFlightsData();
     setCurrentDate(
@@ -209,16 +227,17 @@ function FilterFlight() {
                     name="Departure"
                     className="w-[100%] px-5 py-4 outline-none appearance-none"
                     onChange={HandleChange}
+                    defaultValue= ""
                   >
-                    <option value="" defaultChecked>
+                    <option disabled>
                       From where
                     </option>
                     {storeAllCity &&
                       storeAllCity.length > 0 &&
                       storeAllCity
                         .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((city) => (
-                          <option value={city.name}>{city.name}</option>
+                        .map((city , index) => (
+                          <option key={index} value={city.name}>{city.name}</option>
                         ))}
                   </select>
                 </div>
@@ -229,16 +248,17 @@ function FilterFlight() {
                     id=""
                     className="w-[100%]  px-5 py-4 outline-none appearance-none"
                     onChange={HandleChange}
+                    defaultValue=""
                   >
-                    <option value="" defaultChecked>
+                    <option value="">
                       From to
                     </option>
                     {storeAllCity &&
                       storeAllCity.length > 0 &&
                       storeAllCity
                         .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((city) => (
-                          <option value={city.name} className="overflow-scroll">
+                        .map((city , index) => (
+                          <option key={index} value={city.name} className="overflow-scroll">
                             {city.name}
                           </option>
                         ))}
@@ -275,8 +295,9 @@ function FilterFlight() {
                   name=""
                   id=""
                   className="w-full h-10 pl-2 outline-none rounded-md items-center bg-[#ececec] border border-[#a8a8a8] appearance-auto"
+                  defaultValue=""
                 >
-                  <option value="" selected>
+                  <option disabled>
                     Max Price
                   </option>
                   <option value="">1500</option>
@@ -291,7 +312,7 @@ function FilterFlight() {
                   id=""
                   className="w-full h-10 pl-2 outline-none rounded-md  bg-[#ececec] border border-[#a8a8a8]"
                 >
-                  <option value="" selected>
+                  <option disabled>
                     Time
                   </option>
                   <option value="">1500</option>
@@ -307,27 +328,15 @@ function FilterFlight() {
                   id=""
                   className="w-full h-10 pl-2 outline-none rounded-md bg-[#ececec] border border-[#a8a8a8]"
                 >
-                  <option value="" selected>
+                  <option disabled>
                     Airlines
                   </option>
-                  <option value="">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label for="vehicle1"> India</label>
+                  <option value="India">
+                   India
                   </option>
 
-                  <option value="">
-                    <input
-                      type="checkbox"
-                      id="vehicle1"
-                      name="vehicle1"
-                      value="Bike"
-                    />
-                    <label for="vehicle1"> Air India</label>
+                  <option value="Air India">
+                   Air India
                   </option>
                 </select>
               </div>
@@ -338,7 +347,7 @@ function FilterFlight() {
                   id=""
                   className="w-full h-10 pl-2 outline-none rounded-md bg-[#ececec] border border-[#a8a8a8]"
                 >
-                  <option value="" selected>
+                  <option disabled>
                     Seat class
                   </option>
                   <option value="">Economy</option>
@@ -370,8 +379,8 @@ function FilterFlight() {
                 </thead>
                 <tbody>
                   {filterFlight && filterFlight.length > 0 ? (
-                    filterFlight.map((flight, id) => (
-                      <tr key={id} className="hover:bg-gray-50">
+                    filterFlight.map((flight, index) => (
+                      <tr key={index}  className="hover:bg-gray-50">
                         <td className="border  border-[#f1f1f1a2]  py-2">
                           <img
                             className="w-16 h-10 ml-5"
@@ -380,8 +389,8 @@ function FilterFlight() {
                           />
                         </td>
                         
-                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData) => (
-                            <td className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
+                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
+                            <td key={index} className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.totalTIme) : ("")}
                               <br/>
                               {flight.Airline}
@@ -390,8 +399,8 @@ function FilterFlight() {
                           <br />
                           
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
-                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData) => (
-                            <td>
+                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
+                            <td key={index}>
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.departureTime): ("")}
                               <b> - </b>
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.arrivalTime
@@ -408,8 +417,8 @@ function FilterFlight() {
                         </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2 items-center">
                           <button
-                            className="w-full h-12 bg-[#0faa90] text-white rounded-lg flex justify-center items-center"
-                            onClick={() => HandleBook(flight.id)}
+                            className="w-full h-12 bg-[#0faa90] px-3 text-white rounded-lg flex justify-center items-center"
+                            onClick={() => HandleBook(flight.flight_id)}
                           >
                             Reserve Your Seat
                           </button>

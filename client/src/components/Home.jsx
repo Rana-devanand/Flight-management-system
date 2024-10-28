@@ -204,6 +204,7 @@ function Home() {
     Arrival: "",
     Date: "",
   });
+  const [selectedChooseDate , setChooseDate] = useState(null);
   const handleInputChange = (e) => {
     const chooseFilter = { ...formData, [e.target.name]: e.target.value };
     console.log(formData)
@@ -222,10 +223,10 @@ function Home() {
 
     // Create the formatted date string in YYYY-MM-DD format
     let formattedDate = `${year}-${month}-${day}`;
-    
+    setChooseDate(formattedDate);
     setData({...formData, Date: formattedDate + "T00:00:00.000Z"});
 };
-
+  console.log(formData)
   useEffect(() => {
     getAllCity();
   }, []);
@@ -243,10 +244,13 @@ function Home() {
       });
 
       setFilterFlightData(response.data.data);
-      console.log("filter flight data : ", response.data.data);
+      const filterFlightData = response.data.data;
 
-      if (filterFlight && filterFlight.length > 0) {
-        navigate(`/filterFLights`, { state: { user: filterFlight }});
+      // setFilterFlightData({...filterFlightData, Date : selectedChooseDate})
+      console.log("filter flight data : ", filterFlightData);
+
+      if (filterFlightData && filterFlightData.length > 0) {
+        navigate(`/filterFLights`, { state: { user: filterFlightData }});
       }else if(filterFlight.length ==0){
         toast.error("No flights available for your selected date.");
       }
@@ -370,7 +374,7 @@ function Home() {
               {Cities &&
                 Cities.length > 0 &&
                 Cities.sort((a, b) => a.name.localeCompare(b.name)).map(
-                  (city) => <option value={city.name}>{city.name}</option>
+                  (city , index) => <option key={index} value={city.name}>{city.name}</option>
                 )}
             </select>
           </div>
@@ -392,8 +396,8 @@ function Home() {
               {Cities &&
                 Cities.length > 0 &&
                 Cities.sort((a, b) => a.name.localeCompare(b.name)).map(
-                  (city) => (
-                    <option value={city.name} className="overflow-scroll">
+                  (city , index) => (
+                    <option key={index} value={city.name} className="overflow-scroll">
                       {city.name}
                     </option>
                   )
@@ -455,8 +459,8 @@ function Home() {
               Popular destination in India
             </h1>
           </div>
-          {data.map((product) => (
-            <div className="w-36 h-24 mt-10 ">
+          {data.map((product , index) => (
+            <div key={index} className="w-36 h-24 mt-10 ">
               <img
                 className="w-full h-full rounded-md"
                 src={product.image}

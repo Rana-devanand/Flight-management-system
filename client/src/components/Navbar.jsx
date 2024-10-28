@@ -44,7 +44,7 @@ function Navbar() {
     {/* 071C35 */}
       <nav className="flex justify-between bg-[#ffffffec] items-center py-2  text-[#000] text-sm font-semibold shadow-2xl">
         <div className="flex gap-2 ml-4">
-          <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">Flights India</div>
+          <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">Flight Udaan</div>
           {/* ---------------------------------------------------------------- 
                                   Home page 
               ------------------------------------------------------------------*/}

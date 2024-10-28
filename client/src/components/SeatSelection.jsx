@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // Import the CSS
 import "../assets/css/SeatSelection.css";
 import flightLeftWing from "../assets/images/flightLeftWing1.png";
@@ -6,8 +6,16 @@ import flightRightWing from "../assets/images/flightRightWing.png";
 import FlightBack from "../assets/images/FlightBack.png";
 import seat1 from "../assets/images/businessSeat.png";
 import seat2 from "../assets/images/EconomySeat.png";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const SeatSelection = () => {
+
+  const location = useLocation();
+  const flightId = location.state?.flightId;
+  console.log(flightId); 
+
+  const URL = import.meta.env.VITE_BACKEND_API_URL;
   // Create a 2D array to represent seats (0: available, 1: selected, 2: booked)
   const initialSeatsForBusiness = [
     [0, 0, 0, 0, 0],
@@ -68,7 +76,21 @@ const SeatSelection = () => {
     );
     setSeatsForEconomy(newSeats);
   };
+// http://localhost:4000/api/V1/allFlightScheduleList/:flightId
+  const selectedFlight = async (flightId) => {
+      try {
+        console.log(flightId);
+        const flightURL = `${URL}/api/V1/allFlightScheduleList/${flightId}`; 
+        const response = await axios.get(flightURL);
+        console.log(response.data.data);
+      } catch (error) {
+          console.log(error);
+      }
+  };
 
+  useEffect(() => {
+    selectedFlight(flightId);
+  },[])
   var rowsB = 1;
   var rowsE = 1;
   return (
