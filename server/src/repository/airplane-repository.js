@@ -129,7 +129,7 @@ class AirplaneRepository {
 
                          // Push the flightResponse to flights array if valid
                          if (flightResponse) {
-                              flights.push(flightResponse); // Use push to add the object to the array
+                              flights.push(response); // Use push to add the object to the array
                          } else {
                               console.log("Flight not found for flight_id:", flight_id);
                               continue; // Continue to the next iteration if no flightResponse
@@ -146,7 +146,7 @@ class AirplaneRepository {
                }
 
                // After the loop, you should have all valid flight responses stored in the flights array
-               console.log(flights);
+               // console.log(flights);
 
 
                // console.log(flightResponses)
@@ -184,6 +184,22 @@ class AirplaneRepository {
      async getAllInnerJoinFlights(){
           try {
                const flight = await airplanes.findAll({
+                    include: [{
+                         model: schedule_list,
+                         required : true,
+                    }]
+               }) 
+               return flight;
+          } catch (error) {
+          console.log("Failed to get flight from database " + error.message); 
+          }
+     }
+     async getAllFlightAndScheduleById(flightId){
+          try {
+               const flight = await airplanes.findAll({
+                    where : {
+                         flight_id : flightId
+                    },
                     include: [{
                          model: schedule_list,
                          required : true,

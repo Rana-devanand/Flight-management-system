@@ -192,6 +192,26 @@ const findAllFLightAndSchedule = async (req, res) => {
      }
 }
 
+const findAllFLightAndScheduleById = async (req, res) => {
+     try {
+          const response = await airplaneServices.getAllFlightAndScheduleById(req.params.flightId);
+          return res.status(200).json({
+               data: response,
+               message: 'All flights and schedule fetched successfully by flight id',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching all flights and schedule by flight id',
+               messageType: 'error',
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      destroy,
@@ -201,5 +221,6 @@ module.exports = {
      filterFlightData,
      dailyFlights,
      getByFlightId,
-     findAllFLightAndSchedule
+     findAllFLightAndSchedule,
+     findAllFLightAndScheduleById
 }

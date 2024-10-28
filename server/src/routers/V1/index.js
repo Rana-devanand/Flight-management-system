@@ -87,10 +87,11 @@ router.get("/dailyFlights", AirplaneRepository.dailyFlights)
 // http://localhost:4000/api/V1/getFlightById
 router.get("/getFlightById/:id" , AirplaneRepository.getByFlightId)
 
-// http://localhost:4000/api/V1/allFlightScheduleList
+// http://localhost:4000/api/V1/allFlightScheduleList    [inner join airplane with schedule list ]
 router.get("/allFlightScheduleList", AirplaneRepository.findAllFLightAndSchedule)
 
-
+// http://localhost:4000/api/V1/allFlightScheduleList/:flightId    [inner join]
+router.get("/allFlightScheduleList/:flightId", AirplaneRepository.findAllFLightAndScheduleById)
 
 
 

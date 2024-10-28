@@ -99,6 +99,15 @@ class AirplaneServices {
                console.error(error);
           }
      }
+
+     async getAllFlightAndScheduleById(flightId) {
+          try {
+               const response = await this.airplaneRepository.getAllFlightAndScheduleById(flightId);
+               return response;
+          } catch (error) {
+               console.error(error);
+          }
+     }
 }
 
 module.exports = AirplaneServices;
