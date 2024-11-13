@@ -18,6 +18,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.10.3",
     "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.4",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2"

@@ -12,6 +12,8 @@ const airportController = require("../../controllers/airport-controllers");
 const storage = require("../../middlewares/airline-Logo-Middleware");
 const FLightScheduleController = require("../../controllers/flight-schedule-controllers")
 const ScheduleFlightList = require("../../controllers/schedule-flight-list-controller")
+const FilterFlightMiddleware = require("../../middlewares/flight-filter-middleware");
+const SendMail= require("../../controllers/Email-controller")
 
 // http://localhost:4000/api/V1/createCity
 router.post("/createCity", cityController.create);
@@ -59,8 +61,6 @@ router.get("/getByEmail/:email", userController.getByEmail);
 
 // {-------   Airplane routes  -------}
 
-
-
 const upload = multer({ storage});
 
 // http://localhost:4000/api/V1/create
@@ -79,7 +79,7 @@ router.get("/allFlights", AirplaneRepository.getAll);
 router.patch("/updateAirplane/:id", AirplaneRepository.updateAirplane)
 
 // http://localhost:4000/api/V1/filterFlight
-router.get("/filterFlight" , AirplaneRepository.filterFlightData);
+router.get("/filterFlight" ,FilterFlightMiddleware.filterFlight , AirplaneRepository.filterFlightData);
 
 // http://localhost:4000/api/V1/dailyFlights
 router.get("/dailyFlights", AirplaneRepository.dailyFlights)
@@ -138,6 +138,11 @@ router.get("/getAllSchedulelists", ScheduleFlightList.getAll);
 // http://localhost:4000/api/V1/schedulesListByFlightId/:id
 router.get("/schedulesListByFlightId/:id" , ScheduleFlightList.getByFlightId);
 
+
+
+//  --------------------- Send Email For Forget Password ------------------
+
+router.use("/sendOtp" , SendMail.sendEmailForPasswordForget)
 
 
 module.exports = router;
