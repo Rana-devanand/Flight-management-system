@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -119,7 +119,7 @@ const Login = () => {
                       </div>
                     </div>
                     <p className="mt-2 cursor-pointer text-blue-500 hover:text-blue-600">
-                      Forgot password?
+                    <Link to="/forgetpassword">Forget Password</Link>
                     </p>
                   </div>
                   <div className="flex flex-col gap-2">

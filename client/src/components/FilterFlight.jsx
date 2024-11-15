@@ -5,6 +5,7 @@ import AirIndia from "../assets/images/air-india-2.svg";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { FaArrowCircleRight } from "react-icons/fa";
 import rightIcon from "../assets/images/icons8-arrow.gif";
+import Footer from "../components/Footer"
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
@@ -17,16 +18,16 @@ import "react-toastify/dist/ReactToastify.css";
 function FilterFlight() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
-  const [filterFlight, setFilterFlightData] = useState([]);
-  const [DailyFlight, setDailyFlightData] = useState({});
-  const [currentDate, setCurrentDate] = useState(new Date());
+
   const location = useLocation();
   const userData = location.state?.user; // Retrieving the object data
-  // console.log(userData);
-  const [storeAllCity, setAllCity] = useState({});
-  // const [flightTiming , setFlightTiming] = useState({});
-  const [ScheduleFlight, setScheduleFlightData] = useState({});
 
+  const [filterFlight, setFilterFlightData] = useState([]);
+  const [DailyFlight, setDailyFlightData] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());  
+  const [storeAllCity, setAllCity] = useState({});
+  const [ScheduleFlight, setScheduleFlightData] = useState({});
+  const [getFilteredFlight , setFilterFlight] = useState({});
 
   const getFilterFlightData = async () =>{
     try {
@@ -35,7 +36,7 @@ function FilterFlight() {
         const response = await axios.get(`${URL}/api/V1/airplane/${userData[i][0].flight_id}`);
         const flightData = response.data.data;
         flightData.flightLogo = `${URL}/${flightData.flightLogo.replace(/\\/g, "/")}`;
-        console.log(flightData);
+        // console.log(flightData);
         allFlight.push(flightData);
       }
       setFilterFlightData(allFlight);
@@ -91,7 +92,7 @@ function FilterFlight() {
       // console.log(ScheduleFlightList);
       for (let i = 0; i < ScheduleFlightList.length; i++) {
         let getScheduleLists = await response.data.data[i].schedule_lists[i];
-        console.log(getScheduleLists);
+        // console.log(getScheduleLists);
         list.push(getScheduleLists);
       }
       setScheduleFlightData(list);
@@ -102,14 +103,16 @@ function FilterFlight() {
 
   const HandleBook = (id) => {
     const type = localStorage.getItem("type");
-    // console.log(type);
+    let chooseFlight =  getFilteredFlight;
     if (!type) {
       navigate("/login");
     } else if (type == "user") {
-      // const updatePriceInFlight = { ...id, id: id, price: 3000 };
-      // console.log(updatePriceInFlight);
-      // navigate(`/bookTicket`, { state: { user: updatePriceInFlight } });
-      navigate("/seats", { state: { flightId: id } });
+      for(let i=0; i < chooseFlight.length; i++) {
+          if(chooseFlight[i][0].flight_id == id)
+          {
+            navigate("/seats", { state: { flightId: chooseFlight[i] } });
+          }
+      }
     }
   };
 
@@ -146,62 +149,52 @@ function FilterFlight() {
     e.preventDefault();
     setFilterFlightData([]);
     try {
-      const url = `${URL}/api/V1/filterFlight`;
-      const response = await axios.get(url, {
-        params: filterData,
-      });
-      const filterFlightArrayData = response.data.data;
-      // console.log(response.data.data);
-      if(filterFlightArrayData.length == 0) {
-        toast.error("No Flights available");
-      }
-      const updateUserChooseDestination = filterFlightArrayData.map(
-        (flightArray) => {
-          const updatedFlights = flightArray.map((flight) => {
-            return {
-              ...flight,
-              // Replace and update path
-              flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
-            };
-          });
+        const url = `${URL}/api/V1/filterFlight`;
+        const response = await axios.get(url, {
+            params: filterData,
+        });
+        const filterFlightArrayData = response.data.data;
+        console.log(filterFlightArrayData);
+        if (filterFlightArrayData.length === 0) {
+            toast.error("No Flights available");
+        } else {
+            const updateUserChooseDestination = filterFlightArrayData.flatMap(
+                (flightArray) => {
+                    const updatedFlights = flightArray.map((flight) => {
+                        // return {
+                        //     ...flight,
+                        //     // Check if flightLogo exists before replacing
+                        //     flightLogo: flight.flightLogo
+                        //         ? `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`
+                        //         : null, // Set to null or some default value if undefined
+                        // };
+                        return {
+                          ...flight,
+                          flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
+                        };
+                    });
 
-          // Instead of setting state inside the loop, accumulate the changes
-          return updatedFlights;
+                    return updatedFlights;
+                }
+            );
+
+            setFilterFlightData((prevData) => [
+                ...prevData,
+                ...updateUserChooseDestination.flat(),
+            ]);
         }
-      );
-
-      // Flatten the nested array and store in state all at once
-      setFilterFlightData((prevData) => [
-        ...prevData,
-        ...updateUserChooseDestination.flat(),
-      ]);
+        setFilteredData(filterData)
     } catch (error) {
-      console.error(error);
+        console.error("Error fetching flight data:", error);
+        toast.error("Failed to fetch flight data");
     }
-  };
+};
+
 
   useEffect(() => {
+    setFilterFlight(userData);
     callScheduleFlight();
     getFilterFlightData();
-    // const updateUserChooseDestination = userData.map((flightArray) => {
-    //   const updatedFlights = flightArray.map((flight) => {
-    //     return {
-    //       ...flight,
-    //       // Replace and update path
-    //       flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
-    //     };
-    //   });
-
-    //   // Instead of setting state inside the loop, accumulate the changes
-    //   return updatedFlights;
-    // });
-
-    // // Flatten the nested array and store in state all at once
-    // setFilterFlightData((prevData) => [
-    //   ...prevData,
-    //   ...updateUserChooseDestination.flat(),
-    // ]);
-
     getDailyFlightsData();
     setCurrentDate(
       new Date().toLocaleDateString("en-US", {
@@ -220,7 +213,7 @@ function FilterFlight() {
       <div className="flex">
         <div className="rounded-md w-[60%]  h-auto ml-10  ">
           <div className=" w-full h-40 mt-5 mb-3 text-sm">
-            <div className="flex w-full p-5 rounded-md border  bg-[#ECECEC] shadow-2xl">
+            <div className="flex w-[95%] p-5 rounded-md border  bg-[#ECECEC] shadow-2xl">
               <form className="flex w-full" action="" onSubmit={HandleSubmit}>
                 <div className="w-[27%] border border-[#b9b9b9]">
                   <select
@@ -388,24 +381,23 @@ function FilterFlight() {
                             alt=""
                           />
                         </td>
-                        
+                        <td className="border  border-[#f1f1f1a2] px-4 py-2  text-center">
                           {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
-                            <td key={index} className="border  border-[#f1f1f1a2] px-4 py-2 text-center">
+                            <p key={index} className=" text-center">
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.totalTIme) : ("")}
-                              <br/>
-                              {flight.Airline}
-                              </td>
+                              </p>
                           ))}
-                          <br />
-                          
+                          {flight.Airline}
+                          </td>
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">
                           {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
-                            <td key={index}>
+                            <p key={index}>
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.departureTime): ("")}
-                              <b> - </b>
+                              
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.arrivalTime
                               ): ("")}
-                              </td>
+                              </p>
+                              
                           ))}
                         </td>
 
@@ -438,7 +430,7 @@ function FilterFlight() {
             </div>
           </div>
 
-          <div className="container mx-auto p-2 ">
+          <div className="container mx-auto p-2 mb-32">
             <div className="overflow-x-auto">
               <p className="my-3">
                 <span className="text-[#0ba2cf]">Daily departing</span> flight
@@ -573,6 +565,7 @@ function FilterFlight() {
           <Chart />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

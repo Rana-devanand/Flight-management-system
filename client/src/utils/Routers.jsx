@@ -21,6 +21,8 @@ import PaymentSuccess from "../components/PaymentSuccess"
 import Payment from "../components/PaymentDone"
 import PlainTicket from "../components/PlainTicket"
 import SeatSelection from "../components/SeatSelection";
+import ForgetPassword from "../components/ForgetPassword";
+import SetNewPassword from "../components/SetnewPassword";
 
 function Routers() {
   return (
@@ -35,6 +37,8 @@ function Routers() {
       </Route>
       <Route path="/CreateUser" element={<CreateAccount />} />
       <Route path="/login" element={<UserLogin />} />
+      <Route path="/forgetpassword" element={<ForgetPassword />} />
+      <Route path="/newpassword/:id" element={<SetNewPassword />} />
       <Route path="/dashboard" element={<DashBoard />} />
       {/* <Route path="/Airports/:city" element={<AirportDetails />} /> */}
       <Route path="/filterFLights" element={<FilterFlight/>}/>

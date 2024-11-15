@@ -56,7 +56,7 @@ const CreateAccount = () => {
 
     <div className=" bg-zinc-900 text-gray-900 flex justify-center h-screen">
       <div className=" bg-[#111827] shadow sm:rounded-lg flex justify-center flex-1">
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 ">
+        <div className="lg:w-1/2 xl:w-5/12 p-3 sm:p-12 ">
           {/* <div className="border h-28">
             <img
               src={createUserLogo}
@@ -91,7 +91,7 @@ const CreateAccount = () => {
                 </button>
               </div>
 
-              <div className="my-12 border-b text-center">
+              <div className="my-8 border-b text-center">
                 <div className="leading-none px-2 inline-block text-sm text-gray-400 tracking-wide font-medium bg-[#111827]  transform translate-y-1/2">
                   Or sign In with E-mail
                 </div>

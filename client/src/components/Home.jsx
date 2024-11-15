@@ -242,30 +242,30 @@ function Home() {
       const response = await axios.get(url, {
         params: formData,
       });
-
+      if(response.status === 203){
+        toast.error(response.data.message);
+        return;
+      }
+      const empty = response.data.data.length;
+      console.log(response);
+      if(empty === undefined){
+        toast.error("No flights available for your selected date.");
+        return;
+      }
+     
       setFilterFlightData(response.data.data);
       const filterFlightData = response.data.data;
 
-      // setFilterFlightData({...filterFlightData, Date : selectedChooseDate})
-      console.log("filter flight data : ", filterFlightData);
+      setFilterFlightData({...filterFlightData, Date : selectedChooseDate})
 
       if (filterFlightData && filterFlightData.length > 0) {
         navigate(`/filterFLights`, { state: { user: filterFlightData }});
-      }else if(filterFlight.length ==0){
-        toast.error("No flights available for your selected date.");
       }
     
     } catch (error) {
       console.error(" Couldn't get flight detail from server", error);
     }
   };
-  // console.log(filterFlight);
-
-
-  // Date
-  const [date, setDate] = useState(null);
-  const todayDate = new Date();
-  const onlyDate = todayDate.toISOString().slice(0, 10);
 
   return (
     <>
@@ -279,85 +279,6 @@ function Home() {
           Its more than just a trip
         </h1>
 
-        {/* <div className="absolute border border-blue-600 w-[80%] h-32 bg-[#E9ECEE]  ">
-          <form
-            action=""
-            onSubmit={HandleSubmit}
-            className="rounded-md  "
-          >
-            <select
-              className="p-3 py-4 mt-10 ml-6 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
-              type="text"
-              // value={selectedItem}
-              onChange={handleInputChange}
-              placeholder="Where From"
-              name="Departure"
-            >
-              <option className="bg-gray-100 text-gray-500" disabled selected>
-                Where From{" "}
-              </option>
-              {Cities.length > 0 &&
-                Cities.sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
-                  .map((data, index) => (
-                    <option
-                      className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
-                      key={index}
-                      value={data.name}
-                    >
-                      {data.name}
-                    </option>
-                  ))}
-            </select>
-
-
-            <select
-              className="p-3 py-4 mt-10 ml-3 rounded-md mr-5 w-[32%] outline-none overflow-y-auto text-lg"
-              type="text"
-              // value={selectedWhereToItem}
-              onChange={handleInputChange}
-              placeholder="Where to"
-              name="Arrival"
-            >
-              <option className="bg-gray-100 text-gray-500" disabled selected>
-                Where To{" "}
-              </option>
-              {Cities.length > 0 &&
-                Cities.sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
-                  .map((data, index) => (
-                    <option
-                      className="bg-gray-50 hover:bg-blue-500 font-serif text-lg"
-                      key={index}
-                      value={data.name}
-                    >
-                      {data.name}
-                    </option>
-                  ))}
-            </select>
-            <Flatpickr
-              value={date}
-              onChange={chooseDate}
-              options={{
-                dateFormat: "Y-m-d",
-                altInput: true,
-                altFormat: "F j, Y",
-                minDate: `${onlyDate}`,
-                maxDate: "",
-              }}
-              placeholder="Select a date"
-              className="custom-flatpickr p-3 py-4 mt-10  rounded-md mr-5 w-[27%] outline-none text-lg"
-              name="Date"
-            />
-
-            <div className="search flex justify-center items-center mt-6">
-              <button
-                className="bg-[#7FBFF0] px-8 py-2 text-xl rounded-full font-semibold border text-[#0d6aa0] hover:bg-[#43aae6] hover:text-white"
-                // type="submit"
-              >
-                Search
-              </button>
-            </div>
-          </form>
-        </div> */}
 
         <div className="absolute flex w-[80%] mt-36 mx-auto rounded-md ">
           <div className="w-[27%]">

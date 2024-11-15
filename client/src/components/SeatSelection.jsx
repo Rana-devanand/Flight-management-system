@@ -8,12 +8,12 @@ import seat1 from "../assets/images/businessSeat.png";
 import seat2 from "../assets/images/EconomySeat.png";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import Footer from "../components/Footer";
 
 const SeatSelection = () => {
-
   const location = useLocation();
   const flightId = location.state?.flightId;
-  console.log(flightId); 
+  console.log(flightId);
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   // Create a 2D array to represent seats (0: available, 1: selected, 2: booked)
@@ -76,28 +76,28 @@ const SeatSelection = () => {
     );
     setSeatsForEconomy(newSeats);
   };
-// http://localhost:4000/api/V1/allFlightScheduleList/:flightId
+  // http://localhost:4000/api/V1/allFlightScheduleList/:flightId
   const selectedFlight = async (flightId) => {
-      try {
-        console.log(flightId);
-        const flightURL = `${URL}/api/V1/allFlightScheduleList/${flightId}`; 
-        const response = await axios.get(flightURL);
-        console.log(response.data.data);
-      } catch (error) {
-          console.log(error);
-      }
+    try {
+      console.log(flightId);
+      const flightURL = `${URL}/api/V1/allFlightScheduleList/${flightId}`;
+      const response = await axios.get(flightURL);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     selectedFlight(flightId);
-  },[])
+  }, []);
   var rowsB = 1;
   var rowsE = 1;
   return (
     <>
       <div className="bg-zinc-100 w-full flex justify-between">
-  <div className="w-[55%] h-screen relative">
-    {/* <img
+        <div className="w-[55%] h-screen relative">
+          {/* <img
       className="absolute w-[27%] mt-[33%]"
       src={flightLeftWing}
       alt=""
@@ -108,73 +108,72 @@ const SeatSelection = () => {
       alt=""
     /> */}
 
-    <div className="w-[45%] mx-auto rounded-t-full mt-5 bg-[#CACBFF] ">
-      <div className="ml-[7%] mt-8 flex">
-        <div className="w-32 h-20 ml-2 mt-10 bg-[#D8D8FF] rounded-ss-full"></div>
-        <div className="w-32 h-20 ml-1 mt-10 bg-[#D8D8FF] rounded-se-full"></div>
-      </div>
-      <div className="w-[82%] h-1 ml-10 mt-16 bg-[#D8D8FF]"></div>
-
-      {/* Scrollable Seat Layout */}
-      <div className="border w-80 mx-auto mt-3 bg-[#EAEBFF] rounded-md h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-300">
-        {/* Business Class Section */}
-        <div className="plane-layout pt-2 mt-3 w-[92%] mx-auto bg-[#FFFFFF]">
-          <p className="pb-2">For Business class</p>
-          {seats.map((row, rowIndex) => (
-            <div className="seat-row p-2" key={rowIndex}>
-              {rowsB++}
-              {row.map((seat, seatIndex) => (
-                <div
-                  key={seatIndex}
-                  className={`seat ml-2 ${
-                    seatIndex == 2
-                    ? "cursor"
-                    : seat === 1
-                    ? "selected"
-                    : seat === 2
-                    ? "BusinessBooked"
-                    : "available"
-                  }`}
-                  onClick={() => handleSeatClick(rowIndex, seatIndex)}
-                />
-              ))}
+          <div className="w-[45%] mx-auto rounded-t-full mt-5 bg-[#CACBFF] ">
+            <div className="ml-[7%] mt-8 flex">
+              <div className="w-32 h-20 ml-2 mt-10 bg-[#D8D8FF] rounded-ss-full"></div>
+              <div className="w-32 h-20 ml-1 mt-10 bg-[#D8D8FF] rounded-se-full"></div>
             </div>
-          ))}
-        </div>
+            <div className="w-[82%] h-1 ml-10 mt-16 bg-[#D8D8FF]"></div>
 
-        {/* Economy Class Section */}
-        <div className="plane-layout w-[92%] mx-auto bg-[#FFFFFF]">
-          <h1 className="pb-5">Economy Class</h1>
-          {seatsForEconomy.map((row, rowIndex) => (
-            <div className="seat-row p-2" key={rowIndex}>
-              {rowsE++}
-              {row.map((seat, seatIndex) => (
-                <div
-                  key={seatIndex}
-                  className={`seat ml-2 ${
-                    seatIndex == 2
-                    ? "[  ]"
-                    : seat === 1
-                    ? "selected"
-                    : seat === 2
-                    ? "booked"
-                    : "available"
-                  }`}
-                  onClick={() =>
-                    handleSeatClickOnBusiness(rowIndex, seatIndex)
-                  }
-                />
-              ))}
+            {/* Scrollable Seat Layout */}
+            <div className="border w-80 mx-auto mt-3 bg-[#EAEBFF] rounded-md h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-300">
+              {/* Business Class Section */}
+              <div className="plane-layout pt-2 mt-3 w-[92%] mx-auto bg-[#FFFFFF]">
+                <p className="pb-2">For Business class</p>
+                {seats.map((row, rowIndex) => (
+                  <div className="seat-row p-2" key={rowIndex}>
+                    {rowsB++}
+                    {row.map((seat, seatIndex) => (
+                      <div
+                        key={seatIndex}
+                        className={`seat ml-2 ${
+                          seatIndex == 2
+                            ? "cursor"
+                            : seat === 1
+                            ? "selected"
+                            : seat === 2
+                            ? "BusinessBooked"
+                            : "available"
+                        }`}
+                        onClick={() => handleSeatClick(rowIndex, seatIndex)}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Economy Class Section */}
+              <div className="plane-layout w-[92%] mx-auto bg-[#FFFFFF]">
+                <h1 className="pb-5">Economy Class</h1>
+                {seatsForEconomy.map((row, rowIndex) => (
+                  <div className="seat-row p-2" key={rowIndex}>
+                    {rowsE++}
+                    {row.map((seat, seatIndex) => (
+                      <div
+                        key={seatIndex}
+                        className={`seat ml-2 ${
+                          seatIndex == 2
+                            ? "[  ]"
+                            : seat === 1
+                            ? "selected"
+                            : seat === 2
+                            ? "booked"
+                            : "available"
+                        }`}
+                        onClick={() =>
+                          handleSeatClickOnBusiness(rowIndex, seatIndex)
+                        }
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-{/* </div> */}
+        {/* </div> */}
 
-
-{/* border border-[#d1d1d1] */}
+        {/* border border-[#d1d1d1] */}
         <div className="w-[50%] h-screen  text-[#FAFAFA] border border-amber-700">
           <div className="flex text-xs ">
             <div className="bg-[#27273F] px-5 p-2 ">
@@ -274,16 +273,10 @@ const SeatSelection = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
 
 export default SeatSelection;
 
-// Extended leg room
-//
-//
-// Personalized service
-//
-//
-//
