@@ -89,9 +89,56 @@ const signIn = async (req, res) => {
 
 }
 
+const getUserById = async (req, res) => {
+     try {
+          console.log(req.params.id);
+          const response = await userServices.getUserById(req.params.id);
+          return res.status(200).json({
+               data: response,
+               message: "User fetched successfully",
+               success: true,
+               error: {},
+          })
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: "Failed to fetch the user",
+               success: false,
+               error: error,
+          })
+     }
+}
+
+const updatePassword = async (req, res) => {
+     try {
+          console.log(req.body);
+         const response = await userServices.updatePassword(
+          req.body.id,
+          req.body.password
+         );
+         return res.status(200).json({
+          data: response,
+          message: "Password updated successfully",
+          success: true,
+          error: {},
+         })
+     } catch (error) {
+          console.error(req.query);
+          return res.status(500).json({
+               data: {},
+               message: "Failed to update password",
+               success: false,
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      get,
      signIn,
-     getByEmail
+     getByEmail,
+     getUserById,
+     updatePassword
 };

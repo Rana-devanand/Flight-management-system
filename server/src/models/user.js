@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [8, 20],
+        len: [8, 80],
       },
     },
     number: {
@@ -58,9 +58,18 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'user',
   });
 
+
+  // before update the user password we need to hash the password.
+  user.beforeSave((user) => {
+    if(user.changed("password")) {
+      const hashedPassword = bcrypt.hashSync(user.password , SALT);
+      user.password = hashedPassword;
+    }
+  })
+
+  // before create the user we need to hash the password.
   user.beforeCreate((user) => {
     const hashedPassword = bcrypt.hashSync(user.password, SALT);
-    console.log(hashedPassword)
     user.password = hashedPassword;
   })
   return user;

@@ -55,7 +55,12 @@ router.post("/signIn",
 // http://localhost:4000/api/v1/getByEmail/:email
 router.get("/getByEmail/:email", userController.getByEmail);
 
+// http://localhost:4000/api/v1/getuserby/:id   [get user by id]
+router.get('/getuserby/:id' ,userController.getUserById )
 
+
+// http://localhost:4000/api/v1/updatePassword
+router.patch('/updatepassword', userController.updatePassword)
 
 
 

@@ -1,4 +1,6 @@
 const { user } = require("../models/index");
+const bcrypt = require('bcrypt');
+const { SALT } = require("../config/serverConfig")
 
 class UserRepository {
      async createUser(data) {
@@ -68,14 +70,32 @@ class UserRepository {
 
      async getUserByID(id) {
           try {
-               const response = await user.findByPk({
-                    where: {
-                         id: id
-                    }
-               });
+               const response = await user.findByPk(id);
                return response;
           } catch (error) {
                console.log("Something went wrong in User repository", error);
+          }
+     }
+
+     async updatePassword (id , userpassword){
+          try {
+               const existUser = await user.findByPk(id);
+               if (!existUser) {
+                    console.log("Couldn't find");
+                    throw {
+                         err: "AttributeNotFound",
+                         message: "User not found",
+                         notFound: "User not found"
+                    };
+               }
+               else{
+                    existUser.password = userpassword;
+                    const updateUser = await existUser.save();
+
+                    return updateUser;
+               }
+          } catch (error) {
+               console.error(error);
           }
      }
 }

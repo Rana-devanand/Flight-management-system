@@ -35,6 +35,24 @@ class UserServices {
           }
      }
 
+     async getUserById(userId) {
+          try {
+               const response = await this.UserRepository.getUserByID(userId);
+               return response;
+          } catch (error) {
+               console.log("Something went wrong in User repository", error);
+          }
+     }
+
+     async updatePassword (id, password) {
+          try {
+               const updatedUser = await this.UserRepository.updatePassword(id, password);
+               return updatedUser;
+          } catch (error) {
+               console.log("Something went wrong in service", error);
+          }
+     }
+
      async signIn(email, plainPassword) {
           try {
                // Sign in logic goes here
