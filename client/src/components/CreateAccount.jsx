@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateAccount = () => {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const formRef = useRef(null);
   const [value, setValue] = useState(
     {
@@ -31,22 +31,22 @@ const CreateAccount = () => {
     try {
       if ((!value.username) || (!value.email) || (!value.password) || (!value.number)) {
         toast.error("All fields are required!");
-        return;  // stop the function execution if any field is empty.
-      }
-      const response = await axios.get(`${URL}/api/V1/getByEmail?email=${value.email}`);
-      // console.log("Resonse : ", response);
-      if (response.length > 0) {
-        toast.error("Email already exists!");
-        return;  // stop the function execution if email already exists.
+        return;  
       }
       if ((value.username) && (value.email) && (value.password) && (value.number)) {
         const response = await axios.post(`${URL}/api/V1/createUser`, value);
+        if(response.data.data.err === "SequelizeUniqueConstraintError"){
+          toast.error(response.data.data.message);
+          return;
+        }
         formRef.current.reset();
-        console.log(response.status);
         toast("Successfully created account");
+        setTimeout(() => {
+          navigate("/login");
+        },2000)
       }
     } catch (error) {
-      console.log(error);
+      console.error(error.message)
     }
   };
 
