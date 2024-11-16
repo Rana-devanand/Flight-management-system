@@ -13,7 +13,7 @@ class UserServices {
                return user;
           } catch (error) {
                console.log("Something went wrong in service", error);
-
+               return error;
           }
      }
 

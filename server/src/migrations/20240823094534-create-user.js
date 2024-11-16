@@ -33,6 +33,7 @@ module.exports = {
       number: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique : true,
         validate: {
           isNumeric: true,
           len: [10, 12]

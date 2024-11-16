@@ -5,26 +5,27 @@ const { SALT } = require("../config/serverConfig")
 class UserRepository {
      async createUser(data) {
           try {
-               console.log("Repos data : ", data);
+               const hashedPassword = await bcrypt.hash(data.password, SALT);
+               data.password = hashedPassword;
                const response = await user.create(data);
                return response;
           } catch (error) {
+               console.log(error);
                if (error.name === "SequelizeUniqueConstraintError") {
                     throw {
-                         err: "UniqueConstraintError",
-                         mail: "Email already exists",
-                         message: "This email is already registered. Please use another one.",
+                         err: "SequelizeUniqueConstraintError",
+                         message: error.errors[0].message,
                          notFound: "User not found"
                     };
                }
-               if (error.name == "UniqueConstraintError") {
-                    throw {
-                         err: "UniqueConstraintError",
-                         num: "Number already exists",
-                         message: "This username is already taken. Please use another one.",
-                         notFound: "User not found"
-                    };
-               }
+               // if (error.name == "UniqueConstraintError") {
+               //      throw {
+               //           err: "UniqueConstraintError",
+               //           num: "Number already exists",
+               //           message: "This username is already taken. Please use another one.",
+               //           notFound: "User not found"
+               //      };
+               // }
                if (error.name === "SequelizeValidationError") {
                     throw {
                          err: "ValidationError",
