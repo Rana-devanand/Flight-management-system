@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import flight from "../assets/images/flight-3.jpg";
 import destination from "../assets/images/destination.png";
 import map from "../assets/images/map.jpg";
 
@@ -7,14 +6,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
 import "flatpickr/dist/flatpickr.css";
 import { useNavigate } from "react-router-dom";
-// import "../assets/css/HomeStyle.css";
-import { RiFlightTakeoffFill } from "react-icons/ri";
 
-import { FaLocationDot } from "react-icons/fa6";
-import { IoSearchSharp } from "react-icons/io5";
-import { MdCompareArrows } from "react-icons/md";
-import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";

@@ -23,6 +23,8 @@ import PlainTicket from "../components/PlainTicket"
 import SeatSelection from "../components/SeatSelection";
 import ForgetPassword from "../components/ForgetPassword";
 import SetNewPassword from "../components/SetnewPassword";
+import FlightSchedule from "../components/ADMIN/FlightSchedule";
+import CreateSeats from "../components/ADMIN/CreateSeats";
 
 function Routers() {
   return (
@@ -57,6 +59,8 @@ function Routers() {
       <Route path="/updateCity/:id" element={<UpdateCity />} />
       <Route path="/updateFlight/:id" element={<UpdateFLight/>}/>
       <Route path="/updateAirport/:id" element={<UpdateAirport/>}/>
+      <Route path="/flightschedule" element={<FlightSchedule/>} />
+      <Route path="/creteSeats" element={<CreateSeats/>}/>
     </Routes>
   );
 }

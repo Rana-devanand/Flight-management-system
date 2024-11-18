@@ -3,7 +3,7 @@ import skyImage from "../../assets/images/sky.jpg";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function CreateFlight() {
   const navigate = useNavigate();
@@ -164,6 +164,46 @@ const getAllFilteredFlight = async()=>{
           alt=""
         />
         <div className="absolute w-[95%]">
+        <div className="flight-create-details flex gap-3">
+            <NavLink
+                  style={(e) => {
+                    return {
+                      color: e.isActive ? "#fff" : "",
+                      // background: e.isActive ? "#394457" : "",
+                    };
+                  }}
+                  className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500"
+                  to="/creteSeats"
+                >
+                  Create Seats
+            </NavLink>
+            <NavLink
+                  style={(e) => {
+                    return {
+                      color: e.isActive ? "#15A0EF" : "",
+                      // background: e.isActive ? "#394457" : "",
+                    };
+                  }}
+                  className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500 cursor-not-allowed"
+                  // to="/"
+                >
+                  Future use button
+            </NavLink>
+            <NavLink
+                  style={(e) => {
+                    return {
+                      color: e.isActive ? "#15A0EF" : "",
+                      // background: e.isActive ? "#394457" : "",
+                    };
+                  }}
+                  className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500 cursor-not-allowed"
+                  // to="/"
+                  
+                >
+                  Future use button
+            </NavLink>
+        </div>
+
           <h1 className="px-8 pt-5 text-2xl font-semibold"> Create Flights</h1>
           <hr className="w-[95%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           <div className="Search-form w-[95%] mx-auto h-80 ">

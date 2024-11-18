@@ -7,6 +7,7 @@ import { MdOutlineConnectingAirports } from "react-icons/md";
 import { CiLogin } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 
+import { GrSchedule } from "react-icons/gr";
 // import ADMINNAVBAR from "../components/ADMIN/Navbar";
 
 function Navbar() {
@@ -44,7 +45,9 @@ function Navbar() {
     {/* 071C35 */}
       <nav className="flex justify-between bg-[#ffffffec] items-center py-2  text-[#000] text-sm font-semibold shadow-2xl">
         <div className="flex gap-2 ml-4">
-          <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">Flight Udaan</div>
+          <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">
+            Flight Udaan
+          </div>
           {/* ---------------------------------------------------------------- 
                                   Home page 
               ------------------------------------------------------------------*/}
@@ -110,7 +113,7 @@ function Navbar() {
                 to="/createFlight"
               >
                 <MdFlight className="mx-1  " /> Create Flight
-              </NavLink>
+              </NavLink>              
             </>
           ) : (
             <NavLink
@@ -126,11 +129,32 @@ function Navbar() {
               <MdFlight className="mx-1  " /> Flights
             </NavLink>
           )}
+
+          {token && userType == "admin" ? (
+            <>
+              <NavLink
+                style={(e) => {
+                  return {
+                    color: e.isActive ? "#15A0EF" : "",
+                    // background: e.isActive? "#394457" : "",
+                  };
+                }}
+                className="flex items-center px-4 py-2"
+                to="/flightschedule"
+              >
+                <GrSchedule className="mx-1" />
+                Flight Schedule
+              </NavLink>
+              
+            </>
+          ) : (
+            ""
+          )}
           {/* ---------------------------------------------------------------- 
                                   Create Airport 
               ------------------------------------------------------------------*/}
 
-          {token  && userType == "admin" ? (
+          {token && userType == "admin" ? (
             <>
               <NavLink
                 style={(e) => {
@@ -142,7 +166,8 @@ function Navbar() {
                 className="flex items-center  px-4 py-2"
                 to="/createAirport"
               >
-                <MdFlight className="mx-1  " /> Create Airport
+                <MdOutlineConnectingAirports className="mx-1  " /> Create
+                Airport
               </NavLink>
             </>
           ) : (
@@ -216,7 +241,7 @@ function Navbar() {
             </>
           ) : (
             <>
-                   {/* ---------------------------------------------------------------- 
+              {/* ---------------------------------------------------------------- 
                                   Login 
               ------------------------------------------------------------------*/}
               <NavLink
@@ -226,7 +251,7 @@ function Navbar() {
                 <CiLogin />
                 Login
               </NavLink>
-                     {/* ---------------------------------------------------------------- 
+              {/* ---------------------------------------------------------------- 
                                   Create Account 
               ------------------------------------------------------------------*/}
               <NavLink
@@ -236,7 +261,7 @@ function Navbar() {
                 <FaUserAlt />
                 SignIn
               </NavLink>
-               
+
             </>
           )}
         </div>
