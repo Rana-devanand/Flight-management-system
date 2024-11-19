@@ -14,6 +14,8 @@ const FLightScheduleController = require("../../controllers/flight-schedule-cont
 const ScheduleFlightList = require("../../controllers/schedule-flight-list-controller")
 const FilterFlightMiddleware = require("../../middlewares/flight-filter-middleware");
 const SendMail= require("../../controllers/Email-controller")
+const CreateSeatController = require("../../controllers/create-seats-controller")
+const FLightSeatController = require("../../controllers/flight-seat-controller");
 
 // http://localhost:4000/api/V1/createCity
 router.post("/createCity", cityController.create);
@@ -145,9 +147,43 @@ router.get("/schedulesListByFlightId/:id" , ScheduleFlightList.getByFlightId);
 
 
 
-//  --------------------- Send Email For Forget Password ------------------
+//  ---------------------------------------------------------------------
+//                       Send Email For Forget Password
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+
+// http://localhost:4000/api/V1/sendOtp
 router.use("/sendOtp" , SendMail.sendEmailForPasswordForget)
+
+
+
+// --------------------------------------------------------------------
+//                       Create Seats API
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+// http://localhost:4000/api/V1/createseats
+router.post("/createseats", CreateSeatController.create);
+
+
+// http://localhost:4000/api/V1/getseatclass
+router.get("/getseatclass" , CreateSeatController.getseatclass);
+
+
+// --------------------------------------------------------------------
+//                       Create Flight seats
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// http://localhost:4000/api/V1/createFLightseats
+router.post("/createFLightseats" , FLightSeatController.create);
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
