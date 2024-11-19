@@ -25,6 +25,7 @@ import ForgetPassword from "../components/ForgetPassword";
 import SetNewPassword from "../components/SetnewPassword";
 import FlightSchedule from "../components/ADMIN/FlightSchedule";
 import CreateSeats from "../components/ADMIN/CreateSeats";
+import Seats from "../components/ADMIN/Seats";
 
 function Routers() {
   return (
@@ -60,7 +61,8 @@ function Routers() {
       <Route path="/updateFlight/:id" element={<UpdateFLight/>}/>
       <Route path="/updateAirport/:id" element={<UpdateAirport/>}/>
       <Route path="/flightschedule" element={<FlightSchedule/>} />
-      <Route path="/creteSeats" element={<CreateSeats/>}/>
+      <Route path="/creteSeatsclass" element={<CreateSeats/>}/>
+      <Route path="/createseats" element={<Seats/>}/>
     </Routes>
   );
 }

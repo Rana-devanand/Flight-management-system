@@ -173,7 +173,7 @@ const getAllFilteredFlight = async()=>{
                     };
                   }}
                   className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500"
-                  to="/creteSeats"
+                  to="/creteSeatsclass"
                 >
                   Create Seats
             </NavLink>
@@ -184,10 +184,10 @@ const getAllFilteredFlight = async()=>{
                       // background: e.isActive ? "#394457" : "",
                     };
                   }}
-                  className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500 cursor-not-allowed"
-                  // to="/"
+                  className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500"
+                  to="/createseats"
                 >
-                  Future use button
+                  Seats
             </NavLink>
             <NavLink
                   style={(e) => {
