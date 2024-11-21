@@ -12,13 +12,63 @@ import "react-toastify/dist/ReactToastify.css";
 function Seats() {
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
-
+  const [remark , setRemark ] = useState(true)
   const [flight , setFLightData] = useState({});
   const [seatClass , setSeatClass] = useState({});
   const [formData , setFormData] = useState({
+    startDate : "",
+    EndDate : "",
+    flightRecurrence : "",
     flight : "",
     seatClass: "",
   });
+ 
+  console.log(formData)
+
+  const HandleStartDate = (selectDate) =>{
+    const myDate = selectDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    setFormData({...formData, startDate: formattedDate});
+  }
+
+  const HandleEndDate = (selectDate) =>{
+    const myDate = selectDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+   
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    setFormData({...formData, EndDate: formattedDate});
+  }
+
+  // http://localhost:4000/api/V1/getFlightById
+  const getFlightRemark = async (id) => {
+    try {
+      const response = await axios.get(`${URL}/api/V1/getFlightById/${id}`);
+      // console.log("flight remark data ",response.data.data[0].Remark);
+      const flightRemarks = response.data.data[0].Remark;
+      setFormData({...formData, flightRecurrence : flightRemarks});
+      setRemark(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  if (formData.flight != null && remark ) {
+      getFlightRemark(formData.flight);
+  }
 
 //http://localhost:4000/api/V1/allFlights
   const getAllFLight = async () => {
@@ -35,7 +85,7 @@ function Seats() {
   const getSeatClass = async() => {
     try {
       const response = await axios.get(`${URL}/api/V1/getseatclass`);
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setSeatClass(response.data.data);
     } catch (error) {
       console.log(error);
@@ -43,6 +93,7 @@ function Seats() {
   }
   const HandleChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value });
+    setRemark(true);
   }
 
 // http://localhost:4000/api/V1/createFLightseats
@@ -50,7 +101,7 @@ function Seats() {
     e.preventDefault();
     try {
       const response = await axios.post(`${URL}/api/v1/createFLightseats` , formData);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -128,9 +179,10 @@ function Seats() {
                     // minDate: `${onlyDate}`,
                     maxDate: "",
                   }}
-                  placeholder="Date"
+                  placeholder="Start Date"
                   className="custom-flatpickr p-2  rounded bg-zinc-300 text-black outline-none border"
-                  name="Date"
+                  name="Start_Date"
+                  onChange={HandleStartDate}
                   required
               />                 
                 </div>
@@ -149,9 +201,10 @@ function Seats() {
                     // minDate: `${onlyDate}`,
                     maxDate: "",
                   }}
-                  placeholder="Date"
+                  placeholder="End Date"
                   className="custom-flatpickr p-2  rounded bg-zinc-300 text-black outline-none border"
-                  name="Date"
+                  name="End_Date"
+                  onChange={HandleEndDate}
                   required
               />                 
                 </div>
@@ -166,17 +219,37 @@ function Seats() {
                     type="text"
                     name="flight"
                     onChange={HandleChange}
+                    required
                   >
                     <option selected disabled>Select FLight</option>
                     {
                       flight.length > 0 && 
                       flight.map((data , index)=>(
-                        <option key={index} value={data.flight_id}>{data.Airline}</option>
+                        <option key={index} 
+                        value={data.flight_id}
+                        >
+                          {data.Airline}
+                        </option>
                       ))
                     }
                   </select>
                  
                 </div>
+
+                {formData.flight ?  (
+                    <div className="flex flex-col w-[32%]">
+                      <label className="font-semibold text-sm">Flight Recurring Schedule</label>
+                      <input
+                        className="p-2 rounded bg-zinc-300 text-black outline-none border"
+                        type="text"
+                        // name="Airline"
+                        value={formData.flightRecurrence}
+                        disabled
+                      />  
+                    </div>
+                  ) : null}
+
+
                 <div className=" flex flex-col w-[32%]">
                   <label htmlFor="" className="font-semibold text-sm">
                     Select Seat Class
@@ -190,7 +263,7 @@ function Seats() {
                     {
                       seatClass.length > 0 &&
                       seatClass.map((data , index)=>(
-                        <option key={index} value={data.seat_type_id}>{data.seat_type_name}&nbsp;[{data.seats_per_row}]&nbsp; [{data.total_seats}]</option>
+                        <option key={index} value={data.seat_type_id}> {data.seat_type_name}&nbsp;[{data.seats_per_row}]&nbsp; [{data.total_seats}]</option>
                       ))
                     }
                   </select>

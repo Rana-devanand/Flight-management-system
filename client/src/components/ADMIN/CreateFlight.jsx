@@ -364,6 +364,24 @@ const getAllFilteredFlight = async()=>{
                     <option value="SUNDAY">SUNDAY</option>
                   </select>
                 </div> */}
+                <div className="flex flex-col w-[32%]">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Flight Recurrence type{" "}
+                  </label>
+                  <select
+                    id="recurrence"
+                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
+                    onChange={(e) => setRemark(e.target.value)}
+                    name="recurrence"
+                    required
+                  >
+                    <option disabled>Choose Recurrence Type</option>
+                    <option value="1">Daily</option>
+                    <option value="2">Alternative</option>
+                    <option value="3">Three Days</option>
+                    <option value="4">Four Days</option>
+                  </select>
+                </div>
                 
                 <div className=" flex flex-col w-[32%]">
                   <label htmlFor="" className="font-semibold text-sm">
