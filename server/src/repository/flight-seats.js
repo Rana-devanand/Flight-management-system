@@ -44,7 +44,7 @@ class CreateFLightSeats_Repository {
                
                // Generate seats for the given flight and seat type
                const response = await this.generateSeats(data.startDate , data.EndDate, data.flight,data.flightRecurrence , data.seatClass ,total_seats ,seats_per_row);
-               console.log(response);
+               // console.log(response);
                return response;
           } catch (error) {
                console.error(error);

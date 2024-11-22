@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import skyImage from "../../assets/images/sky.jpg";
+import skyImage from "../../assets/images/flight_admin.avif";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -159,7 +159,7 @@ const getAllFilteredFlight = async()=>{
     <>
       <div className="bg-zinc-800 h-screen w-full text-white flex justify-center">
         <img
-          className="relative w-full h-auto brightness-50"
+          className="relative w-full h-auto brightness-50 "
           src={skyImage}
           alt=""
         />

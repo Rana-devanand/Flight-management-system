@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import skyImage from "../../assets/images/sky.jpg";
+import skyImage from "../../assets/images/airport_admin.avif";
 import "../../assets/css/Airport.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

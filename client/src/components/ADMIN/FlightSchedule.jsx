@@ -1,5 +1,5 @@
 import React from "react";
-import skyImage from "../../assets/images/sky.jpg";
+import skyImage from "../../assets/images/schedule_Admin.jpg";
 
 // Date picker
 import Flatpickr from "react-flatpickr";
@@ -24,7 +24,7 @@ function FlightSchedule() {
           </h1>
           <hr className="w-[95%] h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           <div className="Search-form w-[95%] mx-auto h-80 ">
-            <h4 className="w-full p-2 bg-[#5A7FA1] text-sm">
+            <h4 className="w-full p-2 bg-[#B1740F] text-sm">
               Add Flight time table
             </h4>
 
