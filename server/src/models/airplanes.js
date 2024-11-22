@@ -63,10 +63,10 @@ module.exports = (sequelize, DataTypes) => {
     //   type: DataTypes.TIME,
     //   allowNull: false,
     // },
-    // Remark: {
-    //   type: DataTypes.STRING,
-    //   allowNull: true,
-    // },
+    Remark: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     // flight_status :{
     //   type : DataTypes.ENUM("Schedule", "Delayed", "Cancelled"),
     //   allowNull : false,

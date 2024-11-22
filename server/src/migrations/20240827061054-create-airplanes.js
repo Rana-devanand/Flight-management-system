@@ -52,10 +52,10 @@ module.exports = {
       //   type: Sequelize.STRING,
       //   allowNull: false,
       // },
-      // Remark :{
-      //   type : Sequelize.STRING,
-      //   allowNull : false,
-      // },
+      Remark :{
+        type : Sequelize.STRING,
+        allowNull : false,
+      },
       // flight_status :{
       //   type : Sequelize.ENUM("Schedule", "Delayed", "Cancelled"),
       //   allowNull : false,
