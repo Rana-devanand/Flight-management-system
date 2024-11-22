@@ -96,12 +96,21 @@ function Seats() {
     setRemark(true);
   }
 
+  const FormRef = useRef(null);
+
 // http://localhost:4000/api/V1/createFLightseats
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${URL}/api/v1/createFLightseats` , formData);
       // console.log(response);
+      if(response.status === 200) {
+        toast.success("Flight Seats Created Successfully");
+        FormRef.current.reset();
+      }
+      else{
+        toast.error("Failed to create Flight Seats");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -159,7 +168,7 @@ function Seats() {
 
             <form
               onSubmit={HandleSubmit} 
-          //     ref={FormRef}
+              ref={FormRef}
             >
                
 
