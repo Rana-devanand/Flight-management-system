@@ -169,6 +169,9 @@ router.post("/createseats", CreateSeatController.create);
 // http://localhost:4000/api/V1/getseatclass
 router.get("/getseatclass" , CreateSeatController.getseatclass);
 
+//http://localhost:4000/api/V1/getseatbyid
+router.get("/getseatbyid/:id" , CreateSeatController.getSeatbyid);
+
 
 // --------------------------------------------------------------------
 //                       Create Flight seats
@@ -176,6 +179,9 @@ router.get("/getseatclass" , CreateSeatController.getseatclass);
 
 // http://localhost:4000/api/V1/createFLightseats
 router.post("/createFLightseats" , FLightSeatController.create);
+
+// http://localhost:4000/api/V1/getFlightSeatsByFlightId/:flight_id/:date
+router.get("/getFlightSeatsByFlightId/:flight_id/:date" , FLightSeatController.getFlightSeatsByFlightId);
 
 
 

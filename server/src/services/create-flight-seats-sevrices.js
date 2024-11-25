@@ -15,6 +15,17 @@ class FLightSeatsServices {
                return error;
           }
      }
+
+     async getFlightSeatsByFlightId (flight_id,date){
+          try {
+               console.log(flight_id , date);
+               const response = await this.flightSeatsRepository.getFlightSeatsByFlightId(flight_id, date);
+               return response;
+          } catch (error) {
+               console.log("Error in Services " , error.message);
+               return error;
+          }
+     }
 }
 
 module.exports = FLightSeatsServices;

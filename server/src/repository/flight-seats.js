@@ -1,5 +1,8 @@
-const {Seat} = require("../models/index");
+const {Seat, Sequelize} = require("../models/index");
 const {SeatTypes} = require("../models/index");
+const { Op ,fn , col} = require("sequelize");
+// const moment = require('moment');
+const moment = require('moment-timezone');
 
 class CreateFLightSeats_Repository {
 
@@ -48,6 +51,27 @@ class CreateFLightSeats_Repository {
                return response;
           } catch (error) {
                console.error(error);
+          }
+     }
+
+     
+
+     async getFlightSeatsByFlightId(flight_id , date) {
+          try {
+
+               const formattedDate = moment(date).format("YYYY-MM-DD HH:mm:ss");
+               const response = await Seat.findAll({
+                    where : {
+                         flight_id : flight_id,
+                         [Op.and]: {
+                              flight_Date : formattedDate
+                         }
+                    }
+               })
+               return response;
+          } catch (error) {
+               console.error(error)
+               return error;
           }
      }
 }

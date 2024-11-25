@@ -24,6 +24,16 @@ class CreateSeats_Service {
                return error;
           }
      }
+
+     async getSeatsPerRow(id){
+          try {
+               const response = await this.createSeatsRepository.getSeatById(id);
+               return response;
+          } catch (error) {
+               console.log("Error in Services " . error.message);
+               return error;
+          }
+     }
 }
 
 module.exports = CreateSeats_Service;

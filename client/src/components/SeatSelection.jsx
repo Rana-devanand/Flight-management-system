@@ -6,76 +6,78 @@ import flightRightWing from "../assets/images/flightRightWing.png";
 import FlightBack from "../assets/images/FlightBack.png";
 import seat1 from "../assets/images/businessSeat.png";
 import seat2 from "../assets/images/EconomySeat.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
 
 const SeatSelection = () => {
-  const location = useLocation();
-  const flightId = location.state?.flightId;
-  console.log(flightId);
+  // const location = useLocation();
+  // const flightId = location.state?.flightId;
+  // console.log(flightId);
+  const {id} = useParams();
+  console.log(id);
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   // Create a 2D array to represent seats (0: available, 1: selected, 2: booked)
-  const initialSeatsForBusiness = [
-    [0, 0, 0, 0, 0],
-    [2, 2, 0, 0, 0],
-    [0, 0, 0, 0, 2],
-    [2, 0, 2, 2, 0],
-    [0, 0, 0, 0, 2],
-  ];
+  // const initialSeatsForBusiness = [
+  //   [0, 0, 0, 0, 0],
+  //   [2, 2, 0, 0, 0],
+  //   [0, 0, 0, 0, 2],
+  //   [2, 0, 2, 2, 0],
+  //   [0, 0, 0, 0, 2],
+  // ];
 
-  const initialSeatsForEconomy = [
-    [0, 2, 0, 0, 0],
-    [2, 0, 0, 2, 0],
-    [0, 0, 0, 0, 2],
-    [0, 0, 2, 2, 0],
-    [0, 0, 0, 0, 2],
-    [0, 0, 0, 0, 2],
-    [0, 0, 2, 2, 0],
-    [0, 0, 0, 0, 0],
-  ];
+  // const initialSeatsForEconomy = [
+  //   [0, 2, 0, 0, 0],
+  //   [2, 0, 0, 2, 0],
+  //   [0, 0, 0, 0, 2],
+  //   [0, 0, 2, 2, 0],
+  //   [0, 0, 0, 0, 2],
+  //   [0, 0, 0, 0, 2],
+  //   [0, 0, 2, 2, 0],
+  //   [0, 0, 0, 0, 0],
+  // ];
 
-  const [seats, setSeats] = useState(initialSeatsForBusiness);
-  const [seatsForEconomy, setSeatsForEconomy] = useState(
-    initialSeatsForEconomy
-  );
+  // const [seats, setSeats] = useState(initialSeatsForBusiness);
+  // const [seatsForEconomy, setSeatsForEconomy] = useState(
+  //   initialSeatsForEconomy
+  // );
 
   // Handle seat click
-  const handleSeatClick = (rowIndex, seatIndex) => {
-    if (seats[rowIndex][seatIndex] === 2) return; // Do nothing if the seat is booked
+  // const handleSeatClick = (rowIndex, seatIndex) => {
+  //   if (seats[rowIndex][seatIndex] === 2) return; // Do nothing if the seat is booked
 
-    const newSeats = seats.map((row, rIndex) =>
-      row.map((seat, sIndex) => {
-        if (rIndex === rowIndex && sIndex === seatIndex) {
-          return seat === 1 ? 0 : 1; // Toggle between selected and available
-        }
-        <div
-          key={seatIndex}
-          className={`seat ${
-            seat === 1 ? "selected" : seat === 2 ? "booked" : "available"
-          }`}
-          onClick={() => handleSeatClick(rowIndex, seatIndex)}
-        />;
-        return seat;
-      })
-    );
-    setSeats(newSeats);
-  };
+  //   const newSeats = seats.map((row, rIndex) =>
+  //     row.map((seat, sIndex) => {
+  //       if (rIndex === rowIndex && sIndex === seatIndex) {
+  //         return seat === 1 ? 0 : 1; // Toggle between selected and available
+  //       }
+  //       <div
+  //         key={seatIndex}
+  //         className={`seat ${
+  //           seat === 1 ? "selected" : seat === 2 ? "booked" : "available"
+  //         }`}
+  //         onClick={() => handleSeatClick(rowIndex, seatIndex)}
+  //       />;
+  //       return seat;
+  //     })
+  //   );
+  //   setSeats(newSeats);
+  // };
 
-  const handleSeatClickOnBusiness = (rowIndex, seatIndex) => {
-    if (seatsForEconomy[rowIndex][seatIndex] === 2) return; // Do nothing if the seat is booked
+  // const handleSeatClickOnBusiness = (rowIndex, seatIndex) => {
+  //   if (seatsForEconomy[rowIndex][seatIndex] === 2) return; // Do nothing if the seat is booked
 
-    const newSeats = seatsForEconomy.map((row, rIndex) =>
-      row.map((seat, sIndex) => {
-        if (rIndex === rowIndex && sIndex === seatIndex) {
-          return seat === 1 ? 0 : 1; // Toggle between selected and available
-        }
-        return seat;
-      })
-    );
-    setSeatsForEconomy(newSeats);
-  };
+  //   const newSeats = seatsForEconomy.map((row, rIndex) =>
+  //     row.map((seat, sIndex) => {
+  //       if (rIndex === rowIndex && sIndex === seatIndex) {
+  //         return seat === 1 ? 0 : 1; // Toggle between selected and available
+  //       }
+  //       return seat;
+  //     })
+  //   );
+  //   setSeatsForEconomy(newSeats);
+  // };
   // http://localhost:4000/api/V1/allFlightScheduleList/:flightId
   const selectedFlight = async (flightId) => {
     try {
@@ -87,12 +89,13 @@ const SeatSelection = () => {
       console.log(error);
     }
   };
+  
 
   useEffect(() => {
-    selectedFlight(flightId);
+    selectedFlight(id);
   }, []);
-  var rowsB = 1;
-  var rowsE = 1;
+  // var rowsB = 1;
+  // var rowsE = 1;
   return (
     <>
       <div className="bg-zinc-100 w-full flex justify-between">
@@ -119,8 +122,8 @@ const SeatSelection = () => {
             <div className="border w-80 mx-auto mt-3 bg-[#EAEBFF] rounded-md h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-300">
               {/* Business Class Section */}
               <div className="plane-layout pt-2 mt-3 w-[92%] mx-auto bg-[#FFFFFF]">
-                <p className="pb-2">For Business class</p>
-                {seats.map((row, rowIndex) => (
+                {/* <p className="pb-2">For Business class</p> */}
+                {/* {seats.map((row, rowIndex) => (
                   <div className="seat-row p-2" key={rowIndex}>
                     {rowsB++}
                     {row.map((seat, seatIndex) => (
@@ -139,13 +142,13 @@ const SeatSelection = () => {
                       />
                     ))}
                   </div>
-                ))}
+                ))} */}
               </div>
 
               {/* Economy Class Section */}
               <div className="plane-layout w-[92%] mx-auto bg-[#FFFFFF]">
-                <h1 className="pb-5">Economy Class</h1>
-                {seatsForEconomy.map((row, rowIndex) => (
+                {/* <h1 className="pb-5">Economy Class</h1> */}
+                {/* {seatsForEconomy.map((row, rowIndex) => (
                   <div className="seat-row p-2" key={rowIndex}>
                     {rowsE++}
                     {row.map((seat, seatIndex) => (
@@ -166,7 +169,7 @@ const SeatSelection = () => {
                       />
                     ))}
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           </div>

@@ -21,6 +21,16 @@ class CreateSeats_Repository {
                return error;
           }
      } 
+
+     async getSeatById(id){
+          try {
+               const response = await SeatTypes.findByPk(id);
+               return response;
+          } catch (error) {
+               console.error(error);
+               return error;
+          }
+     }
 }
 
 
