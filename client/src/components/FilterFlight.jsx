@@ -44,7 +44,7 @@ function FilterFlight() {
       console.error("flight not fetched");
     }
   }
-  console.log(userData);
+
   // http://localhost:4000/api/V1/dailyFlights
   const getDailyFlightsData = async () => {
     try {
@@ -110,7 +110,7 @@ function FilterFlight() {
       for(let i=0; i < chooseFlight.length; i++) {
           if(chooseFlight[i][0].flight_id == id)
           {
-            navigate(`/seats/${id}`);
+            navigate("/seats", { state: { flightId: chooseFlight[i] } });
           }
       }
     }

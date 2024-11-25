@@ -11,11 +11,10 @@ import axios from "axios";
 import Footer from "../components/Footer";
 
 const SeatSelection = () => {
-  // const location = useLocation();
-  // const flightId = location.state?.flightId;
-  // console.log(flightId);
-  const {id} = useParams();
-  console.log(id);
+  const location = useLocation();
+  const flightData = location.state?.flightId;
+  console.log(flightData);
+  
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   // Create a 2D array to represent seats (0: available, 1: selected, 2: booked)
@@ -79,20 +78,43 @@ const SeatSelection = () => {
   //   setSeatsForEconomy(newSeats);
   // };
   // http://localhost:4000/api/V1/allFlightScheduleList/:flightId
-  const selectedFlight = async (flightId) => {
-    try {
-      console.log(flightId);
-      const flightURL = `${URL}/api/V1/allFlightScheduleList/${flightId}`;
-      const response = await axios.get(flightURL);
-      console.log(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   
+  // const selectedFlight = async (flightId) => {
+  //   try {
+  //     console.log(flightId);
+  //     const flightURL = `${URL}/api/V1/allFlightScheduleList/${flightId}`;
+  //     const response = await axios.get(flightURL);
+  //     // console.log(response.data.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
+// -------------------------------------
+//      Flight Seats
+// http://localhost:4000/api/V1/getFlightSeatsByFlightId/:flight_id/:date
+  
+const FLightSeatsFor_chosen_Date = async () =>{
+    try { 
+          const SelectedDate = flightData[0].Date;
+          const flight_id = flightData[0].flight_id;
+          const response = await axios.get(`${URL}/api/V1/getFlightSeatsByFlightId/${flight_id}/${SelectedDate}`);
+          const seats = response;
+          console.log(seats);
+    } catch (error) {
+          console.log(error);
+    }
+  }
+
+  //--------------------------------------
+
+
+
 
   useEffect(() => {
-    selectedFlight(id);
+    // selectedFlight(flightId);
+    FLightSeatsFor_chosen_Date();
   }, []);
   // var rowsB = 1;
   // var rowsE = 1;

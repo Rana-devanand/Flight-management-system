@@ -50,7 +50,7 @@ function Routers() {
       <Route path="/PaymentSuccess" element={<PaymentSuccess/>}/>
       <Route path="/Payment" element={<Payment/>}/>
       <Route path="/PlainTicket" element={<PlainTicket/>}/>
-      <Route path="/seats/:id" element={<SeatSelection/>}/>
+      <Route path="/seats" element={<SeatSelection/>}/>
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />
