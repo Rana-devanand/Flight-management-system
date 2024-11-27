@@ -46,10 +46,10 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       allowNull : false,
     },
-    Total_seats: {
-      type : DataTypes.JSON,
-      allowNull : false,
-    }
+    // Total_seats: {
+    //   type : DataTypes.JSON,
+    //   allowNull : false,
+    // }
   }, {
     sequelize,
     modelName: 'schedule_list',

@@ -1,17 +1,101 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import skyImage from "../../assets/images/schedule_Admin.jpg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // Date picker
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
 import "flatpickr/dist/flatpickr.css";
 // ----------------------------------------------------------------
+import axios from "axios";
 
 function FlightSchedule() {
+  const URL = import.meta.env.VITE_BACKEND_API_URL;
+  const [flights, setFlights] = useState({});
+  const FormRef = useRef(null);
+
+
+  const [formData, setFormData] = useState({
+    flight_id: "",
+    start_date: "",
+    end_date: "",
+    recurrence_pattern: "",
+    departure_time: "",
+    arrival_time: "",
+  });
+  // console.log(formData);
+  const SetStartDate = (selectedDate) => {
+    const myDate = selectedDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    setFormData({ ...formData, start_date: formattedDate });
+  };
+
+  const SetEndDate = (selectedDate) => {
+    const myDate = selectedDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}`;
+    setFormData({ ...formData, end_date: formattedDate });
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // http://localhost:4000/api/V1/scheduleFlights
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${URL}/api/V1/scheduleFlights`,
+        formData
+      );
+      console.log(response);
+      if (response.status === 201) {
+        toast.success("Flight Schedule Created Successfully");
+        FormRef.current.reset();
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //  http://localhost:4000/api/V1/allFlights
+  const getAllFLight = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/V1/allFlights`);
+      // console.log(response);
+      setFlights(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllFLight();
+  }, []);
+
   return (
     <>
-      <div className="h-screen w-full text-white flex justify-center"
-       >
+      <div className="h-screen w-full text-white flex justify-center">
         <img
           className="relative w-full h-auto brightness-50"
           src={skyImage}
@@ -29,7 +113,8 @@ function FlightSchedule() {
             </h4>
 
             <form
-            //   onSubmit={HandleSubmit} ref={FormRef}
+              onSubmit={handleSubmit}
+              ref={FormRef}
             >
               <div className="flex flex-wrap justify-start gap-5 mt-5">
                 {/* -----------------------------------------------------
@@ -45,20 +130,19 @@ function FlightSchedule() {
                     id="flight"
                     className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     // onChange={(e) => setDeparture(e.target.value)}
-                    name="flight"
+                    name="flight_id"
+                    onChange={handleChange}
                     required
                   >
                     <option selected disabled>
                       Choose a flight
                     </option>
-                    {/* {allCity.length > 0 &&
-                      allCity
-                        .sort((a, b) => a.name.localeCompare(b.name)) // Sort by city name alphabetically
-                        .map((data, index) => (
-                          <option key={index} value={data.name}>
-                            {data.name}
-                          </option>
-                        ))} */}
+                    {flights.length > 0 &&
+                      flights.map((data, index) => (
+                        <option key={index} value={data.flight_id}>
+                          {data.Airline}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 {/* -----------------------------------------------------
@@ -83,6 +167,7 @@ function FlightSchedule() {
                       placeholder="choose Start Date"
                       className="p-2 rounded w-full bg-zinc-300 text-black outline-none border gap-5"
                       name="StartDate"
+                      onChange={SetStartDate}
                       required
                     />
                   </div>
@@ -111,6 +196,7 @@ function FlightSchedule() {
                       placeholder="Choose End Date"
                       className="p-2 rounded w-full bg-zinc-300 text-black outline-none border gap-5"
                       name="EndDate"
+                      onChange={SetEndDate}
                       required
                     />
                   </div>
@@ -123,22 +209,21 @@ function FlightSchedule() {
 
                 <div className="flex flex-col w-[32%]">
                   <label htmlFor="" className="font-semibold text-sm">
-                  Recurrence Flight
+                    Recurrence Flight
                   </label>
                   <select
                     id="recurrence"
                     className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
                     // onChange={(e) => setDeparture(e.target.value)}
-                    name="flight"
+                    name="recurrence_pattern"
+                    onChange={handleChange}
                     required
                   >
-                    <option selected disabled>
-                      Choose a Flight Recurrence
-                    </option>
-                    <option value="0">Daily</option>
-                    <option value="1">Weekly</option>
+                    <option disabled>Choose Recurrence Type</option>
+                    <option value="1">Daily</option>
                     <option value="2">Alternative</option>
-
+                    <option value="3">Three Days</option>
+                    <option value="4">Four Days</option>
                   </select>
                 </div>
 
@@ -151,25 +236,16 @@ function FlightSchedule() {
                     Enter Departure Timezone
                   </label>
                   <div className="custom-flatpickr w-full outline-none ">
-                    <Flatpickr
-                      // value={date}
-                      // onChange={chooseDate}
-                      options={{
-                        dateFormat: "Y-m-d",
-                        altInput: true,
-                        altFormat: "F j, Y",
-                        // minDate: `${onlyDate}`,
-                        maxDate: "",
-                      }}
-                      placeholder="Departure Time Pick"
+                    <input
                       className="p-2 rounded w-full bg-zinc-300 text-black outline-none border gap-5"
-                      name="departureTimezone"
+                      placeholder="Example : AA or American Airline"
+                      type="datetime-local"
+                      name="departure_time"
+                      onChange={handleChange}
                       required
                     />
                   </div>
                 </div>
-                
-
 
                 {/* -----------------------------------------------------
                               Enter Arrival Timezone
@@ -177,30 +253,18 @@ function FlightSchedule() {
                 */}
                 <div className="flex flex-col w-[32%]">
                   <label htmlFor="" className="font-semibold text-sm">
-                  Enter Arrival Timezone
+                    Enter Arrival Timezone
                   </label>
                   <div className="custom-flatpickr w-full outline-none ">
-                    <Flatpickr
-                      // value={date}
-                      // onChange={chooseDate}
-                      options={{
-                        dateFormat: "Y-m-d",
-                        altInput: true,
-                        altFormat: "F j, Y",
-                        // minDate: `${onlyDate}`,
-                        maxDate: "",
-                      }}
-                      placeholder="Arrival Time Pick"
+                    <input
                       className="p-2 rounded w-full bg-zinc-300 text-black outline-none border gap-5"
-                      name="arrivalTimezone"
+                      type="datetime-local"
+                      name="arrival_time"
+                      onChange={handleChange}
                       required
                     />
                   </div>
                 </div>
-
-               
-
-               
               </div>
 
               <button
@@ -212,7 +276,7 @@ function FlightSchedule() {
                 ADD Flight
               </button>
             </form>
-            {/* <ToastContainer /> */}
+            <ToastContainer />
           </div>
         </div>
       </div>

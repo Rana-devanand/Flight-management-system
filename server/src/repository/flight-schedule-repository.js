@@ -9,6 +9,8 @@ class FLightSchedule_Repository {
                let startDate = new Date(data.start_date);
                let endDate = new Date(data.end_date);
 
+               let FLight_Recurrence = parseInt(data.recurrence_pattern);
+
                // Calculate total time difference between departure to arrival.
                const departure = new Date(data.departure_time);
                const arrival = new Date(data.arrival_time);
@@ -39,15 +41,19 @@ class FLightSchedule_Repository {
                const ampm = flightHours >= 12 ? 'PM' : 'AM';
                flightHours = flightHours % 12 || 12; // Convert 0 to 12 for midnight
 
+               // Determine AM/PM for arrival and adjust the 24-hour format to 12-hour format
+               const arrivalAmpm = Arrival_hour >= 12 ? 'PM' : 'AM';
+               Arrival_hour = Arrival_hour % 12 || 12; // Convert 0 to 12 for midnight
+
+               // const arrival_day = Arrival.getDate().toString().padStart(2, '0'); 
+
                //${departure_day} ${departure_month} ${departure_year} :
                //${Arrival_day} ${Arrival_month} ${Arrival_year} :
                let DepartureTiming = `${flightHours}:${flightMinutes} ${ampm}`;
-               let ArrivalTiming = ` ${Arrival_hour}:${Arrival_minutes} ${ampm}`;
-
-               console.log(DepartureTiming, ArrivalTiming);
+               let ArrivalTiming = `${Arrival_hour}:${Arrival_minutes} ${arrivalAmpm}`;
 
                // Add the created schedule to the date range of flights.
-               if(data.recurrence_pattern === "Alternative"){
+               if(FLight_Recurrence){
                     // let currentDate = new Date(startDate);
                     while(startDate <= endDate){
                          // console.log(totalTimeTakes);
@@ -61,11 +67,12 @@ class FLightSchedule_Repository {
                                    totalTIme : totalTimeTakes,
                                    departureTime : DepartureTiming,
                                    arrivalTime : ArrivalTiming,
-                                   Total_seats : data.available_seats,
-                                   createdAt : new Date(),
-                                   updatedAt : new Date(),
+                                   
+                                   // Total_seats : data.available_seats,
+                                   // createdAt : new Date(),
+                                   // updatedAt : new Date(),
                               });
-                              startDate.setDate(startDate.getDate() + 3);
+                              startDate.setDate(startDate.getDate() + FLight_Recurrence);
                     }
                }
 

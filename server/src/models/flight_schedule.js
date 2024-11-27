@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   flight_schedule.init({
-    schedule_id: {
-      type: DataTypes.INTEGER,
-      allowNull :false,
-    },
+    // schedule_id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull :false,
+    // },
     flight_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -40,17 +40,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     departure_time:{
-      type :  DataTypes.DATE,
+      type :  DataTypes.STRING,
       allowNull : false,
     },
     arrival_time: {
-      type : DataTypes.DATE,
+      type : DataTypes.STRING,
       allowNull : false,
     },
-    available_seats: {
-      type : DataTypes.JSON,
-      allowNull : false,
-    },
+    // available_seats: {
+    //   type : DataTypes.JSON,
+    //   allowNull : false,
+    // },
     flight_status: {
       type : DataTypes.ENUM('Schedule', 'Available', 'UnAvailable'),
       allowNull : false,
