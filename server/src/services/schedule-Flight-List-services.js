@@ -40,6 +40,14 @@ class ScheduleListServices {
                console.error("Error getting AllScheduleListFlights in Services");
           }
      }
+     async getAllScheduleListbyDate(date){
+          try {
+               const response = await this.scheduleListRepository.getDailyScheduleList(date);
+               return response;
+          } catch (error) {
+               console.error("Error getting DailyScheduleList in Services");
+          }
+     }
 }
 
 module.exports = ScheduleListServices;

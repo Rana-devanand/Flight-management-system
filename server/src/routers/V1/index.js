@@ -148,6 +148,8 @@ router.get("/schedulesListByFlightId/:id" , ScheduleFlightList.getByFlightId);
 // http:localhost:4000/api/V1/distinctScheduleFlights
 router.get("/distinctScheduleFlights" , ScheduleFlightList.getDistinctScheduleFlights);
 
+// http://localhost:4000/api/V1/scheduleFlightList/:date
+router.get("/scheduleFlightList/:date" , ScheduleFlightList.getByDate);
 
 
 //  ---------------------------------------------------------------------

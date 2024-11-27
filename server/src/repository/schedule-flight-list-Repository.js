@@ -54,6 +54,20 @@ class ScheduleListRepository {
                console.log("Something went wrong in repository", error);
           }
      }
+
+     async getDailyScheduleList ({date}) {
+          try {
+               console.log(date);
+               const response = await schedule_list.findAll({
+                    where : {
+                         Date : date,
+                    }
+               })
+               return response;
+          } catch (error) {
+               return error;
+          }
+     }
 }
 
 module.exports = ScheduleListRepository;

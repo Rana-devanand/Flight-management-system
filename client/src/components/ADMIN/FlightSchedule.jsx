@@ -103,6 +103,40 @@ function FlightSchedule() {
     }
   }
 
+  const searchWithDate  = async (selectDate) =>{
+    const myDate = selectDate[0];
+    const dateObject = new Date(myDate);
+
+    // Format the date using local time (to avoid UTC conversion)
+    let year = dateObject.getFullYear();
+    let month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    let day = dateObject.getDate().toString().padStart(2, "0");
+
+    // Create the formatted date string in YYYY-MM-DD format
+    let formattedDate = `${year}-${month}-${day}` + "T00:00:00.000Z";
+    console.log(formattedDate);
+    // http://localhost:4000/api/V1/scheduleFlightList/:date
+    try {
+      const response = await axios.get(`${URL}/api/V1/scheduleFlightList/${formattedDate}`)
+      console.log(response);
+      setAllSchedule(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const ResetAllLoadData = () => {
+    setFlights({});
+    setFormData({
+      flight_id: "",
+      start_date: "",
+      end_date: "",
+      recurrence_pattern: "",
+      departure_time: "",
+      arrival_time: "",
+    });
+    setAllSchedule({});
+  }
 
   useEffect(() => {
     getAllFLight();
@@ -307,19 +341,39 @@ function FlightSchedule() {
         </div>
         <div className="px-6 py-2 ">
           <button
-            className="bg-blue-800 px-4 py-2 rounded text-white text-sm"
+            className="bg-blue-800 px-3 py-2 rounded text-white text-sm"
               onClick={LoadAllScheduleFlight}
           >
             CLick to load
           </button>
 
-          <input
+          {/* <input
             type="search"
             placeholder="Search Flight by name..."
             className="w-[60%] px-4 ml-5 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
             //   onChange={getFilteredFlight}
             name="Airline"
-          />
+          /> */}
+          
+                    <Flatpickr
+                      options={{
+                        dateFormat: "Y-m-d",
+                        altInput: true,
+                        altFormat: "F j, Y",
+                        // minDate: `${onlyDate}`,
+                        maxDate: "",
+                      }}
+                      placeholder="Filter by date"
+                      className="w-[20%] px-4 ml-5 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
+                      name="EndDate"
+                      onChange={searchWithDate}
+                      required
+                    />
+
+                    <button className="px-5 py-2 bg-emerald-700 mx-3 text-white rounded"
+                            onClick={ResetAllLoadData}>
+                        Reset
+                    </button>
         </div>
         
         <table className="min-w-full table-auto border-collapse border border-gray-300 text-sm">
