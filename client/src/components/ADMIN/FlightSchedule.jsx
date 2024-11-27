@@ -15,6 +15,7 @@ function FlightSchedule() {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const [flights, setFlights] = useState({});
   const FormRef = useRef(null);
+  const [getAllSchedule, setAllSchedule] = useState({});
 
 
   const [formData, setFormData] = useState({
@@ -88,6 +89,20 @@ function FlightSchedule() {
       console.log(error);
     }
   };
+
+
+  // Get All Schedule flights List onCLick load 
+  // http://localhost:4000/api/V1/distinctScheduleFlights
+  const LoadAllScheduleFlight = async () =>{
+    try {
+      const response = await axios.get(`${URL}/api/v1/distinctScheduleFlights`);
+      console.log(response)
+      setAllSchedule(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   useEffect(() => {
     getAllFLight();
@@ -286,14 +301,14 @@ function FlightSchedule() {
       <div className="w-full h-screen bg-slate-300">
         <div className="w-[95%] mx-auto flex justify-center">
           <div>
-            <h1 className="text-2xl font-semibold mt-10">All Flight</h1>
+            <h1 className="text-2xl font-semibold mt-10">All Schedule Flight list</h1>
             <hr className="h-1 mx-auto bg-gray-100 border-0 rounded md:my-3 dark:bg-[#FAA718]" />
           </div>
         </div>
         <div className="px-6 py-2 ">
           <button
             className="bg-blue-800 px-4 py-2 rounded text-white text-sm"
-            //   onClick={LoadAllFlight}
+              onClick={LoadAllScheduleFlight}
           >
             CLick to load
           </button>
@@ -306,6 +321,53 @@ function FlightSchedule() {
             name="Airline"
           />
         </div>
+        
+        <table className="min-w-full table-auto border-collapse border border-gray-300 text-sm">
+          <thead className="bg-gray-200">
+               <tr>
+                    <th className="border border-gray-300 px-4 py-2 text-left">ID</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Flight-ID</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Schedule Date</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Departure Date</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Arrival Date</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Total Time</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Departure Time</th> 
+                    <th className="border border-gray-300 px-4 py-2 text-left">Arrival Time</th> 
+                    <th className="border border-gray-300 px-4 py-2 text-left">Created At</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Updated At</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Edit</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Remove</th>
+               </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+                  {/* Rows here */}
+                {getAllSchedule && getAllSchedule.length > 0 ? 
+                (
+                 getAllSchedule.map((schedule , index) =>(
+                  <tr className="hover:bg-gray-100">
+                      <td className="border border-gray-300 px-4 py-2 text-left">{index+1}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.flight_id}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.Date.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.Departure.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.Arrival.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.totalTIme}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.departureTime}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.arrivalTime}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.createdAt.split('T')[0]}</td>
+                      <td className="border border-gray-300 px-4 py-2 text-left">{schedule.updatedAt.split('T')[0]}</td>
+                      <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
+                      <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
+                  </tr>
+                 ))
+                )
+                :
+                ("")              
+              }
+
+          </tbody>
+
+          </table>
+
       </div>
     </>
   );

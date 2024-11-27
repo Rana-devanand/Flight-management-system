@@ -59,8 +59,29 @@ const getByFlightId = async (req, res) => {
      }
 }
 
+const getDistinctScheduleFlights = async(req,res) =>{
+     try {
+          const response = await scheduleListServices.getAllScheduleListFLights();
+          return res.status(200).json({
+               data: response,
+               message: 'Distinct schedule flights fetched successfully',
+               success: true,
+               error: {}
+          })
+     } catch (error) {
+          console.log(error);
+          return res.status(500).json({
+               data: {},
+               message: 'Error fetching distinct schedule flights',
+               success: false,
+               error: error,
+          })
+     }
+}
+
 module.exports = {
      getFilteredData,
      getAll,
-     getByFlightId
+     getByFlightId,
+     getDistinctScheduleFlights
 }

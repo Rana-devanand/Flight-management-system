@@ -5,7 +5,7 @@ class FLightSchedule_Repository {
      async createFlightSchedule(data) {
           try {
                const scheduleFlights = await flight_schedule.create(data);
-               console.log(data);
+               // console.log(data);
                let startDate = new Date(data.start_date);
                let endDate = new Date(data.end_date);
 

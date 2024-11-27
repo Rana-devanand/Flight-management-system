@@ -31,6 +31,15 @@ class ScheduleListServices {
                throw error;
           }
      }
+
+     async getAllScheduleListFLights(){
+          try {
+               const response = await this.scheduleListRepository.getAllScheduleListFlights();
+               return response;
+          } catch (error) {
+               console.error("Error getting AllScheduleListFlights in Services");
+          }
+     }
 }
 
 module.exports = ScheduleListServices;
