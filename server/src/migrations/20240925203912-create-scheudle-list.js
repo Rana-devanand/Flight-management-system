@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('schedule-lists', {
+    await queryInterface.createTable('schedule_lists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -32,6 +32,14 @@ module.exports = {
       Total_seats: {
         type: Sequelize.JSON,
         allowNull: false,
+      },
+      departureTime :{
+        type : Sequelize.STRING,
+        allowNull : false,
+      },
+      arrivalTime : {
+        type : Sequelize.STRING,
+        allowNull : false,
       },
       createdAt: {
         allowNull: false,

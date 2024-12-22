@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      schedule_id: {
-        type: Sequelize.INTEGER,
-        allowNull : false,
-      },
+      // schedule_id: {
+      //   type: Sequelize.INTEGER,
+      //   allowNull : false,
+      // },
       flight_id: {
         type: Sequelize.INTEGER,
         allowNull : false,
@@ -42,10 +42,10 @@ module.exports = {
         type: Sequelize.TIME,
         allowNull : false,
       },
-      available_seats: {
-        type: Sequelize.JSON,
-        allowNull : false,
-      },
+      // available_seats: {
+      //   type: Sequelize.JSON,
+      //   allowNull : false,
+      // },
       flight_status: {
         type: Sequelize.ENUM('Schedule', 'Available', 'UnAvailable'),
         defaultValue: 'Schedule',

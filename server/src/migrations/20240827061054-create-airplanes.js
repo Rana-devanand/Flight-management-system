@@ -3,10 +3,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('airplanes', {
-      id: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
+      // id: {
+      //   allowNull: false,
+      //   type: Sequelize.INTEGER
+      // },
       flight_id: {
         allowNull: false,
         autoIncrement: true,

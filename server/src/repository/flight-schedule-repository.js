@@ -4,6 +4,7 @@ const {schedule_list} = require("../models/index")
 class FLightSchedule_Repository {
      async createFlightSchedule(data) {
           try {
+               console.log("Creating schedule for flight", data);
                const scheduleFlights = await flight_schedule.create(data);
                // console.log(data);
                let startDate = new Date(data.start_date);
