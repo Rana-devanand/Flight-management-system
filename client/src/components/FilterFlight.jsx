@@ -5,7 +5,7 @@ import AirIndia from "../assets/images/air-india-2.svg";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { FaArrowCircleRight } from "react-icons/fa";
 import rightIcon from "../assets/images/icons8-arrow.gif";
-import Footer from "../components/Footer"
+import Footer from "../components/Comman Pages/Footer"
 
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
@@ -389,16 +389,19 @@ function FilterFlight() {
                           ))}
                           {flight.Airline}
                           </td>
-                        <td className="border  border-[#f1f1f1a2] px-4 py-2">
+                        <td className="border flex flex-col justify-center items-center border-[#f1f1f1a2] px-4 py-2">
                           {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
                             <p key={index}>
                               {flight.flight_id == scheduleData.flight_id ? (scheduleData.departureTime): ("")}
-                              
-                              {flight.flight_id == scheduleData.flight_id ? (scheduleData.arrivalTime
-                              ): ("")}
                               </p>
-                              
                           ))}
+                          &nbsp;to
+                          {ScheduleFlight.length > 0 && ScheduleFlight.map((scheduleData , index) => (
+                            <p key={index}>
+                              {flight.flight_id == scheduleData.flight_id ? (scheduleData.arrivalTime): ("")}
+                              </p>
+                          ))}
+
                         </td>
 
                         <td className="border  border-[#f1f1f1a2] px-4 py-2">

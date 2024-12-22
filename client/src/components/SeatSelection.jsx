@@ -8,7 +8,7 @@ import seat1 from "../assets/images/businessSeat.png";
 import seat2 from "../assets/images/EconomySeat.png";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import Footer from "../components/Footer";
+import Footer from "../components/Comman Pages/Footer";
 
 const SeatSelection = () => {
   const location = useLocation();

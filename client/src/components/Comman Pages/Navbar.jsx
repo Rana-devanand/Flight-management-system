@@ -42,9 +42,10 @@ function Navbar() {
   // console.log(typeof userType)
   return (
     <>
+    {/*  bg-[#ffffffec] items-center */}
     {/* 071C35 */}
-      <nav className="flex justify-between bg-[#ffffffec] items-center py-2  text-[#000] text-sm font-semibold shadow-2xl">
-        <div className="flex gap-2 ml-4">
+      <nav className="sm:block sm:w-full lg:flex lg:w-full lg:justify-between  py-2  text-[#000] text-sm font-semibold shadow-2xl">
+        <div className="sm:block lg:flex gap-2 ml-4">
           <div className="mx-3 mt-1 text-lg font-serif text-[#0D6AA0]">
             Flight Udaan
           </div>

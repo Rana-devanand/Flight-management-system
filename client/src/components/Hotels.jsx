@@ -5,7 +5,7 @@ import "../assets/css/hotels.css";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css"; // Import a theme (optional)
 import "flatpickr/dist/flatpickr.css";
-import Footer from "./Footer"
+import Footer from "./Comman Pages/Footer"
 
 // Date
 // const currentDate = new Date().toISOString();

@@ -1,5 +1,5 @@
 import { BrowserRouter, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Comman Pages/Navbar";
 import Routers from "./utils/Routers";
 import React from "react";
 

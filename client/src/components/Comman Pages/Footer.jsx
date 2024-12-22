@@ -1,5 +1,5 @@
 import React from "react";
-import udaan from "../assets/images/udaan_logo.png";
+import udaan from "../../assets/images/udaan_logo.png";
 import { FaTwitter } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";

@@ -8,7 +8,7 @@ import "flatpickr/dist/flatpickr.css";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import Footer from "./Footer";
+import Footer from "./Comman Pages/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

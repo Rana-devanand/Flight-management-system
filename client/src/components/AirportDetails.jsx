@@ -6,7 +6,7 @@ import HumidityImage from "../assets/images/humidity.png";
 import minTemp from "../assets/images/min.png";
 import maxTemp from "../assets/images/max.png";
 // import { useLocation } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "./Comman Pages/Footer";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 

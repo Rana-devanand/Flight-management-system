@@ -3,7 +3,7 @@ import RunwayImage from "../assets/images/Windsock.jpg";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import AirportDetails from "./AirportDetails";
-import Footer from "./Footer";
+import Footer from "./Comman Pages/Footer";
 import skyImage from "../assets/images/sky.jpg";
 import { RxCross1 } from "react-icons/rx";
 import "../assets/css/Airport.css";

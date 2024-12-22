@@ -1,6 +1,6 @@
 import React from "react";
 import skyImage from "../assets/images/sky.jpg";
-import Footer from "./Footer";
+import Footer from "./Comman Pages/Footer";
 
 function Flight() {
   return (
