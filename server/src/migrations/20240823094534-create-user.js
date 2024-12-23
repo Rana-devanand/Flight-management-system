@@ -12,7 +12,6 @@ module.exports = {
       username: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       email: {
         type: Sequelize.STRING,
@@ -27,7 +26,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          len: [8, 20]
+          len: [6, 100],
         }
       },
       number: {

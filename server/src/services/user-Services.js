@@ -13,7 +13,7 @@ class UserServices {
                return user;
           } catch (error) {
                console.log("Something went wrong in service", error);
-               return error;
+               throw {error}
           }
      }
 
@@ -88,6 +88,7 @@ class UserServices {
      }
 
      passwordAuthentication(userPlainPassword, encryptedPassword) {
+          console.log(userPlainPassword, encryptedPassword);
           try {
                return bcrypt.compareSync(userPlainPassword, encryptedPassword);
           } catch (error) {

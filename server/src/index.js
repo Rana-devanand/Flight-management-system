@@ -2,6 +2,8 @@ const express = require("express");
 const { PORT } = require("./config/serverConfig");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+
 // const db = require("./models/index")
 // const { user, roles } = require("./models/index")
 const app = express();
