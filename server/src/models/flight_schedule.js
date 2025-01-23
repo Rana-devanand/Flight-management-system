@@ -40,11 +40,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     departure_time:{
-      type :  DataTypes.STRING,
+      type :  DataTypes.DATE,
       allowNull : false,
     },
     arrival_time: {
-      type : DataTypes.STRING,
+      type : DataTypes.DATE,
       allowNull : false,
     },
     // available_seats: {

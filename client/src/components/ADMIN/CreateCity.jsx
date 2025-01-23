@@ -205,7 +205,7 @@ const HandleDelete = async (id) =>{
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.id}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.createdAt}</td>
                            <td class="border border-gray-300 px-4 py-2 text-left">{cityData.updatedAt}</td>
-                          <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
+                           <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-blue-500" type="button">EDIT</button></td>
                            <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td> 
                     </tr> 
                   ))

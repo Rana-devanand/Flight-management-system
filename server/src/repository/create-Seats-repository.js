@@ -31,6 +31,19 @@ class CreateSeats_Repository {
                return error;
           }
      }
+     async getSeatByFlightId (flightid){
+          try {
+               const response = await SeatTypes.findAll({
+                    where : {
+                         flight_id : flightid
+                    }
+               });
+               return response;
+          } catch (error) {
+               console.error(error);
+               return error;
+          }
+     }
 }
 
 

@@ -151,6 +151,7 @@ const HandleSubmit = async (e) => {
                     <option value="International">International Airport</option>
                     <option value="Domestic">Domestic Airport</option>
                     <option value="Commercial">Commercial Airport</option>
+                    <option value="Private">Private Airport</option>
                     <option value="Civil">Civil Enclave</option>
 
                   </select>

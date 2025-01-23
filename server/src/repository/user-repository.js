@@ -5,12 +5,32 @@ const { SALT } = require("../config/serverConfig")
 class UserRepository {
      async createUser(data) {
           try {
-               // const hashedPassword = await bcrypt.hash(data.password, SALT);
-               // data.password = hashedPassword;
+               const emailExist = await user.findOne({
+                    where: {
+                         email: data.email,
+                    }
+               })
+               if(emailExist){
+                    return {
+                         error : "Email already exists",
+                         status : 403,
+                    }
+               }
+               const numberExist = await user.findOne({
+                    where: {
+                         number: data.number,
+                    }
+               })
+               if(numberExist){
+                    return {
+                         error : "Number already exists",
+                         status : 403,
+                    }
+               }
                const response = await user.create(data);
                return response;
           } catch (error) {
-               console.error("repository error :" , error);
+               console.log("repository error :" , error);
                return {error};
           }
      }

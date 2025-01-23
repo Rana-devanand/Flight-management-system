@@ -13,8 +13,10 @@ function Seats() {
 
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const [remark , setRemark ] = useState(true)
+  const [isLoading, SetisLoading] = useState(false)
   const [flight , setFLightData] = useState({});
   const [seatClass , setSeatClass] = useState({});
+  const [seatData , setFlightSeats] = useState([]);
   const [formData , setFormData] = useState({
     startDate : "",
     EndDate : "",
@@ -101,12 +103,14 @@ function Seats() {
 // http://localhost:4000/api/V1/createFLightseats
   const HandleSubmit = async (e) => {
     e.preventDefault();
+    SetisLoading(true);
     try {
       const response = await axios.post(`${URL}/api/v1/createFLightseats` , formData);
       // console.log(response);
       if(response.status === 200) {
         toast.success("Flight Seats Created Successfully");
         FormRef.current.reset();
+        SetisLoading(false);
       }
       else{
         toast.error("Failed to create Flight Seats");
@@ -116,13 +120,37 @@ function Seats() {
     }
   }
 
+  // // http://localhost:4000/api/V1/getAllFlightSeatsBy
+  const getAllFlightSeats = async () => {
+    try {
+      const response = await axios.get(`${URL}/api/V1/getAllFlightSeatsBy`);
+      // console.log(response.data.data);
+      setFlightSeats(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(()=>{
     getAllFLight();
     getSeatClass();
+    getAllFlightSeats();
   },[])
 
   return (
      <>
+    {/* Loading is Start when data is feed into the DB */}
+          {isLoading && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="flex flex-col items-center">
+                        {/* Loader */}
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+                        <span className="text-white mt-4">Seats Creating</span> <img src="/dotLoader.svg" alt="" /> 
+                    </div>
+                </div>
+            )}
+
+
       <div className="bg-zinc-800 h-screen w-full text-white flex justify-center">
         <img
           className="relative w-full h-auto brightness-50"
@@ -237,7 +265,7 @@ function Seats() {
                         <option key={index} 
                         value={data.flight_id}
                         >
-                          {data.Airline}
+                         {data.flight_id} {data.Airline} , [ {data.modelNo}]
                         </option>
                       ))
                     }
@@ -293,7 +321,7 @@ function Seats() {
 
       {/* All flight List  */}
 
-      <div className="w-full h-screen bg-slate-300">
+      <div className="w-full h-auto bg-slate-300">
         <div className="w-[95%] mx-auto flex justify-center">
           <div>
             <h1 className="text-2xl font-semibold mt-10">Seats Data</h1>
@@ -301,7 +329,7 @@ function Seats() {
           </div>
         </div>
         <div className="px-6 py-2 ">
-          <button
+          {/* <button
             className="bg-blue-800 px-4 py-2 rounded text-white text-sm"
             //   onClick={LoadAllFlight}
           >
@@ -312,9 +340,40 @@ function Seats() {
             type="search"
             placeholder="Search Flight by name..."
             className="w-[60%] px-4 ml-5 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
-            //   onChange={getFilteredFlight}
             name="Airline"
-          />
+          /> */}
+          <table className="w-full border-collapse">
+            <thead className="bg-gray-200">
+                 <tr>
+                      <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">flight ID</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">Flight Date</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">isBooked</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">Seat Name</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">Seat Type</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">Edit</th>
+                      <th class="border border-gray-300 px-4 py-2 text-left">Remove</th>
+                 </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {seatData.length > 0 && seatData.map((data, index) => (
+                <tr key={index}>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{index+1}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{data.flight_id}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{new Date(data.Flight_Date).toLocaleDateString()}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{data.is_Booked === false ? ("Not Booked"): ("Booked")}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{data.seat_number}</td>
+                    <td className="border border-gray-300 px-4 py-2 text-left">{data.seat_type_id}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-left">
+                    <button className="px-4 py-2 rounded text-white bg-blue-700">Edit</button>
+                  </td>
+                  <td class="border border-gray-300 px-4 py-2 text-left">
+                    <button className="px-4 py-2 rounded text-white bg-red-700">Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

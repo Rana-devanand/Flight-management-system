@@ -14,7 +14,7 @@ const FLightScheduleController = require("../../controllers/flight-schedule-cont
 const ScheduleFlightList = require("../../controllers/schedule-flight-list-controller")
 const FilterFlightMiddleware = require("../../middlewares/flight-filter-middleware");
 const SendMail= require("../../controllers/Email-controller")
-const CreateSeatController = require("../../controllers/create-seats-controller")
+const SeatController = require("../../controllers/create-seats-controller")
 const FLightSeatController = require("../../controllers/flight-seat-controller");
 
 // http://localhost:4000/api/V1/createCity
@@ -168,14 +168,17 @@ router.use("/sendOtp" , SendMail.sendEmailForPasswordForget)
 
 
 // http://localhost:4000/api/V1/createseats
-router.post("/createseats", CreateSeatController.create);
+router.post("/createseats", SeatController.create);
 
 
 // http://localhost:4000/api/V1/getseatclass
-router.get("/getseatclass" , CreateSeatController.getseatclass);
+router.get("/getseatclass" , SeatController.getseatclass);
 
 //http://localhost:4000/api/V1/getseatbyid
-router.get("/getseatbyid/:id" , CreateSeatController.getSeatbyid);
+router.get("/getseatbyid/:id" , SeatController.getSeatbyid);
+
+// http://localhost:4000/api/V1/getseatsBy/:flight_id
+ router.get("/getseatsBy/:flight_id" , SeatController.getSeatsByFlightId);
 
 
 // --------------------------------------------------------------------
@@ -187,6 +190,9 @@ router.post("/createFLightseats" , FLightSeatController.create);
 
 // http://localhost:4000/api/V1/getFlightSeatsByFlightId/:flight_id/:date
 router.get("/getFlightSeatsByFlightId/:flight_id/:date" , FLightSeatController.getFlightSeatsByFlightId);
+
+// http://localhost:4000/api/V1/getAllFlightSeatsBy
+ router.get("/getAllFlightSeatsBy" , FLightSeatController.getALlSeats);
 
 
 

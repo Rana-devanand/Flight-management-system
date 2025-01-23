@@ -63,8 +63,8 @@ class FLightSchedule_Repository {
                               {
                                    flight_id : data.flight_id,
                                    Date : startDate.toISOString().split('T')[0],
-                                   Departure : data.departure_time,
-                                   Arrival : data.arrival_time,
+                                   Departure : startDate.toISOString().split('T')[0],
+                                   Arrival : startDate.toISOString().split('T')[0],
                                    totalTIme : totalTimeTakes,
                                    departureTime : DepartureTiming,
                                    arrivalTime : ArrivalTiming,

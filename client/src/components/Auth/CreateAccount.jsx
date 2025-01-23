@@ -8,6 +8,7 @@ const CreateAccount = () => {
   const URL = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
   const formRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState(
     {
       username: "",
@@ -28,24 +29,31 @@ const CreateAccount = () => {
   //http://localhost:3000/api/V1/createUser
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       if ((!value.username) || (!value.email) || (!value.password) || (!value.number)) {
         toast.error("All fields are required!");
+        setIsLoading(false);
         return;  
       }
       if ((value.username) && (value.email) && (value.password) && (value.number)) {
         const response = await axios.post(`${URL}/api/V1/createUser`, value);
-        if(response.data.data.err === "SequelizeUniqueConstraintError"){
-          toast.error(response.data.data.message);
+        if(response.data.data.error){
+          setIsLoading(false);
+          toast.error(response.data.data.error);
           return;
         }
-        formRef.current.reset();
-        toast("Successfully created account");
+        if(response.status == 201){
+          toast.success(response.data.message);
+          formRef.current.reset();
+        }
         setTimeout(() => {
           navigate("/login");
-        },2000)
+          setIsLoading(false); 
+        },3000)
       }
     } catch (error) {
+      setIsLoading(false);
       console.error(error.message)
     }
   };
@@ -172,10 +180,17 @@ const CreateAccount = () => {
           </div>
         </div>
 
-        {/* <div className="flex-1 bg-green-100 text-center hidden lg:flex">
-          <img src={BackgroundImage} alt="" srcset="" />
-        </div> */}
       </div>
+      {/* Fullscreen Modal with Loader */}
+    {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="flex flex-col items-center">
+            {/* Loader */}
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+            <p className="text-white mt-4">Creating in...</p>
+          </div>
+        </div>
+      )}
     </div >
   );
 };

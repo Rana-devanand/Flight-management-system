@@ -34,6 +34,15 @@ class CreateSeats_Service {
                return error;
           }
      }
+     async getSeatByFlightId (flightId){
+          try {
+               const response = await this.createSeatsRepository.getSeatByFlightId(flightId);
+               return response;
+          } catch (error) {
+               console.log("Error in Services " . error.message);
+               return error;
+          }
+     }
 }
 
 module.exports = CreateSeats_Service;

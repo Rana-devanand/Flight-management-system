@@ -4,6 +4,7 @@ const flightSeatServices = new FlightSeatServices();
 
 const create = async (req, res) => {
      try {
+          console.log("Creating", req.body);
           const response = await flightSeatServices.createFlightSeatsService(req.body);
           return res.status(200).json({
                data : response,
@@ -24,6 +25,7 @@ const create = async (req, res) => {
 
 const getFlightSeatsByFlightId = async (req, res) =>{
      try {
+          
           const response = await flightSeatServices.getFlightSeatsByFlightId(req.params.flight_id,req.params.date);
           return res.status(200).json({
                data : response,
@@ -42,7 +44,28 @@ const getFlightSeatsByFlightId = async (req, res) =>{
      }
 }
 
+const getALlSeats = async (req, res) => {
+     try {
+          const response = await flightSeatServices.getAllFlightsSeats();
+          return res.status(200).json({
+               data: response,
+               message: "Successfully fetched all Seats",
+               success: true,
+               err: {},
+          });
+     } catch (error) {
+          console.error(error);
+          return res.status(500).json({
+               data: {},
+               message: "Failed to fetch all Seats",
+               success: false,
+               err: error,
+          })
+     }
+}
+
 module.exports ={
      create,
      getFlightSeatsByFlightId,
+     getALlSeats,
 }

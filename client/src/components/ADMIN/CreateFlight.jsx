@@ -4,7 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import Loader from "../Loader/Loader"
 function CreateFlight() {
   const navigate = useNavigate();
   const [allCity, setAlCity] = useState([]);
@@ -35,7 +35,7 @@ function CreateFlight() {
   const [ArrivalTime , setArrivalTime] = useState("");
   const [Remark , setRemark] = useState("");
   const [flightLogo , setFlightLogo] = useState(null);
-
+  const [loader , setLoader] = useState(false); 
   const handleImage = (e) => {
     setFlightLogo(e.target.files[0]);
   };
@@ -66,7 +66,7 @@ function CreateFlight() {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoader(true);
     const formData = new FormData();
     formData.append("Airline", Airline);
     formData.append("modelNo", modelNo);
@@ -157,6 +157,12 @@ const getAllFilteredFlight = async()=>{
 
   return (
     <>
+    {loader ? (
+      <Loader 
+        loading={true} 
+        message={"Flight Creating..."}/>
+      ) : null}
+      
       <div className="bg-zinc-800 h-screen w-full text-white flex justify-center">
         <img
           className="relative w-full h-auto brightness-50 "
@@ -175,7 +181,7 @@ const getAllFilteredFlight = async()=>{
                   className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500"
                   to="/creteSeatsclass"
                 >
-                  Create Seats
+                  Create Seats types
             </NavLink>
             <NavLink
                   style={(e) => {
@@ -187,7 +193,7 @@ const getAllFilteredFlight = async()=>{
                   className="flex items-center px-3 py-2 border border-zinc-200 rounded-md mt-2 hover:bg-slate-500"
                   to="/createseats"
                 >
-                  Seats
+                  Create Flight Seats
             </NavLink>
             <NavLink
                   style={(e) => {

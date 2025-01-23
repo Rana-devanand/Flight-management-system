@@ -26,6 +26,15 @@ class FLightSeatsServices {
                return error;
           }
      }
+
+     async getAllFlightsSeats(){
+          try {
+               const response = await this.flightSeatsRepository.getAllFlightsSeats();
+               return response;
+          } catch (error) {
+               console.error("Error getting all flights seats in Services");
+          }
+     }
 }
 
 module.exports = FLightSeatsServices;

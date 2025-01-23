@@ -10,6 +10,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      flight_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       seat_type_name: {
         type: Sequelize.STRING,
         allowNull: false,

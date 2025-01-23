@@ -15,7 +15,7 @@ function CreateAirport() {
     cityId: "",
     type : "",
   });
-
+console.log(value);
   const [cityID, setCity] = useState([]);
 
   const getCityID = async () => {
@@ -186,6 +186,7 @@ const HandleEdit = (index) =>{
                     <option value="International">International Airport</option>
                     <option value="Domestic">Domestic Airport</option>
                     <option value="Commercial">Commercial Airport</option>
+                    <option value="Private">Private Airport</option>
                     <option value="Civil">Civil Enclave</option>
 
                   </select>
@@ -227,7 +228,7 @@ const HandleEdit = (index) =>{
              />
         </div>
 
-        <table class="min-w-full table-auto border-collapse border border-gray-300">
+        <table class="min-w-full text-sm table-auto border-collapse border border-gray-300">
           <thead class="bg-gray-200">
                <tr>
                     <th class="border border-gray-300 px-4 py-2 text-left">ID</th>
@@ -254,8 +255,8 @@ const HandleEdit = (index) =>{
                      <td class="border border-gray-300 px-4 py-2 text-left">{airports.address}</td>
                      <td class="border border-gray-300 px-4 py-2 text-left">{airports.cityId}</td>
                      <td class="border border-gray-300 px-4 py-2 text-left">{airports.type}</td>
-                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.createdAt}</td>
-                     <td class="border border-gray-300 px-4 py-2 text-left">{airports.updatedAt}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{new Date(airports.createdAt).toLocaleString()}</td>
+                     <td class="border border-gray-300 px-4 py-2 text-left">{new Date(airports.updatedAt).toLocaleString()}</td>
                      <td class="border border-gray-300 px-4 py-2 text-left"> <button className="px-4 py-2 rounded text-white bg-blue-700" type="button">EDIT</button></td>
                      <td class="border border-gray-300 px-4 py-2 text-left"><button className="px-4 py-2 rounded text-white bg-red-500" type="button">Delete</button></td>
                 </tr>
@@ -269,8 +270,8 @@ const HandleEdit = (index) =>{
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.address}</td>
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.cityId}</td>
                        <td class="border border-gray-300 px-4 py-2 text-left">{airports.type}</td>
-                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.createdAt}</td>
-                       <td class="border border-gray-300 px-4 py-2 text-left">{airports.updatedAt}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{new Date(airports.createdAt).toLocaleString()}</td>
+                       <td class="border border-gray-300 px-4 py-2 text-left">{new Date(airports.updatedAt).toLocaleString()}</td>
                        
                        <td class="border border-gray-300 px-4 py-2 text-left"> 
                             <button className="px-4 py-2 rounded text-white bg-cyan-600"      

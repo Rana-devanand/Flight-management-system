@@ -62,8 +62,29 @@ const getSeatbyid = async(req, res) => {
      }
 }
 
+const getSeatsByFlightId = async(req, res) => {
+     try {
+          const response = await createSeatsServices.getSeatByFlightId(req.params.flight_id);
+          return res.status(200).json({
+               data: response,
+               message: "Seats fetched successfully for the flight",
+               success: true,
+               err: {},
+          });
+     } catch (error) {
+          console.log(error);
+          return res.status(500).json({
+               data: {},
+               message: "Failed to fetch the seats for the flight",
+               success: false,
+               err: error,
+          })
+     }
+}
+
 module.exports = {
      create,
      getseatclass,
-     getSeatbyid
+     getSeatbyid,
+     getSeatsByFlightId
 };

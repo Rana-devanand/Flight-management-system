@@ -4,5 +4,7 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: ['tailwind-scrollbar'],
+  plugins: [
+    import('tailwind-scrollbar'),
+  ],
 };

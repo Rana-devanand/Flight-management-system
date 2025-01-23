@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import AdminNavbar from "../components/ADMIN/Navbar";
+import Loader from "../Loader/Loader";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,32 +24,39 @@ const Login = () => {
   // http://localhost:3000/api/V1/signIn
   const handleSubmit = async (e) => {
     e.preventDefault();
+    <Loader value={true} message={"Logging...in"}/>
+    
+    // All fields are required! Error message
+    if (!UserData.email || !UserData.password) {
+      toast.error("All fields are required!");
+      <Loader value={false} />
+      return;
+    }
     try {
       const URL = import.meta.env.VITE_BACKEND_API_URL;
       const response = await axios.post(`${URL}/api/V1/signIn`, UserData);
-      // console.log(response.data);
-      // console.log("Token : ", response.data.data.token)
-      // console.log("email : ", response.data.data.user.email)
-      // console.log("Username : ", response.data.data.user.username)
-      // const user = response.data.data.user.userType;
+      console.log(response);
+      
+
+      // Email Not found ! Error message
+      if (response.data.data.error) {
+        toast.error(response.data.data.error);
+        <Loader value={false} />
+        return;
+      }
       localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("email", response.data.data.user.email);
       localStorage.setItem("username", response.data.data.user.username);
       localStorage.setItem("type", response.data.data.user.userType);
       // localStorage.setItem("token", JSON.stringify(response.data));
 
-      // console.log(response);
-      if (!response) {
-        toast.error("please correct credentials");
-      }
-      if (!UserData.email || !UserData.password) {
-        toast.error("All fields are required!");
-        return;
-      }
       if (response.data.data) {
         toast("Login Successful!");
-        navigate("/dashboard");
       }
+      setTimeout(()=>{
+        navigate("/dashboard");
+      },[3000])
+
     } catch (error) {
       toast.error("please enter correct credentials");
       console.error("Something went wrong : ", error);

@@ -59,6 +59,10 @@ class UserServices {
 
                // Step 1: Fetch the user to using email;
                const user = await this.UserRepository.getByEmail(email);
+               
+               if(!user) {
+                    return { error : "Email does't exist!"}
+               }
 
                // Step 2: Check if the user exists then match the password;
                const passwordMatch = this.passwordAuthentication(
@@ -68,7 +72,7 @@ class UserServices {
 
                // if Password Does Not match ;
                if (!passwordMatch) {
-                    throw { error: 'Password does not match' }
+                    return { error: 'Password does not match' }
                }
 
                // if password does match then create the Token and send to the User.

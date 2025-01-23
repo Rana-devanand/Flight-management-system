@@ -16,6 +16,7 @@ function FlightSchedule() {
   const [flights, setFlights] = useState({});
   const FormRef = useRef(null);
   const [getAllSchedule, setAllSchedule] = useState({});
+  const [remark , setRemark] = useState(true);
 
 
   const [formData, setFormData] = useState({
@@ -26,7 +27,25 @@ function FlightSchedule() {
     departure_time: "",
     arrival_time: "",
   });
-  // console.log(formData);
+
+
+  const fetchFlightRecurrenceData = async (Id) =>{
+    try {
+      const response = await axios.get(`${URL}/api/V1/getFlightById/${Id}`);
+      console.log("Remark data",response);
+      const flightRemarks = response.data.data[0].Remark;
+      setFormData({...formData , recurrence_pattern : flightRemarks}); 
+      setRemark(false);     
+    } catch (error) {
+      console.error(error);
+    }
+  }
+//  Auto fetched the flight recurrence data after the Flight_id is updated
+  if(formData.flight_id != null && remark ){
+    fetchFlightRecurrenceData(formData.flight_id);
+  }
+
+  console.log(formData);
   const SetStartDate = (selectedDate) => {
     const myDate = selectedDate[0];
     const dateObject = new Date(myDate);
@@ -57,6 +76,7 @@ function FlightSchedule() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setRemark(true);
   };
 
   // http://localhost:4000/api/V1/scheduleFlights
@@ -189,7 +209,7 @@ function FlightSchedule() {
                     {flights.length > 0 &&
                       flights.map((data, index) => (
                         <option key={index} value={data.flight_id}>
-                          {data.Airline}
+                          {data.flight_id} {data.Airline} , [{data.modelNo}]
                         </option>
                       ))}
                   </select>
@@ -260,20 +280,14 @@ function FlightSchedule() {
                   <label htmlFor="" className="font-semibold text-sm">
                     Recurrence Flight
                   </label>
-                  <select
-                    id="recurrence"
-                    className="p-2  rounded bg-zinc-300 text-black outline-none border gap-5"
-                    // onChange={(e) => setDeparture(e.target.value)}
-                    name="recurrence_pattern"
-                    onChange={handleChange}
-                    required
-                  >
-                    <option disabled>Choose Recurrence Type</option>
-                    <option value="1">Daily</option>
-                    <option value="2">Alternative</option>
-                    <option value="3">Three Days</option>
-                    <option value="4">Four Days</option>
-                  </select>
+                  <input
+                        className="p-2 rounded bg-zinc-300 text-black outline-none border"
+                        type="text"
+                        // name="Airline"
+                        value={formData.recurrence_pattern}
+                        disabled
+                      />  
+                    
                 </div>
 
                 {/* -----------------------------------------------------

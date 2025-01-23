@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
       },
       type : {
-        type: Sequelize.ENUM('International', 'Domestic' , 'Commercial'),
+        type: Sequelize.ENUM('International', 'Domestic' , 'Commercial','Private','Civil'),
         defaultValue: 'Commercial'
       },
       createdAt: {

@@ -56,22 +56,31 @@ class CreateFLightSeats_Repository {
 
      
 
-     async getFlightSeatsByFlightId(flight_id , date) {
+     async getFlightSeatsByFlightId(flight_id, date) {
           try {
-
-               const formattedDate = moment(date).format("YYYY-MM-DD HH:mm:ss");
+               const newDate = new Date(date);
+               const formattedDate = newDate.toISOString().replace('T', ' ').slice(0,19);
+               
                const response = await Seat.findAll({
-                    where : {
-                         flight_id : flight_id,
-                         [Op.and]: {
-                              flight_Date : formattedDate
-                         }
+                    where: {
+                         flight_id: flight_id,
+                         flight_Date: formattedDate
                     }
-               })
+               });
+               
                return response;
           } catch (error) {
-               console.error(error)
-               return error;
+               console.error('Error fetching flight seats:', error);
+               throw error;
+          }
+     }
+
+     async getAllFlightsSeats(){
+          try {
+               const response = await Seat.findAll();
+               return response;
+          } catch (error) {
+               throw {Error};
           }
      }
 }
