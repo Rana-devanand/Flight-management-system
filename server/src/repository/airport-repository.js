@@ -67,6 +67,18 @@ class AirportRepository {
       console.log("something went wrong when getting all Airports", error);
     }
   }
+  async getByCityID(cityId) {
+    try {
+      const getAirports = await airport.findAll({
+        where: {
+          cityId,
+        },
+      });
+      return getAirports;
+    } catch (error) {
+      console.log("Something went wrong with getAirports by City ID", error);
+    }
+  }
 }
 
 module.exports = AirportRepository;

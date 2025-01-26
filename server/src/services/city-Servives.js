@@ -61,5 +61,14 @@ class CityService {
         console.log("Something went wrong when deleting city", error);
     }
   }
+
+  async getByCityName(cityName){
+    try {
+      const city = await this.CityRepository.getByCityName(cityName);
+      return city;
+    } catch (error) {
+      console.log("Something went wrong in service", error);
+    }
+  }
 }
 module.exports = CityService;

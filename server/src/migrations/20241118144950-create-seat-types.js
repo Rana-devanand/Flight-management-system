@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      price :{
+        type : Sequelize.FLOAT,
+        allowNull : false,
+      },
       seats_per_row: {
         type: Sequelize.INTEGER,
         allowNull: false,

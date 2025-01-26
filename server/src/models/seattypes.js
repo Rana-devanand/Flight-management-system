@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    price :{
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
     seats_per_row:{
       type: DataTypes.INTEGER,
       allowNull: false,

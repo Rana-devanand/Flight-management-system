@@ -1,6 +1,9 @@
 const { city } = require("../models/index");
 const { Op } = require("sequelize");
 
+const AirportRepository = require("./airport-repository");
+const airportRepository = new AirportRepository();
+
 class CityRepository {
   async createCity({ name }) {
     try {
@@ -73,6 +76,22 @@ class CityRepository {
       } catch (error) {
         console.log("Something went wrong in repository", error);
         return false;
+      }
+    }
+
+    async getByCityName(cityName){
+      try {
+        const getAllCityData = await city.findAll({
+          where: {
+            name: cityName,
+          },
+        });
+        console.log(getAllCityData);
+        var cityID = (getAllCityData[0].id);
+        var getAirportData = await airportRepository.getByCityID(cityID);
+        return getAirportData;
+      } catch (error) {
+        console.log("Something went wrong when getting Airports by city name", error);
       }
     }
 }

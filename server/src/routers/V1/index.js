@@ -35,6 +35,8 @@ router.patch("/updateCity/:id", cityController.updateCity)
 // http://localhost/4000/api/V1/deleteCity/:id
 router.delete("/deleteCity/:id", cityController.destroy)
 
+// http://localhost/4000/api/V1/getByCityName/:cityName
+ router.get("/getByCityName/:cityName", cityController.getByCityName);
 
 
 

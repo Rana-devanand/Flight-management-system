@@ -124,11 +124,40 @@ const destroy = async (req, res) => {
     })
   }
 }
+
+const getByCityName = async (req, res) => {
+  try {
+    const city = await cityService.getByCityName(req.params.cityName);
+    if (!city) {
+      return res.status(404).json({
+        data: {},
+        message: "City not found",
+        success: false,
+        err: {},
+      });
+    }
+    return res.status(200).json({
+      data: city,
+      message: "City fetched successfully",
+      success: true,
+      err: {},
+    })
+  } catch (error) {
+    console.error("Error fetching city by name", error);
+    return res.status(500).json({
+      data: {},
+      message: "Failed to fetch city by name",
+      success: false,
+      err: error,
+    });
+  }
+}
 module.exports = {
   create,
   getAllCity,
   getByName,
   getByPk,
   updateCity,
-  destroy
+  destroy,
+  getByCityName,
 };
