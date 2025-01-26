@@ -26,6 +26,8 @@ import SetNewPassword from "../components/SetnewPassword";
 import FlightSchedule from "../components/ADMIN/FlightSchedule";
 import CreateSeats from "../components/ADMIN/CreateSeats";
 import Seats from "../components/ADMIN/Seats";
+import Test from "../components/Test";
+import "../App.css"
 
 function Routers() {
   return (
@@ -51,6 +53,7 @@ function Routers() {
       <Route path="/Payment" element={<Payment/>}/>
       <Route path="/PlainTicket" element={<PlainTicket/>}/>
       <Route path="/seats" element={<SeatSelection/>}/>
+      <Route path="/test" element={<Test />} />
 
       {/* Admin Page  UI */}
       <Route path="/adminDashboard" element={<AdminDashboard />} />

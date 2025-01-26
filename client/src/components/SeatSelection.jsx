@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import "../assets/css/SeatSelection.css";
 import seat1 from "../assets/images/businessSeat.png";
 import seat2 from "../assets/images/EconomySeat.png";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { MdDeleteForever } from "react-icons/md";
+import { MdAirplaneTicket } from "react-icons/md";
 import Footer from "../components/Comman Pages/Footer";
 
 const SeatSelection = () => {
@@ -17,6 +19,11 @@ const SeatSelection = () => {
   const flightData = location.state?.flightId;
   const FLightDetails = flightData[0];
   // console.log(FLightDetails);
+  const navigate = useNavigate();
+  
+  // Add new state for selected seats
+  const [selectedBusinessSeats, setSelectedBusinessSeats] = useState([]);
+  const [selectedEconomySeats, setSelectedEconomySeats] = useState([]);
   
   // http://localhost:4000/api/V1/airplane/:id
   const getFlightTravelData =async () => {
@@ -51,6 +58,39 @@ const SeatSelection = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+  // Update the seat selection handler
+  const handleSeatSelectionForBusiness = (seatIndex,flight_id ,Flight_Date ,seatPrice ,seatNumber, seat_type) => {
+    const newSelection = [...selectedBusinessSeats, { seatIndex,flight_id,Flight_Date,seatPrice, seatNumber, seat_type }];
+    setSelectedBusinessSeats(newSelection);
+  };
+
+  // Add handler for economy seats
+  const handleSeatSelectionForEconomy = (seatIndex,flight_id, Flight_Date, seatProice, seatNumber, seat_type) => {
+    const newSelection = [...selectedEconomySeats, { seatIndex, flight_id, Flight_Date, seatProice,seatNumber, seat_type }];
+    setSelectedEconomySeats(newSelection);
+  };
+
+  const RemoveSelectedSeat  = (seatIndex) => {
+    const newSelection = selectedBusinessSeats.filter(seat => seat.seatIndex!== seatIndex);
+    setSelectedBusinessSeats(newSelection);
+  }
+
+  const RemoveEconomySelectedSeat = (seatIndex) => {
+    const newSelection = selectedEconomySeats.filter(seat => seat.seatIndex!== seatIndex);
+    setSelectedEconomySeats(newSelection);
+  }
+  console.log("Economy seat" , selectedEconomySeats)
+
+  const HandleBookTicket = () => {
+    console.log("Book ticket API call...");
+    navigate("/bookTicket" , {
+      state: {
+        businessSeats: selectedBusinessSeats,
+        economySeats:  selectedEconomySeats,
+        flightDetails: FLightDetails
+      }
+    });
   }
 
   useEffect(() => {
@@ -96,21 +136,27 @@ const SeatSelection = () => {
                           const seats_per_row = parseInt(seatData.seats_per_row);
                           if(seatData.seat_type_name === "Bussiness" && seat.seat_type_id === seatData.seat_type_id) {
                           for(let j = 0; j < seats_per_row; j++) {
+                            // {selectedBusinessSeats.map((selectedSeat, i) =>{
                             return (
                               <>
                                 <button 
                                 key={`${seatIndex}-${j}`}
-                                className={`w-10 h-10 ${seat.is_Booked ? "bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]" : "bg-[#1f61bd]" }  text-white rounded-lg hover:bg-[#33317b] transition-colors`}
+                                onClick={() => handleSeatSelectionForBusiness(seatIndex,seat.flight_id,seat.Flight_Date,seatData.price,seat.seat_number, seatData.seat_type_name)}
+                                className={`w-10 h-10 
+                                  ${selectedBusinessSeats.some(s => s.seatIndex === seatIndex) ? 'bg-red-500 cursor-not-allowed' : 
+                                  seat.is_Booked ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' : 
+                                  'bg-[#16948e] hover:bg-[#13635f]'} 
+                                  text-white rounded-lg transition-colors`}
+                                disabled={seat.is_Booked || selectedBusinessSeats.some(s => s.seatIndex === seatIndex)}
                                 >
-                                {`${seat.seat_number}`}
-                              </button> 
+                                {seat.seat_number}
+                              </button>
                               </>
                             );
                           }
                           < br/>
                         }
                       } 
-                      
                        )}
                       </div>
                     );
@@ -135,9 +181,15 @@ const SeatSelection = () => {
                               <>
                                 <button 
                                 key={`${seatIndex}-${j}`}
-                                className="w-10 h-10 bg-[#16948e] text-white rounded-lg hover:bg-[#33317b] transition-colors"
+                                onClick={() => handleSeatSelectionForEconomy(seatIndex,seat.flight_id,seat.Flight_Date, seatData.price, seat.seat_number, seatData.seat_type_name)}
+                                className={`w-10 h-10 
+                                  ${selectedEconomySeats.some(s => s.seatIndex === seatIndex) ? 'bg-red-500 cursor-not-allowed' : 
+                                  seat.is_Booked ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' : 
+                                  'bg-[#3462e2] hover:bg-[#33317b]'} 
+                                  text-white rounded-lg transition-colors`}
+                                disabled={seat.is_Booked || selectedEconomySeats.some(s => s.seatIndex === seatIndex)}
                                 >
-                                {`${seat.seat_number}`}
+                                {seat.seat_number}
                               </button> 
                               </>
                             );
@@ -233,17 +285,56 @@ const SeatSelection = () => {
                   <span className="text-green-600"> ✔</span> Seats that recline
                   40% more than
                 </p>
-                <p>
-                  <span className="text-green-600"> ✔ </span> economy
-                </p>
+                
               </div>
             </div>
           </div>
           <div>
-            {/* <h1>
-              <span className="text-green-600 bg-red-600 w-full ">✔</span>
-              Extended leg room
-            </h1> */}
+            <div className="Total-seats  h-40 text-black mt-5 ml-3">
+              <p className="text-xs font-medium">
+              <span className="w-10 text-white py-2 px-4 mt-3 m-2 bg-zinc-500 rounded">Booked</span>
+              <span className="w-10 text-white py-2 px-4 mt-3 m-2 bg-[#16948E] rounded">Available</span>
+              <span className="w-10 text-white py-2 px-4 mt-3 m-2 bg-[#EF4444] rounded">Selected</span>
+            </p>
+            <div className="flex justify-start items-center flex-wrap  ">
+              <p className="mt-4 font-serif">Bussiness Seats</p>
+                {selectedBusinessSeats.length > 0 && selectedBusinessSeats.map((BusinessClassSeatSelection ,index) =>(
+                  <div key={index} className="flex items-center gap-1 mt-5 ml-5">
+                    <p className="text-sm bg-amber-400 p-2 font-medium rounded ">{BusinessClassSeatSelection.seatNumber}</p>
+                    <button className="absolute mb-8 ml-5 text-xl font-semibold text-red-700 rounded-lg"
+                            onClick={() => RemoveSelectedSeat(BusinessClassSeatSelection.seatIndex)}
+                    ><MdDeleteForever/></button>
+                  </div>
+                ))}
+            </div>
+
+            <div className="flex justify-start items-center flex-wrap ">
+              <p className="mt-4 font-serif">Economy Seats</p>
+                {selectedEconomySeats.length > 0 && selectedEconomySeats.map((EconomyClassSeatSelection ,index) =>(
+                  <div key={index} className="flex items-center gap-1 mt-5 ml-5">
+                    <p className="text-sm bg-amber-400 p-2 font-medium rounded ">{EconomyClassSeatSelection.seatNumber}</p>
+                    <button className="absolute mb-8 ml-5 text-xl font-semibold text-red-700 rounded-lg"
+                            onClick={() => RemoveEconomySelectedSeat(EconomyClassSeatSelection.seatIndex)}
+                    ><MdDeleteForever/></button>
+                  </div>
+                ))}
+            </div>
+
+                <div className="Confirm-book mt-5">
+                  <button 
+                    onClick={HandleBookTicket}
+                    disabled={selectedBusinessSeats.length === 0 && selectedEconomySeats.length === 0}
+                    className={`px-4 py-2 flex justify-center items-center gap-2 text-md font-semibold text-white rounded-lg
+                      ${selectedBusinessSeats.length === 0 && selectedEconomySeats.length === 0 
+                        ? 'bg-[#1898be] opacity-50 cursor-not-allowed' 
+                        : 'bg-[#1898be] hover:bg-[#ff7d31] cursor-pointer'
+                      }`}
+                  >
+                    Confirm Booking 
+                    <MdAirplaneTicket style={{width: 25 , height:25}}/>
+                  </button>
+                </div>
+            </div>
           </div>
         </div>
       </div>

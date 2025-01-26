@@ -1,0 +1,88 @@
+.flight-search-header {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .search-item {
+    flex: 1;
+  }
+  
+  label {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 4px;
+  }
+  
+  .location {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  
+  .city {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .airport-code {
+    font-size: 14px;
+    color: #6b7280;
+  }
+  
+  .date {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
+  }
+  
+  .direction-icon {
+    display: flex;
+    align-items: center;
+    color: #111827;
+  }
+  
+  .search-button {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .search-button:hover {
+    background-color: #1f2937;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .search-item {
+      width: 100%;
+    }
+    
+    .direction-icon {
+      transform: rotate(90deg);
+    }
+  }

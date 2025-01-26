@@ -8,10 +8,19 @@ function BookTicket() {
 
   const navigate = useNavigate();
   const URL = import.meta.env.VITE_BACKEND_API_URL;
+  
+
   const location = useLocation();
-  const userData = location.state?.user;
-  const flightId = userData.id;
-  const userChoiceCost = parseFloat(userData.price);
+  const { businessSeats, economySeats, flightDetails } = location.state || {};
+
+  // Now you can use businessSeats and economySeats data
+  console.log('Business Seats:', businessSeats);
+  console.log('Economy Seats:', economySeats);
+  console.log('Flight Details:', flightDetails);
+
+  
+  const flightId = 1;
+  const userChoiceCost = "15000";
 
   const [flightChoose, setChooseFlight] = useState({});
   // http://localhost:4000/api/V1/airplane/:id
@@ -37,7 +46,7 @@ function BookTicket() {
   // const [address, setAddress] = useState("");
   // const [countryName, setCountryName] = useState("");
   const [totalPassenger, setTotalPassenger] = useState("");
-  const [totalFair, setTotalFair] = useState(userChoiceCost);
+  const [totalFair, setTotalFair] = useState("");
 
   
   const [data , setData ] = useState({
@@ -46,7 +55,7 @@ function BookTicket() {
     address: "",
     country: "",
     flightId: flightId,
-    cost: userChoiceCost,
+    cost: "",
   });
 
 
