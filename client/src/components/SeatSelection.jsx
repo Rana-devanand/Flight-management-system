@@ -67,8 +67,8 @@ const SeatSelection = () => {
 
   // Add handler for economy seats
   const handleSeatSelectionForEconomy = (seatIndex,flight_id, Flight_Date, seatProice, seatNumber, seat_type) => {
-    const newSelection = [...selectedEconomySeats, { seatIndex, flight_id, Flight_Date, seatProice,seatNumber, seat_type }];
     setSelectedEconomySeats(newSelection);
+    const newSelection = [...selectedEconomySeats, { seatIndex, flight_id, Flight_Date, seatProice,seatNumber, seat_type }];
   };
 
   const RemoveSelectedSeat  = (seatIndex) => {
@@ -104,60 +104,69 @@ const SeatSelection = () => {
       <div className="bg-zinc-100 w-full flex justify-between">
         <div className="w-[60%] h-screen relative">
           <div className="absolute flex justify-start items-center flight-wings ">
-             <img src="/flightLeftWing1.png" alt="" style={{width:195 , height:300}} className="mt-56" />
+             {/* <img src="/flightLeftWing1.png" alt="" style={{width:195 , height:300}} className="mt-56" /> */}
           </div>
           <div className="absolute flex justify-end items-center flight-wings ml-[76%]">
-             <img src="/flightRightWing.png" alt="" style={{width:195 , height:320}} className="mt-56" />
+             {/* <img src="/flightRightWing.png" alt="" style={{width:195 , height:320}} className="mt-56" /> */}
           </div>
 
-          <div className="w-[52%] mx-auto rounded-t-full mt-5 bg-[#CACBFF] ">
+          <div className="w-[60%] mx-auto rounded-t-full mt-5 ">
             <div className="ml-[7%] mt-8 flex">
-              <div className="w-36 h-20 ml-8 mt-14 bg-[#eeeeee] rounded-ss-full"></div>
-              <div className="w-36 h-20 ml-3 mt-14 bg-[#eeeeee] rounded-se-full"></div>
+              {/* <div className="w-36 h-20 ml-8 mt-14 bg-[#eeeeee] rounded-ss-full"></div>
+              <div className="w-36 h-20 ml-3 mt-14 bg-[#eeeeee] rounded-se-full"></div> */}
             </div>
-                <p className="flex justify-center p-2 border-b-2 items-center text-2xl text-purple-700 font-serif">{flightTravelData.Airline}</p>
-            <div className="w-[82%] h-1 ml-10 mt-2 font-semibold ">
-            </div>
+                <p className="flex justify-center p-2 items-center text-2xl text-purple-700 font-serif">{flightTravelData.Airline}</p>
+            {/* <div className="w-[82%] h-1 ml-10 mt-2 font-semibold ">
+            </div> */}
 
-            {/* Scrollable Seat Layout */}
-            <div className="border w-96 mx-auto bg-[#EAEBFF] rounded-md h-[60vh] overflow-y-auto 
-              scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent 
-              hover:scrollbar-thumb-gray-400 scroll-smooth">
+            <div className="border w-full mx-auto p-5 bg-[#EAEBFF] rounded-md h-[70vh] overflow-scroll overflow-x-hidden overflow-y-scroll outline-none appearance-none ">
 
-              {/* Business Class Section */}
-              <div className="plane-layout pt-2 mt-3 w-[92%] mx-auto bg-[#FFFFFF]">
+              <div className="plane-layout pt-2 mt-3 w-[100%] mx-auto p-5 bg-[#FFFFFF]">
                 <p className="text-center font-medium text-gray-600 mb-4">Business Class</p>
                 {SeatData.map((seatData, index) => {
                   if (seatData.seat_type_name === "Bussiness") {
+                    const seats_per_row = parseInt(seatData.seats_per_row);
+                    const rows = Math.ceil(seatSelection.filter(seat => seat.seat_type_id === seatData.seat_type_id).length / seats_per_row);
+                    
                     return (
-                      <div key={index} className="flex flex-wrap   justify-center gap-4 mb-4">
-                        {seatSelection.map((seat, seatIndex) => {
-                          
-                          const seats_per_row = parseInt(seatData.seats_per_row);
-                          if(seatData.seat_type_name === "Bussiness" && seat.seat_type_id === seatData.seat_type_id) {
-                          for(let j = 0; j < seats_per_row; j++) {
-                            // {selectedBusinessSeats.map((selectedSeat, i) =>{
-                            return (
-                              <>
+                      <div key={index} className="flex flex-col gap-4">
+                        {Array.from({ length: rows }).map((_, rowIndex) => (
+                          <div key={rowIndex} className="flex justify-center items-center gap-4">
+                            {/* Row number */}
+
+                            <span className="w-10 text-center text-xs font-medium">
+                              Row{rowIndex + 1}
+                            </span>
+                            
+                            {/* First 3 seats */}
+                            {seatSelection
+                              .filter(seat => seat.seat_type_id === seatData.seat_type_id)
+                              .slice(rowIndex * seats_per_row, rowIndex * seats_per_row + 3)
+                              .map((seat, seatIndex) => (
                                 <button 
-                                key={`${seatIndex}-${j}`}
-                                onClick={() => handleSeatSelectionForBusiness(seatIndex,seat.flight_id,seat.Flight_Date,seatData.price,seat.seat_number, seatData.seat_type_name)}
-                                className={`w-10 h-10 
-                                  ${selectedBusinessSeats.some(s => s.seatIndex === seatIndex) ? 'bg-red-500 cursor-not-allowed' : 
-                                  seat.is_Booked ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' : 
-                                  'bg-[#16948e] hover:bg-[#13635f]'} 
-                                  text-white rounded-lg transition-colors`}
-                                disabled={seat.is_Booked || selectedBusinessSeats.some(s => s.seatIndex === seatIndex)}
+                                  key={`${rowIndex}-${seatIndex}`}
+                                  onClick={() => handleSeatSelectionForBusiness(
+                                    seatIndex + rowIndex * seats_per_row,
+                                    seat.flight_id,
+                                    seat.Flight_Date,
+                                    seatData.price,
+                                    seat.seat_number,
+                                    seatData.seat_type_name
+                                  )}
+                                  className={`w-10 h-10 
+                                    ${selectedBusinessSeats.some(s => s.seatIndex === seatIndex + rowIndex * seats_per_row) 
+                                      ? 'bg-red-500 cursor-not-allowed' 
+                                      : seat.is_Booked 
+                                        ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' 
+                                        : 'bg-[#16948e] hover:bg-[#13635f]'} 
+                                    text-white rounded-lg transition-colors`}
+                                  disabled={seat.is_Booked || selectedBusinessSeats.some(s => s.seatIndex === seatIndex + rowIndex * seats_per_row)}
                                 >
-                                {seat.seat_number}
-                              </button>
-                              </>
-                            );
-                          }
-                          < br/>
-                        }
-                      } 
-                       )}
+                                  {seat.seat_number}
+                                </button>
+                              ))}
+                          </div>
+                        ))}
                       </div>
                     );
                   }
@@ -165,39 +174,50 @@ const SeatSelection = () => {
                 })}
               </div>
 
-              {/* Economy Class Section */}
-              <div className="plane-layout w-[92%] mx-auto bg-[#FFFFFF] mt-4 pb-4">
+              <div className="plane-layout w-[100%] mx-auto bg-[#FFFFFF] mt-4 p-5">
                 <p className="text-center font-medium text-gray-600 mb-4">Economy Class</p>
                 {SeatData.map((seatData, index) => {
                   if (seatData.seat_type_name === "Economy") {
+                    const seats_per_row = parseInt(seatData.seats_per_row);
+                    const rows = Math.ceil(seatSelection.filter(seat => seat.seat_type_id === seatData.seat_type_id).length / seats_per_row);
+                    
                     return (
-                      <div key={index} className="flex flex-wrap justify-center gap-4 mb-4">
-                        {seatSelection.map((seat, seatIndex) => {
-                          const row = parseInt(seatData.total_seats);
-                          const seats_per_row = parseInt(seatData.seats_per_row);
-                          if(seatData.seat_type_name === "Economy" && seat.seat_type_id === seatData.seat_type_id) {
-                          for(let j = 0; j < seats_per_row; j++) {
-                            return (
-                              <>
+                      <div key={index} className="flex flex-col gap-4">
+                        {Array.from({ length: rows }).map((_, rowIndex) => (
+                          <div key={rowIndex} className="flex justify-center items-center gap-4">
+                            {/* Row number */}
+                            <span className="w-10 text-center text-xs font-medium">
+                              Row{rowIndex + 1}
+                            </span>
+                            
+                            {seatSelection
+                              .filter(seat => seat.seat_type_id === seatData.seat_type_id)
+                              .slice(rowIndex * seats_per_row, rowIndex * seats_per_row + seats_per_row)
+                              .map((seat, seatIndex) => (
                                 <button 
-                                key={`${seatIndex}-${j}`}
-                                onClick={() => handleSeatSelectionForEconomy(seatIndex,seat.flight_id,seat.Flight_Date, seatData.price, seat.seat_number, seatData.seat_type_name)}
-                                className={`w-10 h-10 
-                                  ${selectedEconomySeats.some(s => s.seatIndex === seatIndex) ? 'bg-red-500 cursor-not-allowed' : 
-                                  seat.is_Booked ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' : 
-                                  'bg-[#3462e2] hover:bg-[#33317b]'} 
-                                  text-white rounded-lg transition-colors`}
-                                disabled={seat.is_Booked || selectedEconomySeats.some(s => s.seatIndex === seatIndex)}
+                                  key={`${rowIndex}-${seatIndex}`}
+                                  onClick={() => handleSeatSelectionForEconomy(
+                                    seatIndex + rowIndex * seats_per_row,
+                                    seat.flight_id,
+                                    seat.Flight_Date,
+                                    seatData.price,
+                                    seat.seat_number,
+                                    seatData.seat_type_name
+                                  )}
+                                  className={`w-10 h-10 
+                                    ${selectedEconomySeats.some(s => s.seatIndex === seatIndex + rowIndex * seats_per_row) 
+                                      ? 'bg-red-500 cursor-not-allowed' 
+                                      : seat.is_Booked 
+                                        ? 'bg-[#8a8989] cursor-not-allowed hover:bg-[#414040]' 
+                                        : 'bg-[#3462e2] hover:bg-[#33317b]'} 
+                                    text-white rounded-lg transition-colors`}
+                                  disabled={seat.is_Booked || selectedEconomySeats.some(s => s.seatIndex === seatIndex + rowIndex * seats_per_row)}
                                 >
-                                {seat.seat_number}
-                              </button> 
-                              </>
-                            );
-                          }
-                          < br/>
-                        }
-                      }
-                        )}
+                                  {seat.seat_number}
+                                </button>
+                              ))}
+                          </div>
+                        ))}
                       </div>
                     );
                   }
@@ -208,6 +228,9 @@ const SeatSelection = () => {
           </div>
         </div>
         {/* </div> */}
+        {/* </div> */}
+        
+       
 
         {/* border border-[#d1d1d1] */}
         <div className="w-[40%] h-screen  text-[#FAFAFA] border ">

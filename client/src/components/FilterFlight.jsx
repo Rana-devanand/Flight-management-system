@@ -17,6 +17,8 @@ function FilterFlight() {
   const location = useLocation();
   const userData = location.state?.user; // Retrieving the object data
 
+  const [filterUserData , setUserData] = useState(userData)
+
   const [filterFlight, setFilterFlightData] = useState([]);
   const [DailyFlight, setDailyFlightData] = useState({});
   const [storeAllCity, setAllCity] = useState({});
@@ -26,9 +28,9 @@ function FilterFlight() {
   const getFilterFlightData = async () => {
     try {
       let allFlight = [];
-      for (let i = 0; i < userData.length; i++) {
+      for (let i = 0; i < filterUserData.length; i++) {
         const response = await axios.get(
-          `${URL}/api/V1/airplane/${userData[i][0].flight_id}`
+          `${URL}/api/V1/airplane/${filterUserData[i][0].flight_id}`
         );
         const flightData = response.data.data;
         flightData.flightLogo = `${URL}/${flightData.flightLogo.replace(
@@ -103,7 +105,7 @@ function FilterFlight() {
     try {
       const url = `${URL}/api/V1/getByCityName/${filterFlight[0].Arrival}`;
       const response = await axios.get(url);
-      console.log("Airport ",response);
+      // console.log("Airport ",response);
       setArrivalAddress(response.data.data[0].name);
     } catch (error) {
       console.error(error);
@@ -151,6 +153,7 @@ function FilterFlight() {
     Arrival: "",
     Date: "",
   });
+  console.log(filterData);
 
   // console.log(filterData)
   const HandleChange = (e) => {
@@ -159,6 +162,7 @@ function FilterFlight() {
   };
 
   const [selectedDate, setChooseDate] = useState();
+
   const chooseDate = (selectDate) => {
     const myDate = selectDate[0];
     const dateObject = new Date(myDate);
@@ -177,64 +181,50 @@ function FilterFlight() {
   // http://localhost:4000/api/V1/filterFlight
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    setFilterFlightData([]);
     try {
       const url = `${URL}/api/V1/filterFlight`;
       const response = await axios.get(url, {
         params: filterData,
       });
-      const filterFlightArrayData = response.data.data;
-      console.log(filterFlightArrayData);
-      if (filterFlightArrayData.length === 0) {
-        toast.error("No Flights available");
-      } else {
-        const updateUserChooseDestination = filterFlightArrayData.flatMap(
-          (flightArray) => {
-            const updatedFlights = flightArray.map((flight) => {
-              // return {
-              //     ...flight,
-              //     // Check if flightLogo exists before replacing
-              //     flightLogo: flight.flightLogo
-              //         ? `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`
-              //         : null, // Set to null or some default value if undefined
-              // };
-              return {
-                ...flight,
-                flightLogo: `${URL}/${flight.flightLogo.replace(/\\/g, "/")}`,
-              };
-            });
-
-            return updatedFlights;
-          }
-        );
-
-        setFilterFlightData((prevData) => [
-          ...prevData,
-          ...updateUserChooseDestination.flat(),
-        ]);
+      
+      if (response.status === 203) {
+        toast.error(response.data.message);
+        return;
       }
-      setFilteredData(filterData);
+  
+      // Update filterUserData first since other data depends on it
+      setUserData(response.data.data);
+      
+      // Clear existing flight data
+      setFilterFlightData([]);
+      setFilterFlight(response.data.data)
+      
+      // Trigger a re-fetch of flight data with the new filtered results
+      let allFlight = [];
+      for (let i = 0; i < response.data.data.length; i++) {
+        const flightResponse = await axios.get(
+          `${URL}/api/V1/airplane/${response.data.data[i][0].flight_id}`
+        );
+        const flightData = flightResponse.data.data;
+        flightData.flightLogo = `${URL}/${flightData.flightLogo.replace(/\\/g, "/")}`;
+        allFlight.push(flightData);
+      }
+      setFilterFlightData(allFlight);
+      
     } catch (error) {
-      console.error("Error fetching flight data:", error);
-      toast.error("Failed to fetch flight data");
+      console.error("Error filtering flights:", error);
+      toast.error("Failed to filter flights");
     }
   };
 
-  useEffect(() => {
-    setFilterFlight(userData);
+  useEffect(() => { 
+    if (filterUserData && filterUserData.length > 0) {
+      getFilterFlightData();
+    }
     callScheduleFlight();
-    getFilterFlightData();
     getDailyFlightsData();
-    // setCurrentDate(
-    //   new Date().toLocaleDateString("en-US", {
-    //     weekday: "long",
-    //     year: "numeric",
-    //     month: "long",
-    //     day: "numeric",
-    //   })
-    // );
     getAllCityData();
-  }, []);
+  }, [filterUserData]); // Add filterUserData as a dependency
 
   return (
     <div className="bg-zinc-200 w-full h-auto">
@@ -250,7 +240,7 @@ function FilterFlight() {
                     onChange={HandleChange}
                     defaultValue=""
                   >
-                    <option disabled>From where</option>
+                    <option selected disabled>Departure </option>
                     {storeAllCity &&
                       storeAllCity.length > 0 &&
                       storeAllCity
@@ -271,7 +261,7 @@ function FilterFlight() {
                     onChange={HandleChange}
                     defaultValue=""
                   >
-                    <option value="">From to</option>
+                    <option selected disabled>Arrival</option>
                     {storeAllCity &&
                       storeAllCity.length > 0 &&
                       storeAllCity
